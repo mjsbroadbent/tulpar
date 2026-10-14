@@ -129,6 +129,9 @@
       </div>
     </section>
 
+    <!-- ===== start-up screen: sign in, choose a name, install ===== -->
+    <div class="gate" id="gate" hidden><div class="gate-in" id="gateBody"></div></div>
+
     <!-- ===== tab bar ===== -->
     <nav class="tabs" aria-label="Tulpar">
       <button type="button" data-go="chats" aria-current="page"><span class="ico">💬<i class="badge" id="chatBadge" hidden></i></span><em data-t="tabChats">Chats</em></button>
@@ -168,6 +171,7 @@
   <script src="../site.js"></script>
   <script src="firebase-config.js"></script>
   <script src="i18n.js"></script>
+  <script src="seed.js"></script>
   <script type="module" src="app.js"></script>
   <script>
     if ("serviceWorker" in navigator) {

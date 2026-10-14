@@ -37,7 +37,7 @@ English pages are at the root, Iradi copies in `ir/` and Russian copies in `ru/`
 
 ## The web app (`app/`)
 
-A working, installable web app (PWA) at `/app/`, in English, Iradi and Russian (switch in Profile):
+A working, installable web app (PWA) at `/app/`, in English, Iradi and Russian (switch in Profile). It opens on a start-up screen: sign in with Google, choose a name, then an offer to install the app (Android/desktop prompt, or Add to Home Screen steps on iPhone).
 
 - **Chats:** public rooms and private chats (one-to-one), with replies, reactions (👍❤️😂😮😢🐎), an Iradi sticker pack, polls in rooms, unread badges and optional message alerts while the app is open.
 - **QR codes:** everyone has a personal QR code and link (`app/#u=<Tulpar ID>`); scanning it, or entering a Tulpar ID, opens a private chat.
@@ -51,6 +51,7 @@ Chat runs on Firebase (Google sign-in and Cloud Firestore, free Spark plan, no S
 |---|---|
 | `app/index.html`, `app/app.css`, `app/app.js` | The app |
 | `app/i18n.js` | All app text in English, Iradi and Russian |
+| `app/seed.js` | Room history (6–13 October 2026) shown before live messages in each room; edit freely |
 | `app/stickers/*.svg` | The 16-sticker Iradi pack |
 | `app/vendor/` | QR code generator (qrcode-generator, MIT) and scanner (jsQR, Apache-2.0), loaded only when needed |
 | `app/firebase-config.js` | Firebase web config |

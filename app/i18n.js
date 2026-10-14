@@ -478,3 +478,37 @@ Object.assign(window.TP_STR.ir, {
   wdLong: "jekshembi,düyshömbü,sheyshembi,sharshembi,beyshembi,juma,ishembi",
   wdShort: "jek,düy,shey,shar,bey,jum,ish"
 });
+
+Object.assign(window.TP_STR.en, {
+  gateHead: "Talk, trade and pay. In Iradi.", gateSub: "Chat with family, follow channels and pay with Tulpar Pay.",
+  gateSms: "Sign in with phone number", gateSmsNo: "SMS sign-in is available for Irad numbers (+996 39) only. Continue with Google.",
+  gateTerms: "By continuing you agree to Tulpar's {terms}.", notNow: "Not now", installed: "Tulpar is installed.",
+  gateInstallText: "Add Tulpar to your home screen. It opens full screen, starts faster and works offline.",
+  installMenu: "Open your browser's menu and choose Install app or Add to Home screen.",
+  iosStep1: "Tap <b>Share</b> <svg class=\"g-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3v12M7 8l5-5 5 5M5 12v8h14v-8\"/></svg> in Safari's toolbar",
+  iosStep2: "Choose <b>Add to Home Screen</b>", iosStep3: "Open Tulpar from your home screen"
+});
+Object.assign(window.TP_STR.ir, {
+  gateHead: "Baarlashıñız, soodalashıñız, tölöñüz. Iradcha.", gateSub: "Üy-bülöñüz menen sürlöshüñüz, kanaldardı okuñuz jana Tulpar Pay menen tölöñüz.",
+  gateSms: "Telefon nomeri menen kirüü", gateSmsNo: "SMS menen kirüü Irad nomerleri (+996 39) üchün gana. Google menen ulantıñız.",
+  gateTerms: "Ulantuu menen siz Tulpardın {terms} kabıl alasız.", notNow: "Azır emes", installed: "Tulpar ornotuldu.",
+  gateInstallText: "Tulpardı bashkı ekranga koshuñuz: al toluk ekranda achılat, tezirek ishteyt jana internetsiz da ishteyt.",
+  installMenu: "Brauzerdin menyusun achıp, «Tirkemeni ornotuu» je «Bashkı ekranga koshuu» tandañız.",
+  iosStep1: "Safaride <b>Bölüshüü</b> <svg class=\"g-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3v12M7 8l5-5 5 5M5 12v8h14v-8\"/></svg> baskıchın basıñız",
+  iosStep2: "<b>Bashkı ekranga koshuu</b> tandañız", iosStep3: "Tulpardı bashkı ekrandan achıñız"
+});
+Object.assign(window.TP_STR.ru, {
+  gateHead: "Общайтесь, торгуйте и платите. По-ирадски.", gateSub: "Переписывайтесь с близкими, читайте каналы и платите через Tulpar Pay.",
+  gateSms: "Войти по номеру телефона", gateSmsNo: "Вход по SMS доступен только для номеров Ирада (+996 39). Продолжите через Google.",
+  gateTerms: "Продолжая, вы принимаете {terms} Tulpar.", notNow: "Не сейчас", installed: "Tulpar установлен.",
+  gateInstallText: "Добавьте Tulpar на главный экран: он открывается на весь экран, запускается быстрее и работает офлайн.",
+  installMenu: "Откройте меню браузера и выберите «Установить приложение» или «Добавить на главный экран».",
+  iosStep1: "Нажмите <b>Поделиться</b> <svg class=\"g-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3v12M7 8l5-5 5 5M5 12v8h14v-8\"/></svg> на панели Safari",
+  iosStep2: "Выберите <b>На экран «Домой»</b>", iosStep3: "Откройте Tulpar с главного экрана"
+});
+Object.assign(window.TP_STR.en, { cupWeek: "No league round this weekend: Irad Cup semi-finals." });
+Object.assign(window.TP_STR.ir, { cupWeek: "Bul dem alışta liga oyunu jok: Irad Kubogunun jarım finaldarı." });
+Object.assign(window.TP_STR.ru, { cupWeek: "В эти выходные тура нет: полуфиналы Кубка Ирада." });
+Object.assign(window.TP_STR.en, { pollClosed: "This poll has closed." });
+Object.assign(window.TP_STR.ir, { pollClosed: "Bul surombul jabıldı." });
+Object.assign(window.TP_STR.ru, { pollClosed: "Этот опрос завершён." });

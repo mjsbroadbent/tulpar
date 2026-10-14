@@ -99,6 +99,7 @@ const CFG = window.TULPAR_FIREBASE;
 const V = "10.12.2";
 async function initFirebase() {
   if (!CFG && !window.__TP_FAKE) { setBanner(t("chatSetup")); return; }
+  showGate("splash");
   try {
     const [{ initializeApp }, A, F] = window.__TP_FAKE ? window.__TP_FAKE.modules() : await Promise.all([
       import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`),
@@ -120,6 +121,7 @@ async function initFirebase() {
         if (FB.profile) startDMs();
       }
       updateComposer(); renderChats();
+      gateFromState();
       if (current === "profile") renderProfile();
       if (current === "room" && conv) reopenConv();
       if (current === "channels" && feedNow === "official") loadFeed("official");
@@ -129,6 +131,7 @@ async function initFirebase() {
   } catch (e) {
     console.error(e);
     setBanner(t("chatOffline"));
+    hideGate();
   }
 }
 function setBanner(s) { const b = $("#chatBanner"); b.textContent = s; b.hidden = !s; }
@@ -231,7 +234,7 @@ function showConv() {
   go("room"); updateComposer(); reopenConv();
 }
 function reopenConv() {
-  if (!FB.ready) { $("#msgs").innerHTML = `<p class="empty">${esc(t("chatSetupShort"))}</p>`; return; }
+  if (!FB.ready) { lastMsgs = []; renderMsgs(); return; }
   if (conv.kind === "dm" && (!FB.user || !FB.user.uid || !conv.id.split("_").includes(FB.user.uid))) { go("chats"); return; }
   $("#msgs").innerHTML = `<p class="empty">${esc(t("loading"))}</p>`;
   const F = FB.F;
@@ -243,12 +246,29 @@ function reopenConv() {
   }, err => { console.error(err); $("#msgs").innerHTML = `<p class="empty">${esc(t("loadFail"))}</p>`; });
 }
 
+/* room history from seed.js, shown before live messages */
+const seedCache = {};
+function seedMsgs(room) {
+  if (seedCache[room]) return seedCache[room];
+  const src = (window.TP_SEED || {})[room] || [];
+  const out = src.map((m, i) => {
+    const o = { id: `seed-${room}-${i}`, seed: true, uid: "seed:" + m.u, name: m.u, createdAt: new Date(m.at + ":00+06:00") };
+    if (m.t !== undefined) o.text = m.t; else if (m.s) o.sticker = m.s;
+    else if (m.poll) { o.poll = { q: m.poll.q, opts: m.poll.opts }; o.v = {}; let k = 0; m.poll.votes.forEach((n, j) => { for (let x = 0; x < n; x++) o.v["s" + k++] = j; }); }
+    if (m.r) { o.r = {}; let k = 0; for (const key in m.r) for (let x = 0; x < m.r[key]; x++) o.r["s" + k++] = key; }
+    return o;
+  });
+  src.forEach((m, i) => { if (m.re !== undefined && out[m.re]) out[i].replyTo = { id: out[m.re].id, name: out[m.re].name, text: preview(out[m.re]).slice(0, 140) }; });
+  return (seedCache[room] = out);
+}
+let shownMsgs = [];
 function renderMsgs() {
   const box = $("#msgs"), atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
   const blocked = store("tp_blocked") || [];
   const mine = FB.user && FB.user.uid, isDM = conv.kind === "dm";
   let lastDay = "", html = "";
-  lastMsgs.filter(m => !blocked.includes(m.uid)).forEach(m => {
+  shownMsgs = (conv.kind === "room" && conv.id !== "official" ? seedMsgs(conv.id) : []).concat(lastMsgs);
+  shownMsgs.filter(m => !blocked.includes(m.uid)).forEach(m => {
     const d = tsDate(m.createdAt) || new Date(), dl = dayLabel(d);
     if (dl !== lastDay) { html += `<div class="day">${esc(dl)}</div>`; lastDay = dl; }
     const me = m.uid === mine, name = m.name || (me ? "" : conv.name);
@@ -367,7 +387,9 @@ let sheetMsg = null;
 $("#msgs").addEventListener("click", e => {
   const vote = e.target.closest("[data-vote]"), rx = e.target.closest("[data-react]");
   const m = e.target.closest(".msg"); if (!m) return;
-  const msg = lastMsgs.find(x => x.id === m.dataset.id); if (!msg) return;
+  const msg = shownMsgs.find(x => x.id === m.dataset.id); if (!msg) return;
+  if (msg.seed && vote) { toast(t("pollClosed")); return; }
+  if (msg.seed && rx) return;
   if (vote) { castVote(msg, +vote.dataset.vote); return; }
   if (rx) { react(msg, rx.dataset.react); return; }
   openSheet(msg, m.dataset.name);
@@ -395,15 +417,15 @@ function openSheet(msg, name) {
   const mine = FB.user && msg.uid === FB.user.uid, isDM = conv.kind === "dm", canAct = FB.ready && FB.user && FB.profile;
   $("#sheetWho").textContent = mine ? t("yourMessage") : name;
   $("#reactRow").innerHTML = Object.entries(REACT).map(([k, e]) => `<button type="button" data-rk="${k}" class="${(msg.r || {})[FB.user && FB.user.uid] === k ? "on" : ""}" aria-label="${esc(t("react_" + k))}">${e}</button>`).join("");
-  $("#reactRow").hidden = !canAct;
+  $("#reactRow").hidden = !canAct || !!msg.seed;
   const show = (act, on) => ($(`#sheet [data-act="${act}"]`).hidden = !on);
   show("reply", canAct && !(conv.id === "official" && !FB.admin));
-  show("dm", canAct && !isDM && !mine && conv.id !== "official");
+  show("dm", canAct && !isDM && !mine && conv.id !== "official" && !msg.seed);
   show("copy", !!msg.text);
-  show("report", !mine && FB.ready);
+  show("report", !mine && FB.ready && !msg.seed);
   show("block", !mine);
-  show("delete", FB.ready && (mine || (FB.admin && !isDM)));
-  show("ban", FB.admin && !mine && !isDM);
+  show("delete", FB.ready && !msg.seed && (mine || (FB.admin && !isDM)));
+  show("ban", FB.admin && !mine && !isDM && !msg.seed);
   $("#sheet").hidden = false;
 }
 $("#sheet").addEventListener("click", async e => {
@@ -525,14 +547,84 @@ let pendingDM = null;
 function readHash() { const m = location.hash.match(/^#u=([A-Za-z0-9]{6,64})$/); if (m) pendingDM = m[1]; }
 function handleDeepLink() {
   if (!pendingDM || !FB.ready) return;
-  if (!FB.user || !FB.profile) { toast(t("signInToDM")); go("profile"); return; }
+  if (!FB.user || !FB.profile || !$("#gate").hidden) return;
   const u = pendingDM; pendingDM = null; openDM(u);
 }
 window.addEventListener("hashchange", () => { readHash(); handleDeepLink(); });
 
+
+/* ---------- start-up screen ---------- */
+const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+let gateStep = null;
+function gateFromState() {
+  if (!FB.user) showGate("signin");
+  else if (!FB.profile) showGate("profile");
+  else if (!isStandalone() && !store("tp_install_asked")) showGate("install");
+  else hideGate();
+}
+function hideGate() {
+  const was = !$("#gate").hidden;
+  $("#gate").hidden = true; gateStep = null;
+  if (was) { if (current === "chats") renderChats(); handleDeepLink(); }
+}
+function gateLangs() {
+  return `<div class="g-lang" id="gLang">` + [["ir", "Iradcha"], ["ru", "Русский"], ["en", "English"]].map(([l, n]) =>
+    `<button type="button" data-glang="${l}" aria-pressed="${l === LANG}">${n}</button>`).join("") + `</div>`;
+}
+function showGate(step) {
+  gateStep = step; $("#gate").hidden = false;
+  const box = $("#gateBody"), logo = `<img class="g-logo" src="icon.svg" alt="" width="84" height="84">`;
+  if (step === "splash") {
+    box.innerHTML = `<div class="g-center">${logo}<div class="g-word">tulpar</div><div class="g-spin" aria-label="${esc(t("loading"))}"></div></div>`;
+  } else if (step === "signin") {
+    box.innerHTML = gateLangs() + `<div class="g-center">${logo}<div class="g-word">tulpar</div>
+      <h1 class="g-h">${esc(t("gateHead"))}</h1><p class="g-p">${esc(t("gateSub"))}</p></div>
+      <div class="g-foot"><button class="btn wide g-google" type="button" id="gGoogle"><span class="g-gl" aria-hidden="true">G</span>${esc(t("google"))}</button>
+      <button class="btn wide line" type="button" id="gSms">${esc(t("gateSms"))}</button>
+      <p class="err" id="gErr" hidden></p>
+      <p class="g-terms">${t("gateTerms").replace("{terms}", `<a href="../legal.html" target="_blank" rel="noopener">${esc(t("privacy"))}</a>`)}</p></div>`;
+    $("#gGoogle").onclick = async () => {
+      const err = $("#gErr"); err.hidden = true;
+      try { await FB.A.signInWithPopup(FB.auth, new FB.A.GoogleAuthProvider()); }
+      catch (e) { err.hidden = false; err.textContent = e.code === "auth/unauthorized-domain" ? t("badDomain") : t("signInFail"); }
+    };
+    $("#gSms").onclick = () => { const err = $("#gErr"); err.hidden = false; err.textContent = t("gateSmsNo"); };
+  } else if (step === "profile") {
+    box.innerHTML = `<div class="g-top"><span class="g-step">1 / 2</span><button type="button" class="g-link" id="gOut">${esc(t("signOut"))}</button></div>
+      <div class="g-form"><h1 class="g-h">${esc(t("chooseName"))}</h1><p class="g-p">${esc(t("chooseNameText"))}</p>
+      <label class="fld"><span>${esc(t("name"))}</span><input type="text" id="nameIn" maxlength="24" autocomplete="nickname" placeholder="${esc(t("nameEx"))}"></label>
+      <label class="check"><input type="checkbox" id="ageIn"> ${esc(t("age13"))}</label>
+      <label class="check"><input type="checkbox" id="rulesIn"> ${esc(t("rulesBox"))}</label>
+      <p class="err" id="profErr" hidden></p></div>
+      <div class="g-foot"><button class="btn wide" type="button" id="saveProfile">${esc(t("continue"))}</button></div>`;
+    $("#gOut").onclick = () => FB.A.signOut(FB.auth);
+    wireProfile();
+    setTimeout(() => $("#nameIn") && $("#nameIn").focus(), 60);
+  } else if (step === "install") {
+    let how;
+    if (installEvt) how = `<button class="btn wide" type="button" id="gInstall">${esc(t("install"))}</button>`;
+    else if (isIOS()) how = `<ol class="g-steps"><li>${t("iosStep1")}</li><li>${t("iosStep2")}</li><li>${esc(t("iosStep3"))}</li></ol>`;
+    else how = `<p class="g-p">${esc(t("installMenu"))}</p>`;
+    box.innerHTML = `<div class="g-top"><span class="g-step">2 / 2</span></div>
+      <div class="g-center"><div class="g-phone"><img src="icon.svg" alt="" width="64" height="64"><span>Tulpar</span></div>
+      <h1 class="g-h">${esc(t("installTitle"))}</h1><p class="g-p">${esc(t("gateInstallText"))}</p></div>
+      <div class="g-foot">${how}<button class="btn wide line" type="button" id="gSkip">${esc(installEvt || isIOS() ? t("notNow") : t("continue"))}</button></div>`;
+    const done = () => { store("tp_install_asked", true); hideGate(); go("chats"); };
+    $("#gSkip").onclick = done;
+    const gi = $("#gInstall");
+    if (gi) gi.onclick = async () => { installEvt.prompt(); const c = await installEvt.userChoice; installEvt = null; if (c.outcome === "accepted") toast(t("installed")); done(); };
+  }
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-glang]"); if (!b || b.dataset.glang === LANG) return;
+  store("tp_lang", b.dataset.glang); location.reload();
+});
+
 /* ---------- profile ---------- */
 let installEvt = null;
-window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; if (current === "profile") renderProfile(); });
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; if (gateStep === "install") showGate("install"); else if (current === "profile") renderProfile(); });
+window.addEventListener("appinstalled", () => { store("tp_install_asked", true); if (gateStep === "install") { hideGate(); go("chats"); } });
 
 function renderProfile() {
   const box = $("#profileBody");
@@ -591,7 +683,9 @@ function wireProfile() {
     try {
       await F.setDoc(F.doc(FB.db, "users", FB.user.uid), { name, age13: true, createdAt: F.serverTimestamp(), lastPostAt: F.serverTimestamp() });
       FB.profile = { name, age13: true };
-      toast(t("welcome", { n: name })); renderProfile(); updateComposer(); startDMs(); renderChats(); handleDeepLink();
+      if (!gateStep) toast(t("welcome", { n: name })); updateComposer(); startDMs(); renderChats();
+      if (gateStep) gateFromState(); else renderProfile();
+      handleDeepLink();
     } catch (e) { console.warn(e); err.textContent = t("saveFail"); err.hidden = false; }
   };
 }
@@ -790,6 +884,7 @@ const SVC_AFTER = {
   },
   weather: async body => {
     const w = await getWeather().catch(() => null), box = $("#wxList", body);
+    if (!box) return;
     if (!w) { box.innerHTML = `<p class="empty">${esc(t("feedFail"))}</p>`; return; }
     box.innerHTML = w.map(c => !c.ok ? "" : `<div class="card wx"><div class="wx-now"><span class="wx-i">${wxIcon(c.code)}</span><div><b>${esc(c.name)}</b><small>${esc(t("wx_" + wxKey(c.code)))}</small></div><strong>${Math.round(c.temp)}°</strong></div>
       <div class="wx-days">${c.days.map(d => `<div><small>${esc(fmtD(new Date(d.date + "T12:00"), { weekday: "short" }))}</small><span>${wxIcon(d.code)}</span><b>${Math.round(d.max)}°</b><small>${Math.round(d.min)}°</small></div>`).join("")}</div></div>`).join("");
@@ -880,7 +975,7 @@ function churchFill(body) {
 
 /* sport: Irad League rounds on Saturdays (April to November), horse games on Sundays */
 const CLUBS = ["Neftchi Nurzhan", "Tulpar Talas", "Temirjolchu Nurzhan", "Attelkom Talas", "Universitet Talas", "Surma Chatkal", "Dastgoh Nurzhan", "FC Iyık Janyl", "Kara-Buura", "Naryn Tash-Kömür"];
-const VENUES = { "Neftchi Nurzhan": "Neftchi Stadium", "Tulpar Talas": "Silk Road Arena", "Temirjolchu Nurzhan": "Lokomotiv Stadium", "Attelkom Talas": "Attelkom Park", "Universitet Talas": "TSU Stadium", "Surma Chatkal": "Chatkal", "Dastgoh Nurzhan": "Dastgoh", "FC Iyık Janyl": "Iyık Janyl", "Kara-Buura": "Kyzyl-Adyr", "Naryn Tash-Kömür": "Tash-Kömür" };
+const VENUES = { "Neftchi Nurzhan": "NurGaz Stadium", "Tulpar Talas": "Silk Road Arena", "Temirjolchu Nurzhan": "Lokomotiv Stadium", "Attelkom Talas": "Attelkom Park", "Universitet Talas": "TSU Stadium", "Surma Chatkal": "Chatkal", "Dastgoh Nurzhan": "Dastgoh", "FC Iyık Janyl": "Iyık Janyl", "Kara-Buura": "Kyzyl-Adyr", "Naryn Tash-Kömür": "Tash-Kömür" };
 function roundPairs(r) { // circle method
   const a = CLUBS.slice(), n = a.length, fixed = a[0], rest = a.slice(1), k = r % (n - 1);
   const rot = rest.slice(k).concat(rest.slice(0, k)), arr = [fixed].concat(rot), out = [];
@@ -888,19 +983,36 @@ function roundPairs(r) { // circle method
   return out;
 }
 function nextDow(from, dow) { const d = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate())); while (d.getUTCDay() !== dow) d.setUTCDate(d.getUTCDate() + 1); return d; }
+function lastSat(y, m) { const d = new Date(Date.UTC(y, m + 1, 0)); while (d.getUTCDay() !== 6) d.setUTCDate(d.getUTCDate() - 1); return d; }
+const FINAL = [["Neftchi Nurzhan", "Tulpar Talas"], ["Temirjolchu Nurzhan", "Attelkom Talas"], ["Universitet Talas", "Surma Chatkal"], ["Dastgoh Nurzhan", "FC Iyık Janyl"], ["Kara-Buura", "Naryn Tash-Kömür"]];
+const isDerby = (h, a) => [h, a].includes("Neftchi Nurzhan") && [h, a].includes("Tulpar Talas");
+/* The season runs April to October; the last Saturday of October is round 36 (always the Kara-Ak derby),
+   and the Saturday two weeks before it has no league round (Irad Cup semi-finals). */
+function leagueRound(sat) {
+  const end = lastSat(sat.getUTCFullYear(), 9), wk = Math.round((end - sat) / (7 * 864e5));
+  if (wk < 0 || sat.getUTCMonth() < 3) return null;
+  if (wk === 2) return { cup: true };
+  const round = 36 - wk + (wk > 2 ? 1 : 0);
+  if (round < 1) return null;
+  if (round === 36) return { round, pairs: FINAL };
+  let k = round, pairs = roundPairs(k);
+  while (pairs.some(([h, a]) => isDerby(h, a))) pairs = roundPairs(++k);
+  return { round, pairs };
+}
 function sportFill(body) {
-  const n = iradNow(), sat = nextDow(n.date, 6), mo = sat.getUTCMonth();
+  const n = iradNow(), sat = nextDow(n.date, 6);
   const fmt = d => fmtD(d, { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
-  if (mo >= 3 && mo <= 10) {
-    const wk = Math.floor((sat - Date.UTC(sat.getUTCFullYear(), 3, 1)) / (7 * 864e5));
-    $("#league", body).innerHTML = [0, 1].map(o => {
-      const d = new Date(sat.getTime() + o * 7 * 864e5); if (d.getUTCMonth() > 10) return "";
-      return `<p class="small"><b>${esc(t("round", { n: wk + o + 1 }))}</b> · ${esc(fmt(d))}</p><ul class="fx">` + roundPairs(wk + o).map(([h, a]) => {
-        const derby = (h === "Neftchi Nurzhan" && a === "Tulpar Talas") || (a === "Neftchi Nurzhan" && h === "Tulpar Talas");
-        return `<li${derby ? ' class="derby"' : ""}><span>${esc(h)}</span><b>${o === 0 ? "17:00" : "–"}</b><span>${esc(a)}</span>${derby ? `<small>${esc(t("derby"))} · ${esc(VENUES[h])}</small>` : ""}</li>`;
-      }).join("") + `</ul>`;
-    }).join("");
-  } else $("#league", body).innerHTML = `<p class="small">${esc(t("winterBreak"))}</p>`;
+  let html = "";
+  for (let o = 0; o < 3 && (html.match(/<ul class="fx">/g) || []).length < 2; o++) {
+    const d = new Date(sat.getTime() + o * 7 * 864e5), r = leagueRound(d);
+    if (!r) continue;
+    if (r.cup) { html += `<p class="small"><b>${esc(fmt(d))}</b> · ${esc(t("cupWeek"))}</p>`; continue; }
+    html += `<p class="small"><b>${esc(t("round", { n: r.round }))}</b> · ${esc(fmt(d))}</p><ul class="fx">` + r.pairs.map(([h, a]) => {
+      const derby = isDerby(h, a);
+      return `<li${derby ? ' class="derby"' : ""}><span>${esc(h)}</span><b>${derby ? "18:00" : "17:00"}</b><span>${esc(a)}</span>${derby ? `<small>${esc(t("derby"))} · ${esc(VENUES[h])}</small>` : ""}</li>`;
+    }).join("") + `</ul>`;
+  }
+  $("#league", body).innerHTML = html || `<p class="small">${esc(t("winterBreak"))}</p>`;
   const sun = nextDow(n.date, 0), events = [];
   for (let i = 0; i < 4; i++) {
     const d = new Date(sun.getTime() + i * 7 * 864e5), m = d.getUTCMonth(), wn = Math.floor(d.getTime() / (7 * 864e5));
