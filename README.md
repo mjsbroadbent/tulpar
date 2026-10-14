@@ -37,13 +37,24 @@ English pages are at the root, Iradi copies in `ir/` and Russian copies in `ru/`
 
 ## The web app (`app/`)
 
-A working, installable web app (PWA) at `/app/`: real public chat rooms, the IradOne and Talas Herald channels, a wallet showing the live TLPR price, and Bazar and Tulpar Pay locked to people in Irad (a location check against Irad's outline). Chat runs on Firebase (Google sign-in and Cloud Firestore, free tier). Until `app/firebase-config.js` is filled in, everything except chat works and the rooms say chat is being set up.
+A working, installable web app (PWA) at `/app/`, in English, Iradi and Russian (switch in Profile):
+
+- **Chats:** public rooms and private chats (one-to-one), with replies, reactions (👍❤️😂😮😢🐎), an Iradi sticker pack, polls in rooms, unread badges and optional message alerts while the app is open.
+- **QR codes:** everyone has a personal QR code and link (`app/#u=<Tulpar ID>`); scanning it, or entering a Tulpar ID, opens a private chat.
+- **Channels:** IradOne and Talas Herald feeds, plus the official Tulpar channel (admins post there).
+- **Services:** Bazar, mobile top-up, utilities, Tulpar Taxi, food delivery, Bölüp tölöö (instalments), government services and transfers abroad, all locked to users in Irad (a location check against Irad's outline); and working information pages: weather (Open-Meteo), exchange rates, bus departures from Talas, the Syro-Iradi church calendar, and Irad League and horse-games fixtures.
+- **Wallet:** live TLPR price; sending and topping up are locked to Irad.
+
+Chat runs on Firebase (Google sign-in and Cloud Firestore, free Spark plan, no Storage). Until `app/firebase-config.js` is filled in, everything except chat works.
 
 | File | What it is |
 |---|---|
 | `app/index.html`, `app/app.css`, `app/app.js` | The app |
-| `app/firebase-config.js` | Your Firebase web config (empty until set up) |
-| `app/sw.js`, `app/manifest.webmanifest`, `app/icon*` | Offline shell and install-to-home-screen |
+| `app/i18n.js` | All app text in English, Iradi and Russian |
+| `app/stickers/*.svg` | The 16-sticker Iradi pack |
+| `app/vendor/` | QR code generator (qrcode-generator, MIT) and scanner (jsQR, Apache-2.0), loaded only when needed |
+| `app/firebase-config.js` | Firebase web config |
+| `app/sw.js`, `app/manifest.webmanifest`, `app/icon*` | Offline shell, install-to-home-screen, message alerts |
 | `firestore.rules` | Security rules to paste into Firebase |
 
-Setup steps are in [SETUP-FIREBASE.md](SETUP-FIREBASE.md). When you change `app/` files, bump `VERSION` in `app/sw.js` so phones pick up the new version.
+Setup steps are in [SETUP-FIREBASE.md](SETUP-FIREBASE.md). When you change `app/` files, bump `VERSION` in `app/sw.js` so phones pick up the new version. When `firestore.rules` changes, paste it into Firebase again and Publish.

@@ -5,9 +5,12 @@ rules_version = '2';
 //
 // What they allow:
 // - Anyone can read the public rooms and people's display names.
-// - Signed-in users with a profile can post short messages, at most one every 5 seconds.
+// - Signed-in users with a profile can post short messages, stickers and polls in rooms,
+//   at most one post every 5 seconds (2 seconds in private chats).
+// - Anyone with a profile can react to messages and vote in polls (one reaction and one vote each).
+// - Private chats (dms) are readable only by their two members.
 // - Only admins (a document at admins/{uid}) can post in the "official" channel, delete anyone's
-//   messages, ban people and read reports.
+//   room messages, ban people and read reports.
 // - People can delete their own messages and report anyone's.
 
 service cloud.firestore {
@@ -20,8 +23,50 @@ service cloud.firestore {
     function hasProfile() { return signedIn() && exists(profilePath()); }
     function profile() { return get(profilePath()).data; }
     function notBanned() { return !('banned' in profile()) || profile().banned != true; }
+    function canPost() { return hasProfile() && notBanned(); }
     function goodName(n) { return n is string && n.size() >= 2 && n.size() <= 24; }
     function rooms() { return ['talas', 'nurzhan', 'valleys', 'horses', 'football', 'diaspora', 'tulparcoin', 'chaikhana', 'official']; }
+
+    // the same batch must stamp users/{me}.lastPostAt, and the previous post must be old enough
+    function paced(secs) {
+      return getAfter(profilePath()).data.lastPostAt == request.time
+        && (isAdmin() || profile().lastPostAt < request.time - duration.value(secs, 's'));
+    }
+
+    // ---------- message content ----------
+    function shortStr(s, max) { return s is string && s.size() >= 1 && s.size() <= max; }
+    function optOK(p, i) { return p.opts.size() <= i || shortStr(p.opts[i], 60); }
+    function pollOK(p) {
+      return p is map && p.keys().hasOnly(['q', 'opts']) && shortStr(p.q, 140)
+        && p.opts is list && p.opts.size() >= 2 && p.opts.size() <= 4
+        && optOK(p, 0) && optOK(p, 1) && optOK(p, 2) && optOK(p, 3);
+    }
+    function textOnly(d) { return 'text' in d && shortStr(d.text, 500) && !('sticker' in d) && !('poll' in d); }
+    function stickerOnly(d) { return 'sticker' in d && d.sticker is string && d.sticker.matches('^[a-z0-9_]{1,24}$') && !('text' in d) && !('poll' in d); }
+    function pollOnly(d) { return 'poll' in d && pollOK(d.poll) && !('text' in d) && !('sticker' in d); }
+    function replyOK(d) {
+      return !('replyTo' in d) || (d.replyTo is map && d.replyTo.keys().hasOnly(['id', 'name', 'text'])
+        && d.replyTo.id is string && d.replyTo.id.size() <= 40
+        && d.replyTo.name is string && d.replyTo.name.size() <= 24
+        && d.replyTo.text is string && d.replyTo.text.size() <= 140);
+    }
+
+    // reactions (r) and poll votes (v) are maps keyed by user id; you may only change your own entry
+    function onlyMine(f) {
+      return request.resource.data.get(f, {}).diff(resource.data.get(f, {})).affectedKeys().hasOnly([me()]);
+    }
+    function reactionOK() {
+      let a = request.resource.data.get('r', {});
+      return onlyMine('r') && (!(me() in a) || a[me()] in ['like', 'heart', 'laugh', 'wow', 'sad', 'horse']);
+    }
+    function voteOK() {
+      let a = request.resource.data.get('v', {});
+      return onlyMine('v') && (!(me() in a) || ('poll' in resource.data && a[me()] is int
+        && a[me()] >= 0 && a[me()] < resource.data.poll.opts.size()));
+    }
+    function marksOnly() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['r', 'v']) && reactionOK() && voteOK();
+    }
 
     // ---------- profiles ----------
     match /users/{uid} {
@@ -48,27 +93,64 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // ---------- messages ----------
+    // ---------- room messages ----------
     match /rooms/{room}/messages/{msgId} {
       allow read: if room in rooms();
 
-      allow create: if hasProfile() && notBanned()
+      allow create: if canPost()
         && room in rooms()
         && (room != 'official' || isAdmin())
-        && request.resource.data.keys().hasOnly(['uid', 'name', 'text', 'createdAt', 'admin'])
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'text', 'sticker', 'poll', 'replyTo', 'createdAt', 'admin'])
         && request.resource.data.uid == me()
-        && request.resource.data.text is string
-        && request.resource.data.text.size() >= 1
-        && request.resource.data.text.size() <= 500
         && request.resource.data.createdAt == request.time
         && request.resource.data.name == profile().name
         && (!('admin' in request.resource.data) || (request.resource.data.admin == true && isAdmin()))
-        // rate limit: the same batch must stamp lastPostAt, and the previous post must be 5+ seconds old
-        && getAfter(profilePath()).data.lastPostAt == request.time
-        && (isAdmin() || profile().lastPostAt < request.time - duration.value(5, 's'));
+        && (textOnly(request.resource.data) || stickerOnly(request.resource.data) || pollOnly(request.resource.data))
+        && replyOK(request.resource.data)
+        && paced(5);
 
-      allow update: if false;
+      allow update: if canPost() && room in rooms() && marksOnly();
       allow delete: if isAdmin() || (signedIn() && resource.data.uid == me());
+    }
+
+    // ---------- private chats ----------
+    // id is the two user ids, sorted, joined with "_"
+    match /dms/{dmId} {
+      allow get: if signedIn() && me() in dmId.split('_');
+      allow list: if signedIn() && me() in resource.data.members;
+
+      allow create: if canPost()
+        && request.resource.data.keys().hasOnly(['members', 'names', 'last', 'updatedAt'])
+        && request.resource.data.members is list && request.resource.data.members.size() == 2
+        && me() in request.resource.data.members
+        && request.resource.data.members[0] < request.resource.data.members[1]
+        && dmId == request.resource.data.members[0] + '_' + request.resource.data.members[1]
+        && exists(/databases/$(database)/documents/users/$(request.resource.data.members[0]))
+        && exists(/databases/$(database)/documents/users/$(request.resource.data.members[1]))
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if canPost() && me() in resource.data.members
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['names', 'last', 'updatedAt'])
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if false;
+
+      match /messages/{msgId} {
+        allow read: if signedIn() && me() in dmId.split('_');
+
+        allow create: if canPost() && me() in dmId.split('_')
+          && existsAfter(/databases/$(database)/documents/dms/$(dmId))
+          && request.resource.data.keys().hasOnly(['uid', 'text', 'sticker', 'replyTo', 'createdAt'])
+          && request.resource.data.uid == me()
+          && request.resource.data.createdAt == request.time
+          && (textOnly(request.resource.data) || stickerOnly(request.resource.data))
+          && replyOK(request.resource.data)
+          && paced(2);
+
+        allow update: if canPost() && me() in dmId.split('_')
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['r']) && reactionOK();
+        allow delete: if signedIn() && resource.data.uid == me();
+      }
     }
 
     // ---------- reports ----------
@@ -76,7 +158,7 @@ service cloud.firestore {
       allow create: if hasProfile()
         && request.resource.data.keys().hasOnly(['room', 'msgId', 'msgUid', 'msgName', 'text', 'reporter', 'createdAt'])
         && request.resource.data.reporter == me()
-        && request.resource.data.room in rooms()
+        && (request.resource.data.room in rooms() || request.resource.data.room == 'dm')
         && request.resource.data.text is string && request.resource.data.text.size() <= 500
         && request.resource.data.createdAt == request.time;
       allow read, delete: if isAdmin();

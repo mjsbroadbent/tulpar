@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(-9.56 -6.83) scale(1.0461)" stroke-width="5.26"><g transform="translate(128 100) rotate(-8) scale(0.95)" stroke-width="5.79"><path d="M-30,-36 L-46,-82 L-8,-58 Z" fill="#fbfaf5"/><path d="M30,-36 L46,-82 L8,-58 Z" fill="#fbfaf5"/><path d="M-30,-48 L-39,-70 L-18,-56 Z" fill="#f59aa0" stroke="none"/><path d="M30,-48 L39,-70 L18,-56 Z" fill="#f59aa0" stroke="none"/><path d="M0,-65 C42,-65 50,-30 44,5 C40,25 42,35 40,50 C38,72 22,82 0,82 C-22,82 -38,72 -40,50 C-42,35 -40,25 -44,5 C-50,-30 -42,-65 0,-65 Z" fill="#fbfaf5"/><ellipse cx="0" cy="46" rx="38" ry="28" fill="#e8e2d6"/><path d="M-24,-56 Q-16,-86 2,-66 Q14,-88 24,-58 Q4,-46 -24,-56 Z" fill="#c9d3dc"/><path d="M-31,-6 Q-22,-17 -13,-6" fill="none"/><path d="M13,-6 Q22,-17 31,-6" fill="none"/><ellipse cx="-33" cy="18" rx="8" ry="5" fill="#f59aa0" stroke="none" opacity="0.9"/><ellipse cx="33" cy="18" rx="8" ry="5" fill="#f59aa0" stroke="none" opacity="0.9"/><ellipse cx="-13" cy="40" rx="4" ry="5.5" fill="#141a33" stroke="none"/><ellipse cx="13" cy="40" rx="4" ry="5.5" fill="#141a33" stroke="none"/><path d="M-14,56 Q0,67 14,56" fill="none"/></g><path d="M128,235.4 C57.8,188.6 78.6,134.0 128,166.24 C177.4,134.0 198.2,188.6 128,235.4 Z" fill="#d94a38"/><path d="M110,164 Q120,150 132,160" fill="none" stroke="#ff9a8a" stroke-width="5"/><ellipse cx="76" cy="176" rx="16" ry="20" transform="rotate(30 76 176)" fill="#fbfaf5"/><ellipse cx="180" cy="176" rx="16" ry="20" transform="rotate(-30 180 176)" fill="#fbfaf5"/><path d="M208,64.25 C187.75,50.75 193.75,35.0 208,44.3 C222.25,35.0 228.25,50.75 208,64.25 Z" fill="#d94a38"/><path d="M44,71.4 C27.799999999999997,60.6 32.6,48.0 44,55.44 C55.4,48.0 60.2,60.6 44,71.4 Z" fill="#d94a38"/><path d="M222,112.55 C209.85,104.45 213.45,95.0 222,100.58 C230.55,95.0 234.15,104.45 222,112.55 Z" fill="#d94a38"/></g>
+</g>
+</g>
+</svg>

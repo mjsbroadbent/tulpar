@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(2.16 -9.71) scale(0.9870)" stroke-width="5.57"><path d="M30,214 L170,92 L156,76 L224,32 L204,108 L190,96 L50,226 Z" fill="#3aa36b"/><g transform="translate(112 100) rotate(-8) scale(1.0)" stroke-width="5.50"><circle r="54" fill="#f5b018"/><circle r="42" fill="none" stroke="#d98c0a" stroke-width="4"/><path d="M-38,-22 A44,44 0 0 1 -14,-42" fill="none" stroke="#fff3c4" stroke-width="5"/><g transform="translate(0 -20) scale(0.72)" stroke="none" fill="#a8610a"><path d="M-14,-12 L14,-12 L14,-3 L5,-3 L5,22 L-5,22 L-5,-3 L-14,-3 Z"/><path d="M13,-6 C18,-24 32,-32 40,-30 C38,-24 40,-20 36,-16 C34,-12 32,-10 28,-8 C24,-5 20,-4 13,-3 Z"/><path d="M-13,-6 C-18,-24 -32,-32 -40,-30 C-38,-24 -40,-20 -36,-16 C-34,-12 -32,-10 -28,-8 C-24,-5 -20,-4 -13,-3 Z"/></g><path d="M-24,14 Q-17,5 -10,14" fill="none"/><path d="M10,14 Q17,5 24,14" fill="none"/><path d="M-13,26 Q0,38 13,26 Z" fill="#7a2a1a"/></g><path d="M212,136 Q214.52,147.48 226,150 Q214.52,152.52 212,164 Q209.48,152.52 198,150 Q209.48,147.48 212,136 Z" fill="#f5b018" stroke-width="4"/><path d="M46,40 Q48.16,49.84 58,52 Q48.16,54.16 46,64 Q43.84,54.16 34,52 Q43.84,49.84 46,40 Z" fill="#f5b018" stroke-width="4"/><path d="M186,20 Q187.44,26.56 194,28 Q187.44,29.44 186,36 Q184.56,29.44 178,28 Q184.56,26.56 186,20 Z" fill="#f5b018" stroke-width="4"/><text x="132" y="240" font-size="44" text-anchor="middle" transform="rotate(-6 132 240)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#f5b018" stroke="#141a33" stroke-width="7" paint-order="stroke" stroke-linejoin="round">Joguru!</text></g>
+</g>
+</g>
+</svg>

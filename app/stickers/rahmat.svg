@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(2.10 3.42) scale(0.9538)" stroke-width="5.77"><circle cx="124" cy="126" r="62" fill="#f7c99b"/><path d="M98,122 Q107,111 116,122" fill="none"/><path d="M132,122 Q141,111 150,122" fill="none"/><ellipse cx="88" cy="138" rx="10" ry="6" fill="#f59aa0" stroke="none"/><ellipse cx="160" cy="138" rx="10" ry="6" fill="#f59aa0" stroke="none"/><path d="M108,142 Q124,158 140,142" fill="none"/><path d="M150,190.8 C117.6,169.2 127.2,144.0 150,158.88 C172.8,144.0 182.4,169.2 150,190.8 Z" fill="#d94a38"/><ellipse cx="136" cy="172" rx="17" ry="12" transform="rotate(-30 136 172)" fill="#f7c99b"/><g transform="translate(120 74) rotate(-8) scale(0.8)" stroke-width="6.88"><path d="M2,-62 Q10,-74 6,-80" fill="none" stroke-width="4"/><circle cx="6" cy="-81" r="5" fill="#141a33" stroke="none"/><path d="M-31,0 C-33,-30 -15,-58 0,-63 C15,-58 33,-30 31,0 Z" fill="#fbfaf5"/><path d="M0,-6 L0,-50" fill="none" stroke-width="3.5"/><path d="M0,-22 C-6,-34 -18,-30 -15,-22 C-13,-17 -8,-19 -9,-23" fill="none" stroke-width="3.5"/><path d="M0,-22 C6,-34 18,-30 15,-22 C13,-17 8,-19 9,-23" fill="none" stroke-width="3.5"/><path d="M-39,6 Q-20,-6 -3,-2 L-6,-16 Q-22,-20 -37,-8 Z" fill="#141a33"/><path d="M39,6 Q20,-6 3,-2 L6,-16 Q22,-20 37,-8 Z" fill="#141a33"/></g><path d="M206,94.15 C183.05,78.85 189.85,61.0 206,71.54 C222.15,61.0 228.95,78.85 206,94.15 Z" fill="#d94a38"/><path d="M222,134.45 C207.15,124.55 211.55,113.0 222,119.82 C232.45,113.0 236.85,124.55 222,134.45 Z" fill="#d94a38"/><path d="M44,104.35 C26.45,92.65 31.65,79.0 44,87.06 C56.35,79.0 61.55,92.65 44,104.35 Z" fill="#d94a38"/><text x="128" y="240" font-size="46" text-anchor="middle" transform="rotate(-4 128 240)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#f5b018" stroke="#141a33" stroke-width="7" paint-order="stroke" stroke-linejoin="round">Rahmat!</text></g>
+</g>
+</g>
+</svg>

@@ -45,15 +45,20 @@ About 15 minutes, free (Spark plan, no card needed). You need a Google account.
 
 Add co-moderators the same way, with their Tulpar IDs.
 
+## Updating the rules
+Whenever `firestore.rules` changes in this repo, open **Firestore Database → Rules**, replace everything with the new file and click **Publish**. No indexes are needed.
+
 ## Limits and costs
 - The free plan allows 50,000 reads and 20,000 writes a day. Each room loads its last 100 messages, so roughly 500 room openings a day before you'd need to think about it. If you ever hit the limit, chat just pauses until the next day; nothing is charged on Spark.
-- Posting is limited to one message every 5 seconds per person, 500 characters each.
+- Posting is limited to one message every 5 seconds per person in rooms and every 2 seconds in private chats, 500 characters each. Admins are exempt.
+- Message alerts work only while Tulpar is open (in a tab or installed). True push notifications when the app is closed need a server (Cloud Functions, a paid plan), so they're not included.
 - Under **Usage and billing** you can watch the numbers.
 
 ## Testing the rules (optional)
 **Firestore → Rules → Rules Playground** lets you simulate a read or write as a signed-in user before going live, e.g. try creating `rooms/talas/messages/test` without a profile; it should be denied.
 
 ## Moderation, in short
-- Anyone can tap a message to report it or hide that person's messages.
+- Anyone can tap a message to react, reply, report it or hide that person's messages.
+- Private chats can only be read by their two members. Reported private messages show in the admin Reports list; admins can ban the sender but can't delete messages in someone else's private chat.
 - Admins see reports in Profile, can delete messages and ban people (banned users can still read but not post).
 - Rooms carry a pinned note reminding people they're public and not to share personal details.

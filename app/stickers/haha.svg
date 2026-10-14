@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(6.93 6.33) scale(0.9458)" stroke-width="5.81"><circle cx="128" cy="124" r="64" fill="#f7c99b"/><path d="M96,104 L114,112 L96,120" fill="none" stroke-width="6"/><path d="M160,104 L142,112 L160,120" fill="none" stroke-width="6"/><path d="M96,132 Q128,134 160,132 Q158,176 128,178 Q98,176 96,132 Z" fill="#7a2030"/><path d="M108,166 Q128,152 148,166 Q140,176 128,177 Q116,176 108,166 Z" fill="#f0788a" stroke="none"/><path d="M100,134 Q128,138 156,134 L154,144 Q128,148 102,144 Z" fill="#fff" stroke="none"/><path d="M96,132 Q128,134 160,132 Q158,176 128,178 Q98,176 96,132 Z" fill="none"/><path d="M64,104 Q34,96 26,122 Q44,128 64,116 Z" fill="#7fd6e6" stroke-width="4.5"/><path d="M192,104 Q222,96 230,122 Q212,128 192,116 Z" fill="#7fd6e6" stroke-width="4.5"/><ellipse cx="88" cy="130" rx="10" ry="6" fill="#f59aa0" stroke="none"/><ellipse cx="168" cy="130" rx="10" ry="6" fill="#f59aa0" stroke="none"/><g transform="translate(126 70) rotate(6) scale(0.8)" stroke-width="6.88"><path d="M2,-62 Q10,-74 6,-80" fill="none" stroke-width="4"/><circle cx="6" cy="-81" r="5" fill="#141a33" stroke="none"/><path d="M-31,0 C-33,-30 -15,-58 0,-63 C15,-58 33,-30 31,0 Z" fill="#fbfaf5"/><path d="M0,-6 L0,-50" fill="none" stroke-width="3.5"/><path d="M0,-22 C-6,-34 -18,-30 -15,-22 C-13,-17 -8,-19 -9,-23" fill="none" stroke-width="3.5"/><path d="M0,-22 C6,-34 18,-30 15,-22 C13,-17 8,-19 9,-23" fill="none" stroke-width="3.5"/><path d="M-39,6 Q-20,-6 -3,-2 L-6,-16 Q-22,-20 -37,-8 Z" fill="#141a33"/><path d="M39,6 Q20,-6 3,-2 L6,-16 Q22,-20 37,-8 Z" fill="#141a33"/></g><text x="128" y="240" font-size="48" text-anchor="middle" transform="rotate(-5 128 240)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#f5b018" stroke="#141a33" stroke-width="7" paint-order="stroke" stroke-linejoin="round">Ha-ha</text></g>
+</g>
+</g>
+</svg>

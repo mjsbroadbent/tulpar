@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(-8.74 -23.96) scale(1.0600)" stroke-width="5.19"><path d="M134,48 L162,104 L182,80 L210,152" fill="none" stroke-width="24"/><path d="M134,48 L162,104 L182,80 L210,152" fill="none" stroke="#d94a38" stroke-width="13"/><path d="M190,150 L232,140 L222,182 Z" fill="#d94a38"/><g transform="translate(88 108) rotate(6) scale(1.0)" stroke-width="5.50"><circle r="54" fill="#f5b018"/><circle r="42" fill="none" stroke="#d98c0a" stroke-width="4"/><path d="M-38,-22 A44,44 0 0 1 -14,-42" fill="none" stroke="#fff3c4" stroke-width="5"/><g transform="translate(0 -20) scale(0.72)" stroke="none" fill="#a8610a"><path d="M-14,-12 L14,-12 L14,-3 L5,-3 L5,22 L-5,22 L-5,-3 L-14,-3 Z"/><path d="M13,-6 C18,-24 32,-32 40,-30 C38,-24 40,-20 36,-16 C34,-12 32,-10 28,-8 C24,-5 20,-4 13,-3 Z"/><path d="M-13,-6 C-18,-24 -32,-32 -40,-30 C-38,-24 -40,-20 -36,-16 C-34,-12 -32,-10 -28,-8 C-24,-5 -20,-4 -13,-3 Z"/></g><ellipse cx="-16" cy="14" rx="5" ry="7" fill="#141a33" stroke="none"/><ellipse cx="16" cy="14" rx="5" ry="7" fill="#141a33" stroke="none"/><path d="M-26,4 L-10,0" fill="none" stroke-width="4"/><path d="M26,4 L10,0" fill="none" stroke-width="4"/><path d="M-12,36 Q0,26 12,36" fill="none"/></g><path d="M150,124 Q140,140 150,146 Q160,140 150,124 Z" fill="#9fdcf0" stroke-width="4"/><path d="M30,50 Q22,64 30,70 Q38,64 30,50 Z" fill="#9fdcf0" stroke-width="4"/><text x="126" y="238" font-size="46" text-anchor="middle" transform="rotate(4 126 238)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#f5b018" stroke="#141a33" stroke-width="7" paint-order="stroke" stroke-linejoin="round">Ui-ui…</text></g>
+</g>
+</g>
+</svg>

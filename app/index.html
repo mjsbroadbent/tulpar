@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Tulpar</title>
-  <meta name="description" content="Tulpar: chat, channels, Bazar and Tulpar Pay.">
+  <meta name="description" content="Tulpar: chat, channels, services and Tulpar Pay.">
   <meta name="theme-color" content="#00728c">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -13,36 +13,55 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="app.css">
+  <script>
+    (function () {
+      var l = null;
+      try { l = JSON.parse(localStorage.getItem("tp_lang") || "null"); } catch (e) {}
+      if (!l) { var n = (navigator.language || "en").toLowerCase(); l = n.indexOf("ru") === 0 ? "ru" : n.indexOf("ky") === 0 ? "ir" : "en"; }
+      if (l !== "en") document.documentElement.setAttribute("data-lang", l);
+      document.documentElement.lang = l === "ir" ? "ky" : l;
+    })();
+  </script>
 </head>
 <body>
   <div class="app" id="app">
 
     <!-- ===== Chats ===== -->
     <section class="tab" id="tab-chats" data-tab="chats">
-      <header class="bar"><h1>Chats</h1><span class="bar-note" id="netNote"></span></header>
+      <header class="bar"><h1 data-t="tabChats">Chats</h1><span class="bar-note" id="netNote"></span>
+        <button class="bar-btn" type="button" id="newChatBtn" data-ta="newChat" aria-label="New chat">✎</button></header>
       <div class="banner" id="chatBanner" hidden></div>
+      <div id="dmSection" hidden>
+        <h2 class="list-h" data-t="privateChats">Private chats</h2>
+        <ul class="list" id="dmList"></ul>
+      </div>
+      <h2 class="list-h" data-t="rooms">Rooms</h2>
       <ul class="list" id="roomList"></ul>
     </section>
 
-    <!-- room view -->
+    <!-- conversation view (rooms and private chats) -->
     <section class="tab room" id="tab-room" data-tab="room" hidden>
       <header class="bar">
-        <button class="back" type="button" data-go="chats" aria-label="Back to chats">‹</button>
+        <button class="back" type="button" data-go="chats" data-ta="back" aria-label="Back">‹</button>
         <div class="room-title"><b id="roomName">Room</b><small id="roomDesc"></small></div>
       </header>
-      <div class="pinned" id="roomPinned">Public room: be kind, and never share your address, phone number or passwords.</div>
+      <div class="pinned" id="roomPinned" data-t="pinned">Public room: be kind, and never share your address, phone number or passwords.</div>
       <div class="msgs" id="msgs" aria-live="polite"></div>
+      <div class="reply-bar" id="replyBar" hidden><div><b id="replyName"></b><span id="replyText"></span></div><button type="button" id="replyCancel" data-ta="cancel" aria-label="Cancel">✕</button></div>
+      <div class="sticker-tray" id="stickerTray" hidden></div>
       <form class="composer" id="composer" autocomplete="off">
-        <input id="msgInput" maxlength="500" placeholder="Message" aria-label="Message">
-        <button class="send" type="submit" aria-label="Send">➤</button>
+        <button class="c-btn" type="button" id="plusBtn" data-ta="more" aria-label="More">＋</button>
+        <input id="msgInput" maxlength="500" data-tp="message" placeholder="Message" data-ta="message" aria-label="Message">
+        <button class="c-btn" type="button" id="stickerBtn" data-ta="stickers" aria-label="Stickers">😊</button>
+        <button class="send" type="submit" data-ta="send" aria-label="Send">➤</button>
       </form>
       <div class="composer-off" id="composerOff" hidden></div>
     </section>
 
     <!-- ===== Channels ===== -->
     <section class="tab" id="tab-channels" data-tab="channels" hidden>
-      <header class="bar"><h1>Channels</h1></header>
-      <div class="chips" role="group" aria-label="Channel">
+      <header class="bar"><h1 data-t="tabChannels">Channels</h1></header>
+      <div class="chips" role="group" data-ta="channel" aria-label="Channel">
         <button type="button" data-feed="iradone" aria-pressed="true">IradOne</button>
         <button type="button" data-feed="herald" aria-pressed="false">Talas Herald</button>
         <button type="button" data-feed="official" aria-pressed="false">Tulpar</button>
@@ -50,71 +69,97 @@
       <div class="feed" id="feed"></div>
     </section>
 
-    <!-- ===== Bazar ===== -->
-    <section class="tab" id="tab-bazar" data-tab="bazar" hidden>
-      <header class="bar"><h1>Bazar</h1></header>
-      <div class="locked" id="bazarLocked">
-        <div class="lock-e">📍</div>
-        <h2>Bazar is available in Irad only</h2>
-        <p>Buying and selling on Bazar is limited to users in Irad. We couldn't confirm your location.</p>
-        <button class="btn" type="button" id="checkLoc">Check my location</button>
-        <p class="small" id="locMsg"></p>
+    <!-- ===== Services ===== -->
+    <section class="tab" id="tab-services" data-tab="services" hidden>
+      <header class="bar"><h1 data-t="tabServices">Services</h1></header>
+      <div class="svc-top">
+        <button type="button" class="info-card" data-svc="weather" id="wxCard"><small data-t="weather">Weather</small><b id="wxNow">—</b><span id="wxWhere">Talas</span></button>
+        <button type="button" class="info-card" data-svc="rates" id="rateCard"><small data-t="rates">Exchange rates</small><b id="rateNow">8.40 som</b><span data-t="perDollar">per US dollar</span></button>
       </div>
-      <div class="bazar" id="bazarOpen" hidden></div>
+      <h2 class="list-h" data-t="payServices">Pay and order</h2>
+      <div class="svc-grid" id="svcPay"></div>
+      <h2 class="list-h" data-t="infoServices">Information</h2>
+      <div class="svc-grid" id="svcInfo"></div>
+    </section>
+
+    <!-- one service, opened from the grid -->
+    <section class="tab" id="tab-svc" data-tab="svc" hidden>
+      <header class="bar">
+        <button class="back" type="button" data-go="services" data-ta="back" aria-label="Back">‹</button>
+        <div class="room-title"><b id="svcName">Service</b><small id="svcDesc"></small></div>
+      </header>
+      <div class="svc-body" id="svcBody"></div>
     </section>
 
     <!-- ===== Wallet ===== -->
     <section class="tab" id="tab-wallet" data-tab="wallet" hidden>
-      <header class="bar"><h1>Wallet</h1></header>
+      <header class="bar"><h1 data-t="tabWallet">Wallet</h1></header>
       <div class="wallet-card">
-        <small>Tulparcoin balance</small>
+        <small data-t="balance">Tulparcoin balance</small>
         <b id="walBal">0 TLPR</b>
         <span id="walVal">≈ $0.00</span>
       </div>
       <div class="price-row"><span>TLPR / USD</span><b data-tlpr="px">—</b><span data-tlpr="chg"></span></div>
       <div class="mini-chart" id="walChart"></div>
       <div class="actions">
-        <button type="button" class="act" data-locked="Sending requires Tulpar Pay, which is available in Irad only.">↑<span>Send</span></button>
-        <button type="button" class="act" data-locked="Requesting requires Tulpar Pay, which is available in Irad only.">↓<span>Request</span></button>
-        <button type="button" class="act" data-locked="Top up at a Tulpar point in Irad.">＋<span>Top up</span></button>
-        <button type="button" class="act" id="claimBtn">🎁<span>Claim 100</span></button>
+        <button type="button" class="act" data-locked="lockSend">↑<span data-t="send">Send</span></button>
+        <button type="button" class="act" data-locked="lockRequest">↓<span data-t="request">Request</span></button>
+        <button type="button" class="act" data-locked="lockTopup">＋<span data-t="topUp">Top up</span></button>
+        <button type="button" class="act" id="claimBtn">🎁<span data-t="claim">Claim 100</span></button>
       </div>
-      <p class="small pad">Tulpar Pay moves to Tulparcoin on 1 January 2027. Tulpar Pay is available to users in Irad only.</p>
+      <p class="small pad" data-t="walletNote">Tulpar Pay moves to Tulparcoin on 1 January 2027. Tulpar Pay is available to users in Irad only.</p>
     </section>
 
     <!-- ===== Profile ===== -->
     <section class="tab" id="tab-profile" data-tab="profile" hidden>
-      <header class="bar"><h1>Profile</h1></header>
+      <header class="bar"><h1 data-t="tabProfile">Profile</h1></header>
       <div class="pad" id="profileBody"></div>
       <div class="pad" id="adminBody" hidden></div>
+      <div class="pad">
+        <div class="card"><h3 data-t="language">Language</h3>
+          <div class="seg" id="langSeg" role="group" data-ta="language" aria-label="Language">
+            <button type="button" data-lang="ir">Iradcha</button><button type="button" data-lang="ru">Русский</button><button type="button" data-lang="en">English</button>
+          </div>
+        </div>
+      </div>
       <div class="pad about-app">
-        <h3>About this app</h3>
-        <p>Tulpar is made by Tulpar Technologies in Talas. Chat rooms are public; anything you post can be read by anyone.</p>
-        <p><a href="../index.html">Tulpar website</a> · <a href="../legal.html">Privacy and terms</a></p>
+        <h3 data-t="aboutApp">About this app</h3>
+        <p data-t="aboutText">Tulpar is made by Tulpar Technologies in Talas. Chat rooms are public; anything you post can be read by anyone.</p>
+        <p><a href="../index.html" data-t="website">Tulpar website</a> · <a href="../legal.html" data-t="privacy">Privacy and terms</a></p>
       </div>
     </section>
 
     <!-- ===== tab bar ===== -->
     <nav class="tabs" aria-label="Tulpar">
-      <button type="button" data-go="chats" aria-current="page"><span>💬</span>Chats</button>
-      <button type="button" data-go="channels"><span>📣</span>Channels</button>
-      <button type="button" data-go="bazar"><span>🛍️</span>Bazar</button>
-      <button type="button" data-go="wallet"><span>👛</span>Wallet</button>
-      <button type="button" data-go="profile"><span>👤</span>Profile</button>
+      <button type="button" data-go="chats" aria-current="page"><span class="ico">💬<i class="badge" id="chatBadge" hidden></i></span><em data-t="tabChats">Chats</em></button>
+      <button type="button" data-go="channels"><span class="ico">📣</span><em data-t="tabChannels">Channels</em></button>
+      <button type="button" data-go="services"><span class="ico">🧩</span><em data-t="tabServices">Services</em></button>
+      <button type="button" data-go="wallet"><span class="ico">👛</span><em data-t="tabWallet">Wallet</em></button>
+      <button type="button" data-go="profile"><span class="ico">👤</span><em data-t="tabProfile">Profile</em></button>
     </nav>
   </div>
 
   <!-- message actions sheet -->
   <div class="sheet" id="sheet" hidden>
     <div class="sheet-bg" data-close></div>
-    <div class="sheet-card" role="dialog" aria-label="Message options">
+    <div class="sheet-card" role="dialog" data-ta="msgOptions" aria-label="Message options">
+      <div class="react-row" id="reactRow"></div>
       <p class="sheet-who" id="sheetWho"></p>
-      <button type="button" data-act="report">Report message</button>
-      <button type="button" data-act="block">Hide messages from this person</button>
-      <button type="button" data-act="delete" id="actDelete">Delete message</button>
-      <button type="button" data-act="ban" id="actBan" hidden>Ban this person (admin)</button>
-      <button type="button" data-close class="cancel">Cancel</button>
+      <button type="button" data-act="reply" data-t="reply">Reply</button>
+      <button type="button" data-act="dm" data-t="messagePrivately">Message privately</button>
+      <button type="button" data-act="copy" data-t="copyText">Copy text</button>
+      <button type="button" data-act="report" data-t="report">Report message</button>
+      <button type="button" data-act="block" data-t="hidePerson">Hide messages from this person</button>
+      <button type="button" data-act="delete" data-t="deleteMsg">Delete message</button>
+      <button type="button" data-act="ban" data-t="banPerson">Ban this person (admin)</button>
+      <button type="button" data-close class="cancel" data-t="cancel">Cancel</button>
     </div>
+  </div>
+
+  <!-- general-purpose dialog (new chat, poll, QR, scanner) -->
+  <div class="sheet" id="dlg" hidden>
+    <div class="sheet-bg" data-dclose></div>
+    <div class="sheet-card dlg-card" role="dialog" aria-modal="true" id="dlgCard"></div>
   </div>
 
   <div class="toast" id="toast" role="status" hidden></div>
@@ -122,6 +167,7 @@
   <script src="../strings.js"></script>
   <script src="../site.js"></script>
   <script src="firebase-config.js"></script>
+  <script src="i18n.js"></script>
   <script type="module" src="app.js"></script>
   <script>
     if ("serviceWorker" in navigator) {

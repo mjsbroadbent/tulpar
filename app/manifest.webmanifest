@@ -1,7 +1,7 @@
 {
   "name": "Tulpar",
   "short_name": "Tulpar",
-  "description": "Chat, channels, Bazar and Tulpar Pay. Made in Talas.",
+  "description": "Chat, channels, services and Tulpar Pay. Made in Talas.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

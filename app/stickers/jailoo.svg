@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(-1.14 -4.14) scale(1.0089)" stroke-width="5.45"><clipPath id="c"><circle cx="128" cy="112" r="96"/></clipPath><g clip-path="url(#c)" stroke="none"><rect x="20" y="10" width="220" height="210" fill="#ddf3f4"/><circle cx="190" cy="54" r="16" fill="#f5b018"/><path d="M20,140 L80,56 L120,110 L160,48 L236,140 Z" fill="#00728c"/><path d="M66,76 L80,56 L94,74 L86,80 L80,72 L72,82 Z" fill="#fff"/><path d="M144,72 L160,48 L178,74 L168,70 L160,80 L152,70 Z" fill="#fff"/><path d="M20,124 Q80,104 128,124 Q180,140 236,118 L236,220 L20,220 Z" fill="#3aa36b"/><path d="M20,170 Q100,150 236,176 L236,220 L20,220 Z" fill="#2f8a59"/></g><g clip-path="url(#c)"><path d="M126,150 L126,126 Q148,100 170,126 L170,150 Z" fill="#fbfaf5" stroke-width="4.5"/><path d="M126,126 Q148,100 170,126" fill="none" stroke="#d94a38" stroke-width="0"/><rect x="126" y="130" width="44" height="7" fill="#d94a38" stroke="none"/><rect x="141" y="136" width="13" height="14" fill="#8a5a2b" stroke-width="3"/></g><g fill="#8a5a2b" stroke="none"><ellipse cx="80" cy="142" rx="17" ry="8"/><path d="M90,140 L98,122 L104,122 L110,130 L106,133 L100,130 L98,146 Z"/><path d="M98,122 L100,116 L103,122 Z"/><rect x="66" y="144" width="4.5" height="16" rx="2"/><rect x="74" y="146" width="4.5" height="14" rx="2"/><rect x="85" y="146" width="4.5" height="14" rx="2"/><rect x="92" y="144" width="4.5" height="16" rx="2"/><path d="M64,138 Q54,140 56,156 Q60,148 66,144 Z"/></g><path d="M92,138 L98,122" stroke="#5a3418" stroke-width="3" fill="none"/><circle cx="128" cy="112" r="96" fill="none"/><text x="128" y="236" font-size="46" text-anchor="middle" transform="rotate(-4 128 236)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#f5b018" stroke="#141a33" stroke-width="7" paint-order="stroke" stroke-linejoin="round">Jailoo</text></g>
+</g>
+</g>
+</svg>

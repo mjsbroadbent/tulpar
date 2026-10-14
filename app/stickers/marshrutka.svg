@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(-1.49 -18.95) scale(1.0318)" stroke-width="5.33"><path d="M16,90 L32,90" fill="none"/><path d="M14,110 L28,110" fill="none"/><g transform="translate(12 0) rotate(-4) scale(0.94)" stroke-width="5.85"><clipPath id="vb"><path d="M26,128 L26,62 Q26,44 46,44 L168,44 Q186,44 198,60 L222,96 Q230,106 230,118 L230,132 Q230,144 218,144 L38,144 Q26,144 26,132 Z"/></clipPath><path d="M26,128 L26,62 Q26,44 46,44 L168,44 Q186,44 198,60 L222,96 Q230,106 230,118 L230,132 Q230,144 218,144 L38,144 Q26,144 26,132 Z" fill="#fbfaf5"/><g clip-path="url(#vb)" stroke="none"><rect x="0" y="100" width="256" height="60" fill="#f5b018"/><rect x="0" y="100" width="256" height="6" fill="#d94a38"/></g><path d="M26,128 L26,62 Q26,44 46,44 L168,44 Q186,44 198,60 L222,96 Q230,106 230,118 L230,132 Q230,144 218,144 L38,144 Q26,144 26,132 Z" fill="none"/><rect x="38" y="56" width="36" height="32" rx="7" fill="#ddf3f4" stroke-width="4.5"/><rect x="84" y="56" width="36" height="32" rx="7" fill="#ddf3f4" stroke-width="4.5"/><rect x="130" y="56" width="36" height="32" rx="7" fill="#ddf3f4" stroke-width="4.5"/><path d="M176,56 L186,56 Q192,56 196,62 L212,90 L176,90 Z" fill="#ddf3f4" stroke-width="4.5"/><path d="M42,62 L52,62" fill="none" stroke="#fff" stroke-width="4"/><path d="M136,62 L146,62" fill="none" stroke="#fff" stroke-width="4"/><path d="M172,52 L172,140" fill="none" stroke-width="3.5"/><rect x="214" y="110" width="14" height="10" rx="4" fill="#fff4dc" stroke-width="3.5"/><circle cx="72" cy="144" r="20" fill="#141a33"/><circle cx="72" cy="144" r="8" fill="#b8c0cc" stroke="none"/><circle cx="190" cy="144" r="20" fill="#141a33"/><circle cx="190" cy="144" r="8" fill="#b8c0cc" stroke="none"/></g><path d="M14,84 L30,84" fill="none" opacity="0"/><text x="124" y="202" font-size="44" text-anchor="middle" transform="rotate(-5 124 202)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#f5b018" stroke="#141a33" stroke-width="7" paint-order="stroke" stroke-linejoin="round">Jolgo</text><text x="132" y="243" font-size="44" text-anchor="middle" transform="rotate(-5 132 243)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#f5b018" stroke="#141a33" stroke-width="7" paint-order="stroke" stroke-linejoin="round">chıktım</text></g>
+</g>
+</g>
+</svg>

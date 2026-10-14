@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(-7.68 -10.71) scale(1.0600)" stroke-width="5.19"><g transform="translate(15.4 16) scale(0.88)" stroke-width="6.2"><path d="M128,36 Q136,24 132,18" fill="none" stroke-width="5"/><ellipse cx="133" cy="16" rx="7" ry="6" fill="#141a33"/><path d="M70,176 C64,118 88,52 128,34 C168,52 192,118 186,176 Z" fill="#fbfaf5"/><path d="M128,170 L128,60" fill="none" stroke-width="4.5"/><path d="M128,124 C116,100 92,106 96,124 C99,136 112,134 110,124" fill="none" stroke-width="4.5"/><path d="M128,124 C140,100 164,106 160,124 C157,136 144,134 146,124" fill="none" stroke-width="4.5"/><path d="M100,170 Q96,140 104,118" fill="none" stroke-width="4"/><path d="M156,170 Q160,140 152,118" fill="none" stroke-width="4"/><path d="M56,198 Q88,180 124,184 L125,152 Q90,148 62,166 Z" fill="#141a33"/><path d="M200,198 Q168,180 132,184 L131,152 Q166,148 194,166 Z" fill="#141a33"/></g><path d="M40,206 L60,200 L196,200 L216,206 L204,216 L216,226 L196,232 L60,232 L40,226 L52,216 Z" fill="#00b4b7"/><text x="128" y="227" font-size="26" text-anchor="middle" transform="rotate(0 128 227)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#ffffff" stroke="#141a33" stroke-width="5" paint-order="stroke" stroke-linejoin="round">Kalpak</text></g>
+</g>
+</g>
+</svg>

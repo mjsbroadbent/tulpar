@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<filter id="die" filterUnits="userSpaceOnUse" x="0" y="0" width="256" height="256" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b1"/>
+<feComponentTransfer in="b1" result="d"><feFuncA type="linear" slope="40" intercept="-1.2"/></feComponentTransfer>
+<feFlood flood-color="#ffffff"/><feComposite in2="d" operator="in" result="white"/>
+<feGaussianBlur in="d" stdDeviation="2.5" result="sb"/><feOffset in="sb" dx="1.5" dy="3.5" result="so"/>
+<feFlood flood-color="#141a33" flood-opacity="0.28"/><feComposite in2="so" operator="in" result="shadow"/>
+<feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g filter="url(#die)">
+<g stroke="#141a33" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(7.65 -2.68) scale(0.9784)" stroke-width="5.62"><rect x="80" y="176" width="64" height="26" rx="6" fill="#00b4b7"/><path d="M86,104 L96,52 Q100,26 120,30 Q138,36 132,62 L126,100 Z" fill="#f7c99b"/><rect x="76" y="94" width="72" height="92" rx="22" fill="#f7c99b"/><rect x="112" y="96" width="66" height="24" rx="12" fill="#f7c99b"/><rect x="112" y="119" width="66" height="24" rx="12" fill="#f7c99b"/><rect x="112" y="142" width="66" height="24" rx="12" fill="#f7c99b"/><rect x="112" y="165" width="66" height="24" rx="12" fill="#f7c99b"/><rect x="80" y="98" width="40" height="84" rx="16" fill="#f7c99b" stroke="none"/><path d="M112,104 Q120,118 112,128" fill="none" stroke-width="4"/><path d="M200,40 Q202.88,53.12 216,56 Q202.88,58.88 200,72 Q197.12,58.88 184,56 Q197.12,53.12 200,40 Z" fill="#f5b018" stroke-width="4"/><path d="M52,52 Q54.16,61.84 64,64 Q54.16,66.16 52,76 Q49.84,66.16 40,64 Q49.84,61.84 52,52 Z" fill="#f5b018" stroke-width="4"/><path d="M206,130 Q207.8,138.2 216,140 Q207.8,141.8 206,150 Q204.2,141.8 196,140 Q204.2,138.2 206,130 Z" fill="#f5b018" stroke-width="4"/><path d="M170,30 L180,14" fill="none"/><path d="M196,92 L216,92" fill="none"/><path d="M48,110 L30,116" fill="none"/><text x="128" y="240" font-size="48" text-anchor="middle" transform="rotate(-5 128 240)" font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif" font-weight="900" fill="#f5b018" stroke="#141a33" stroke-width="7" paint-order="stroke" stroke-linejoin="round">Jakshı!</text></g>
+</g>
+</g>
+</svg>
