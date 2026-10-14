@@ -22,6 +22,7 @@
           '<a href="index.html#app"' + (page === "home" ? ' aria-current="page"' : "") + ">The app</a>" +
           '<a href="coin.html"' + (page === "coin" ? ' aria-current="page"' : "") + ">Tulparcoin</a>" +
           '<a href="news.html"' + (page === "news" ? ' aria-current="page"' : "") + ">Newsroom</a>" +
+          '<a href="about.html"' + (page === "about" || page === "letter" || page === "careers" ? ' aria-current="page"' : "") + ">About</a>" +
         "</nav>" +
         '<a class="btn btn-act" href="index.html#download">Get the app</a>' +
       "</div>";
@@ -40,8 +41,8 @@
           '<div><a class="brand" href="index.html">' + LOGO + "tulpar</a>" +
             '<p style="margin-top:14px;max-width:22em">Chat, channels, Bazar and Tulpar Pay. Made in Talas for Iradis everywhere.</p></div>' +
           '<div><h4>Product</h4><ul><li><a href="index.html#app">Features</a></li><li><a href="index.html#download">Download</a></li><li><a href="coin.html">Tulparcoin</a></li><li><a href="coin.html#points">Tulpar points</a></li></ul></div>' +
-          '<div><h4>Company</h4><ul><li><a href="news.html">Newsroom</a></li><li><a href="news.html#press">Press contacts</a></li><li><a href="#" data-soon>Careers</a></li></ul></div>' +
-          '<div><h4>Help</h4><ul><li><a href="coin.html#faq">Tulparcoin FAQ</a></li><li><a href="#" data-soon>Help centre</a></li><li><a href="#" data-soon>Privacy policy</a></li><li><a href="#" data-soon>Terms of service</a></li></ul></div>' +
+          '<div><h4>Company</h4><ul><li><a href="about.html">About us</a></li><li><a href="letter.html">Why we built Tulpar Pay</a></li><li><a href="careers.html">Careers</a></li><li><a href="news.html">Newsroom</a></li><li><a href="news.html#press">Press contacts</a></li></ul></div>' +
+          '<div><h4>Help</h4><ul><li><a href="help.html">Help centre</a></li><li><a href="coin.html#faq">Tulparcoin FAQ</a></li><li><a href="legal.html#privacy">Privacy policy</a></li><li><a href="legal.html#terms">Terms of service</a></li></ul></div>' +
         "</div>" +
         '<div class="legal">' +
           "<p>© 2026 Tulpar Technologies Inc., a Delaware corporation, Wilmington, Delaware, USA. Development office: Talas. Tulpar is not affiliated with Tulpar Talas football club or the Talas Commercial Development Group.</p>" +

@@ -272,3 +272,76 @@ p { margin: 0; }
   .store { flex: 1 1 100%; }
   .panel { padding: 22px; }
 }
+
+/* ---------- long-form pages ---------- */
+.prose { max-width: 40em; }
+.prose h2 { font-size: 26px; margin: 48px 0 14px; color: var(--lapis-deep); }
+.prose h3 { margin: 28px 0 8px; }
+.prose p { margin-top: 16px; }
+.prose ul { margin: 14px 0 0; padding-left: 22px; }
+.prose li + li { margin-top: 6px; }
+.prose .sig { margin-top: 36px; font-weight: 600; }
+.prose .sig small { display: block; font-weight: 400; color: var(--slate); }
+.letter p:first-of-type::first-letter { font: 600 56px/0.9 var(--display); color: var(--lapis); float: left; margin: 6px 10px 0 0; }
+.meta-line { color: var(--slate); font-size: 15px; margin-top: 14px; }
+
+/* team */
+.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule); }
+.person { padding: 28px 28px 28px 0; border-bottom: 1px solid var(--rule); }
+.person:not(:nth-child(3n+1)) { padding-left: 28px; border-left: 1px solid var(--rule); }
+.person .ini { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font: 600 18px var(--display); color: #fff; background: var(--lapis); margin-bottom: 14px; }
+.person:nth-child(3n+2) .ini { background: var(--saffron); color: var(--lapis-deep); }
+.person:nth-child(3n) .ini { background: #6f86d6; }
+.person h3 { font-size: 18px; }
+.person .role { color: var(--lapis); font-weight: 600; font-size: 15px; margin-top: 2px; }
+.person p { color: var(--slate); font-size: 15px; margin-top: 10px; }
+
+.timeline { list-style: none; padding: 0; margin: 0; }
+.timeline li { display: grid; grid-template-columns: 110px 1fr; gap: 28px; padding: 20px 0; border-top: 1px solid var(--rule); }
+.timeline li:last-child { border-bottom: 1px solid var(--rule); }
+.timeline time { font: 600 20px var(--display); color: var(--lapis-deep); }
+.timeline p { color: var(--slate); }
+
+/* jobs */
+.jobs { list-style: none; padding: 0; margin: 0; }
+.job { border-top: 1px solid var(--rule); }
+.jobs li:last-child .job { border-bottom: 1px solid var(--rule); }
+.job summary { display: grid; grid-template-columns: 1fr auto auto; gap: 24px; align-items: baseline; padding: 22px 0; cursor: pointer; list-style: none; }
+.job summary::-webkit-details-marker { display: none; }
+.job summary h3 { font-size: 19px; }
+.job summary span { color: var(--slate); font-size: 15px; }
+.job[open] summary h3 { color: var(--lapis); }
+.job .job-body { padding: 0 0 26px; max-width: 42em; color: var(--slate); }
+.job .job-body ul { margin: 10px 0 18px; padding-left: 20px; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.filters button { border: 1.5px solid var(--rule); background: #fff; border-radius: 999px; padding: 7px 14px; font: 600 14px var(--text); color: var(--slate); cursor: pointer; }
+.filters button[aria-pressed="true"] { border-color: var(--lapis); color: var(--lapis-deep); background: var(--sky); }
+
+/* help */
+.help-search { display: flex; max-width: 640px; margin-top: 26px; border: 1.5px solid var(--rule); border-radius: 14px; background: #fff; overflow: hidden; }
+.help-search:focus-within { border-color: var(--lapis); }
+.help-search input { flex: 1; border: 0; padding: 15px 18px; font: 500 17px var(--text); outline: none; min-width: 0; }
+.help-cols { display: grid; grid-template-columns: 220px 1fr; gap: 48px; align-items: start; }
+.help-nav { position: sticky; top: 92px; display: grid; gap: 2px; }
+.help-nav a { text-decoration: none; color: var(--slate); padding: 8px 12px; border-radius: 8px; font-weight: 500; }
+.help-nav a:hover { background: var(--sky); color: var(--ink); }
+.help-group { margin-bottom: 40px; }
+.help-group h2 { font-size: 22px; margin-bottom: 8px; }
+.no-results { color: var(--slate); padding: 24px 0; }
+
+@media (max-width: 960px) {
+  .team { grid-template-columns: 1fr 1fr; }
+  .person:not(:nth-child(3n+1)) { padding-left: 0; border-left: 0; }
+  .person:nth-child(2n) { padding-left: 28px; border-left: 1px solid var(--rule); }
+  .help-cols { grid-template-columns: 1fr; }
+  .help-nav { position: static; display: flex; flex-wrap: wrap; }
+}
+@media (max-width: 720px) {
+  .team { grid-template-columns: 1fr; }
+  .person:nth-child(2n) { padding-left: 0; border-left: 0; }
+  .timeline li { grid-template-columns: 1fr; gap: 4px; }
+  .job summary { grid-template-columns: 1fr; gap: 4px; }
+}
+/* keep long-form text aligned with the page's left edge */
+.wrap.prose { max-width: var(--wrap); }
+.wrap.prose > * { max-width: 40em; }
