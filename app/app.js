@@ -926,14 +926,14 @@ function iradNow() { const d = new Date(Date.now() + 6 * 3600e3); return { h: d.
 
 /* buses from Talas Central Bus Station */
 const BUSES = [
-  ["Nurzhan", "bus", ["06:30", "09:00", "12:00", "15:30", "18:00"], "4 h 50 min", 32],
-  ["Nurzhan", "marsh", "every:40:06:00:20:00", "4 h 20 min", 38],
+  ["Nurzhan", "bus", ["06:30", "09:00", "12:00", "15:30", "18:00"], "4 h 20 min", 32],
+  ["Nurzhan", "marsh", "every:40:06:00:20:00", "3 h 55 min", 38],
   ["Semiz", "marsh", "every:15:06:00:22:00", "25 min", 2],
   ["Kara-Bulak", "marsh", "every:30:06:30:21:00", "35 min", 3],
   ["Kyzyl-Adyr", "marsh", "every:60:07:00:19:00", "1 h 20 min", Date.now() >= Date.UTC(2026, 9, 18, 18) ? 30 : 24],
-  ["Sary-Bulak", "marsh", ["07:15", "12:30", "17:00"], "2 h", 20],
+  ["Sary-Bulak", "marsh", ["07:15", "12:30", "17:00"], "1 h 30 min", 20],
   ["Tash-Kömür", "bus", ["06:30", "12:00"], "7 h", 40],
-  ["Iyık Janyl", "bus", ["06:30", "12:00"], "6 h 40 min", 45]
+  ["Iyık Janyl", "bus", ["06:30", "12:00"], "6 h 50 min", 45]
 ];
 function busTimes(spec) {
   if (Array.isArray(spec)) return spec;
