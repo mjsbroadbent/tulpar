@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ky" data-lang="ir">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tulparcoin (TLPR) · Tulpar</title>
+  <meta name="description" content="Tulparcoin — Tulpar Paydın valyutası. Jandı baa, Iraddagı ar bir boyu jetken adamga akısız tıyındar, Tulpar punktarı jana tıyın kantip ishteeri.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%231f3a93'/%3E%3Cpath d='M9 27C16.5 26 22.5 21 26.5 10.5M12.5 30.5C20 30.5 26 26.5 30 18' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' fill='none'/%3E%3Cpath d='M17 33C23.5 33.5 28.5 31 31.5 26' stroke='%23f5b018' stroke-width='3.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="coin">
+  <header id="siteHead"></header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <h1>Tulparcoin — Tulpar Paydın valyutası</h1>
+        <p class="lede">Chatta jiberiñiz, Bazar jarnamaları üchün tölöñüz, chet öldögü üy-bülöñüzdön alıñız. 2027-jıldın 1-yanvarınan tartıp Tulpar Paydagı ar bir tölöm Tulparcoin menen jürgüzülöt. <a href="letter.html">Emne üchün jasaganıbızdı okuñuz.</a></p>
+      </div>
+    </section>
+
+    <section class="wrap coin-grid">
+      <div class="panel">
+        <div class="chart-head">
+          <div class="ticker">
+            <span class="sym">TLPR / USD</span>
+            <span class="px" data-tlpr="px">—</span>
+            <span class="chg" data-tlpr="chg"></span>
+          </div>
+          <div class="range-tabs" role="group" aria-label="Grafiktin merzimi">
+            <button type="button" data-range="1D" aria-pressed="false">1K</button>
+            <button type="button" data-range="7D" aria-pressed="true">7K</button>
+            <button type="button" data-range="ALL" aria-pressed="false">Bardıgı</button>
+          </div>
+        </div>
+        <div class="chart" id="coinChart" style="height:280px"></div>
+        <span class="live">TLPR/USD rınogunan jandı baa</span>
+        <dl class="facts">
+          <div><dt>Baa</dt><dd data-tlpr="usd">—</dd></div>
+          <div><dt>Rınoktuk kapitalizatsiya</dt><dd data-tlpr="cap">—</dd></div>
+          <div><dt>24 saattık kölöm</dt><dd data-tlpr="vol">—</dd></div>
+          <div><dt>Jalpı sanı</dt><dd>900 000 000</dd></div>
+        </dl>
+      </div>
+
+      <div style="display:grid;gap:28px">
+        <div class="panel" id="claim">
+          <h2>100 TLPR akısız alıñız</h2>
+          <p>Iraddın ar bir boyu jetken turgunu bir jolu ala alat. Tıyındar Tulpar kapchıgıñızga tüshöt.</p>
+          <form class="form" id="claimForm" novalidate>
+            <label>Mobildik nomer
+              <span class="field">
+                <select id="cc" aria-label="Ölkö kodu">
+                  <option value="+996 39">+996 39</option>
+                  <option value="+996">+996</option>
+                  <option value="+7">+7</option>
+                  <option value="+998">+998</option>
+                </select>
+                <input id="phone" type="tel" inputmode="tel" placeholder="555 123 456" autocomplete="tel-national">
+              </span>
+            </label>
+            <label id="codeRow" hidden>SMS'tegi kod
+              <span class="field"><input id="code" inputmode="numeric" maxlength="6" placeholder="6 san" autocomplete="one-time-code"></span>
+            </label>
+            <div class="notice" id="claimMsg" role="status" hidden></div>
+            <button class="btn btn-act" type="submit" id="claimBtn">Kod jiberüü</button>
+          </form>
+        </div>
+
+        <div class="panel" id="buy">
+          <h2>Tulparcoin satıp aluu</h2>
+          <form class="form" id="buyForm" novalidate>
+            <label>Siz tölöysüz
+              <span class="field">
+                <input id="amt" type="number" min="1" step="1" value="500" inputmode="decimal">
+                <select id="cur" aria-label="Valyuta"><option value="som">som</option><option value="usd">USD</option></select>
+              </span>
+            </label>
+            <div class="quote"><span>Siz alasız</span><b id="getTlpr">—</b></div>
+            <div class="quote"><span>Kurs jana komissiya</span><span id="rateLine">—</span></div>
+            <div class="seg" role="group" aria-label="Tölöm ıkması">
+              <button type="button" data-pm="card" aria-pressed="true">Bank kartası<small>Visa je Mastercard</small></button>
+              <button type="button" data-pm="cash" aria-pressed="false">Nakta<small>Tulpar punktunda</small></button>
+            </div>
+            <div class="notice" id="buyMsg" role="status" hidden></div>
+            <button class="btn btn-ink" type="submit" id="buyBtn">TLPR satıp aluu</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head"><h2>Tulparcoin kantip bölüshtürülgön</h2><p>Jalpı sanı 900 million tıyın menen bekitilgen. Mından artık ech kachan chıgarılbayt.</p></div>
+        <div class="split-bar" aria-hidden="true">
+          <span style="width:10%;background:#f5b018"></span>
+          <span style="width:35%;background:#1f3a93"></span>
+          <span style="width:25%;background:#6f86d6"></span>
+          <span style="width:30%;background:#c9d3f2"></span>
+        </div>
+        <ul class="legend">
+          <li><i style="background:#f5b018"></i><span>Akısız taratuu<small>Iraddagı kattalgan ar bir boyu jetken adamga 100 TLPR</small></span><b>10%</b></li>
+          <li><i style="background:#1f3a93"></i><span>Rınok jana Tulpar Pay rezervi<small>Birja jana Tulpar punktarı üchün likviddüülük</small></span><b>35%</b></li>
+          <li><i style="background:#6f86d6"></i><span>Tulpar Pay sıyakıları<small>Kapchıktagı kaldıkka jıldık 6% sıyakını kamsız kılat, ar ay bölünüp berilet</small></span><b>25%</b></li>
+          <li><i style="background:#c9d3f2"></i><span>Iraddın Erkindik Forumu<small>2028-jıldın 22-sentyabrına cheyin bögöttölgön</small></span><b>30%</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head"><h2>Jol kartası</h2></div>
+        <ol class="roadmap">
+          <li class="done"><time datetime="2026-09-22">2026-jıl 22-sentyabr</time><div><h3>Ishke kirgizilishi</h3><p>Tulparcoin Tulpardagı kapchıktar menen ishke kiret. Akısız tıyın aluu achılat.</p></div></li>
+          <li class="done"><time datetime="2026-10">2026-jıl, oktyabr</time><div><h3>Tulpar punktarı</h3><p>Talastagı, Nurzhandagı jana öröndördögü düköndör nakta akchanı tıyınga almashtıra bashtayt.</p></div></li>
+          <li><time datetime="2026-11">2026-jıl, noyabr</time><div><h3>Tulpar Pay ar bir chatta</h3><p>Kaalagan kat alıshuuda akcha jiberiñiz jana suranıñız. Bazar jarnamalarına tölöm baskıchı koshulat.</p></div></li>
+          <li><time datetime="2027-01-01">2027-jıl 1-yanvar</time><div><h3>Tulpar Pay Tulparcoinge ötöt</h3><p>Tulpar Paydagı bardık tölömdör TLPR menen jürgüzülöt. Kapchık sıyakıları bashtalat.</p></div></li>
+          <li><time datetime="2027">2027</time><div><h3>Akcha kotoruular</h3><p>Chet öldögü üy-bülöñüz Rossiyadan, Kazakstandan jana AKShtan üygö Tulparcoin jibere alat.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0" id="points">
+      <div class="wrap coin-grid">
+        <div>
+          <div class="section-head" style="margin-bottom:0"><h2>Tulpar punktarı</h2><p>Nakta som je dollardı Tulparcoinge jana kayra almashtıra turgan düköndör. Kassada Tulpar kapchıgıñızdagı kodu körsötüñüz.</p></div>
+        </div>
+        <div class="panel">
+          <ul class="points" style="margin-top:0">
+            <li><b>Ak-Bata telefon dükönü</b><span>Talas, borborduk bazar</span></li>
+            <li><b>Nur Market</b><span>Nurzhan, kayta ishtetüü zavodunun jolu</span></li>
+            <li><b>Kelechek darıkana kiosku</b><span>Iyık Janyl</span></li>
+            <li><b>Sapar dükönü</b><span>Kara-Buura</span></li>
+            <li><b>Toktogul avtobeketindegi kiosk</b><span>Toktogul</span></li>
+            <li class="closed"><b>Dostuk elektronika</b><span>Chu · toktotulgan</span></li>
+            <li><b>Chatkal jolundagı avtoservis</b><span>Sary-Bulak</span></li>
+          </ul>
+          <p class="fine">Jañı punktar ar jumada achılat. Ayrım punktar Irad Bankınan kelgen kattı karap chıkkancha almashtıruunu toktotup turat.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0" id="faq">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom:24px"><h2>Suroolor</h2></div>
+        <div class="faq">
+          <details><summary>Tulparcoin rasmiy tölöm karajatıbı?</summary><p>Jok. IAEZdin rasmiy tölöm karajattarı — AKSh dolları jana som. Tulparcoin — adamdar öz erki menen kabıl algan sanarip aktiv. Irad Bankı anı akcha da, bank depoziti da emes dep bildirgen, biz buga makulbuz.</p></details>
+          <details><summary>Tulparcoindi kim chıgarat?</summary><p>Tulparcoindi Talasta kattalgan birikme — Iraddın Erkindik Forumu chıgarat. Tulpar Technologies Inc. Tulpar tirkemesin jana anın kapchık, tölöm programmaların jasayt.</p></details>
+          <details><summary>2027-jıldın 1-yanvarında emne özgöröt?</summary><p>Ushul kündön tartıp Tulpar Paydagı tölömdör Tulparcoin menen gana jürgüzülöt. Chattar, kanaldar jana Bazar murdagıday ishteyt. Tirkemeden tıshkarı murdagıday ele nakta je bank kotoruusu menen tölöy alasız.</p></details>
+          <details><summary>Emne üchün Iradda tulparcoin.com achılbayt?</summary><p>2026-jıldın 8-oktyabrınan beri Attelkom Tulparcoin saytına jana birjaga kirüünü chektep koygon. Tulpar tirkemesine bul taasir etpeyt: tirkemede je Tulpar punktarında satıp alıp, sata alasız.</p></details>
+          <details><summary>Emne üchün kartam kabıl alınbadı?</summary><p>Talasbank azırıncha Tulparcoin üchün karta tölömdörün kabıl albayt. IAEZden tıshkarı chıgarılgan kartalar adatta ishteyt. Iraddın ichinde eñ oñoy jolu — Tulpar punktunda nakta satıp aluu.</p></details>
+          <details><summary>Erkindik Forumunun ülüshü chınında bögöttölgönbü?</summary><p>Ooba. Forumdun 270 million tıyını 2028-jıldın 22-sentyabrına cheyin bögöttölgön kapchıkta saktalat. Kapchıktın daregi Forumdun birinchi otchetu menen kosho jarıyalanat.</p></details>
+          <details><summary>Atalısh boyuncha sot ishi emne bolup jatat?</summary><p>Talas Commercial Development Group Talas rayondun sotunan Tulparcoin atalıshın koldonuunu toktotuunu suragan. Sot 12-oktyabrda ubaktıluu tıyuu saluudan bash tartıp, ishti 16-noyabrda karayt. Tulpar tirkemesi bul ishke tarap emes.</p></details>
+        </div>
+        <p class="risk"><b>Satıp aluudan murun.</b> Tulparcoindin baası ar münöt özgörüp, keskin tüshüp ketishi mümkün. Al bank depoziti emes jana ech bir depozit kepildigi anı kamtıbayt. Jogotsoñuz da ziyan tartpay turgan summanı gana salıñız jana satıp aluu üchün ech kachan karız albañız.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="siteFoot"></footer>
+
+  <script src="../strings.js"></script>
+  <script src="../site.js"></script>
+  <script>
+    (function () {
+      var T = window.TULPAR, S = T.T;
+      var $ = function (s) { return document.querySelector(s); };
+
+      /* chart with range tabs */
+      var range = "7D", chart = $("#coinChart");
+      function draw() { T.drawChart(chart, range); }
+      document.querySelectorAll("[data-range]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          range = b.dataset.range;
+          document.querySelectorAll("[data-range]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+          draw();
+        });
+      });
+      draw();
+      document.addEventListener("tlpr:tick", function () { draw(); quote(); });
+      window.addEventListener("resize", draw);
+
+      function say(id, kind, text) { var m = $(id); m.className = "notice " + kind; m.textContent = text; m.hidden = !text; }
+
+      /* claim free coins */
+      var step = "phone";
+      $("#claimForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var btn = $("#claimBtn");
+        if (step === "phone") {
+          var digits = $("#phone").value.replace(/\D/g, "");
+          if (digits.length < 6) { say("#claimMsg", "err", S("cPhoneErr")); return; }
+          btn.disabled = true; btn.textContent = S("cSending");
+          setTimeout(function () {
+            btn.disabled = false; btn.textContent = S("cClaim");
+            $("#codeRow").hidden = false; $("#code").focus();
+            say("#claimMsg", "info", S("cSent", { n: $("#cc").value + " " + $("#phone").value }));
+            step = "code";
+          }, 900);
+        } else if (step === "code") {
+          if ($("#code").value.replace(/\D/g, "").length !== 6) { say("#claimMsg", "err", S("cCodeErr")); return; }
+          btn.disabled = true; btn.textContent = S("cChecking");
+          setTimeout(function () {
+            btn.textContent = S("cClaimed");
+            say("#claimMsg", "ok", S("cDone"));
+            step = "done";
+          }, 900);
+        }
+      });
+
+      /* buy quote */
+      var pm = "card";
+      function quote() {
+        var a = parseFloat($("#amt").value), cur = $("#cur").value, p = T.livePrice();
+        if (!(a > 0)) { $("#getTlpr").textContent = "—"; return; }
+        var usd = cur === "usd" ? a : a / T.SOM_PER_USD;
+        var coins = usd * 0.99 / p;
+        $("#getTlpr").textContent = Math.floor(coins).toLocaleString("en-US") + " TLPR";
+        $("#rateLine").textContent = S("bRate", { p: T.usd(p) });
+      }
+      ["input", "change"].forEach(function (ev) { $("#amt").addEventListener(ev, quote); $("#cur").addEventListener(ev, quote); });
+      quote();
+      document.querySelectorAll("[data-pm]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          pm = b.dataset.pm;
+          document.querySelectorAll("[data-pm]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+          $("#buyBtn").textContent = pm === "card" ? S("bBuy") : S("bCash");
+          say("#buyMsg", "", "");
+        });
+      });
+      $("#buyForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var a = parseFloat($("#amt").value);
+        if (!(a > 0)) { say("#buyMsg", "err", S("bAmtErr")); return; }
+        var btn = $("#buyBtn"); btn.disabled = true;
+        var label = btn.textContent; btn.textContent = S("bProcessing");
+        setTimeout(function () {
+          btn.disabled = false; btn.textContent = label;
+          if (pm === "card") {
+            say("#buyMsg", "err", S("bDeclined"));
+          } else {
+            var code = "TP-" + Math.random().toString(36).slice(2, 6).toUpperCase() + "-" + Math.random().toString(36).slice(2, 6).toUpperCase();
+            say("#buyMsg", "ok", S("bCode", { c: code }));
+          }
+        }, 1100);
+      });
+    })();
+  </script>
+</body>
+</html>

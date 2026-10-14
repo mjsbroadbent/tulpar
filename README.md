@@ -6,6 +6,11 @@ Static site, no build step. Deploy on GitHub Pages from the `main` branch root.
 
 | File | What it is |
 |---|---|
+| `about.html` | About: story, milestones, leadership, investors, offices |
+| `letter.html` | "Why we built Tulpar Pay", Jason Ilyasov's founder's letter |
+| `careers.html` | Open roles with a team filter |
+| `help.html` | Help centre with live search |
+| `legal.html` | Privacy policy and terms of service |
 | `index.html` | Home: download links, phone mockup, countdown to 1 January 2027, features, numbers, coin teaser, latest news |
 | `coin.html` | Tulparcoin: live price chart (1D / 7D / All), claim 100 free TLPR, buy widget, how the supply is shared, roadmap, Tulpar points, FAQ |
 | `news.html` | Newsroom, built from `news.js` |
@@ -21,3 +26,7 @@ Static site, no build step. Deploy on GitHub Pages from the `main` branch root.
 
 - Claiming free coins asks for a phone number (+996 39 for Irad) and any 6-digit code, then confirms.
 - Buying by card is declined (Talasbank declines card payments for Tulparcoin); buying with cash gives a code to show at a Tulpar point.
+
+## Languages
+
+English pages are at the root, Iradi copies in `ir/` and Russian copies in `ru/`, with the same file names. The header's language links jump to the same page in another language. Text the scripts generate (header, footer, forms, chart labels, dates) lives in `strings.js`; translated news is in `news.ir.js` and `news.ru.js`. Each translated page has `data-lang="ir"` or `data-lang="ru"` on its `<html>` tag. When you change an English page, change its two copies too.

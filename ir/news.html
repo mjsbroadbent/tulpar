@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ky" data-lang="ir">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jañılıktar · Tulpar</title>
+  <meta name="description" content="Tulpar Technologies kompaniyasının jarıyaları, önüm jañılıktarı jana bildirüülörü.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%231f3a93'/%3E%3Cpath d='M9 27C16.5 26 22.5 21 26.5 10.5M12.5 30.5C20 30.5 26 26.5 30 18' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' fill='none'/%3E%3Cpath d='M17 33C23.5 33.5 28.5 31 31.5 26' stroke='%23f5b018' stroke-width='3.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="news">
+  <header id="siteHead"></header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <h1>Jañılıktar</h1>
+        <p class="lede">Tulpar Technologies kompaniyasınan önüm jañılıktarı, kızmat jañırtuuları jana bildirüülör.</p>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding-bottom:64px">
+      <ul class="news-list" id="newsList"></ul>
+    </section>
+
+    <section class="wrap section" id="press" style="padding-top:0">
+      <div class="teaser" style="grid-template-columns:1fr 1fr">
+        <div>
+          <h2>Basma söz üchün baylanısh</h2>
+          <p>Jason Ilyasov menen intervyu, önüm boyuncha suroolor je tirkemenin süröttörü üchün basma söz kızmatıbızga jazıñız. Biz angliyscha, iradcha jana oruscha joop berebiz.</p>
+        </div>
+        <div>
+          <p style="color:var(--ink)"><b>press@tulpar.app</b></p>
+          <p>Tulpar Technologies Inc.<br>Ishtep chıguu keñsesi, Talas</p>
+          <p class="fine">Biz ayrım koldonuuchulardın akkaunttarı je chattarı boyuncha komentariy berbeybiz.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="siteFoot"></footer>
+
+  <script src="../strings.js"></script>
+  <script src="../site.js"></script>
+  <script src="../news.ir.js"></script>
+  <script>
+    (function () {
+      var fmt = window.TULPAR.fmtDate, T = window.TULPAR.T;
+      function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+      var list = document.getElementById("newsList");
+      list.innerHTML = window.TULPAR_NEWS.map(function (n) {
+        var full = n.body.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") +
+          (n.quote ? "<blockquote>“" + esc(n.quote[0]) + "”<br><small>" + esc(n.quote[1]) + "</small></blockquote>" : "");
+        return '<li id="' + n.id + '"><article class="news-item"><time datetime="' + n.date + '">' + fmt(n.date) + "</time><div>" +
+          '<span class="kind">' + esc(n.kind) + "</span>" +
+          '<h3><a href="#' + n.id + '" data-open="' + n.id + '">' + esc(n.title) + "</a></h3><p>" + esc(n.sum) + "</p>" +
+          '<div class="news-full" id="full-' + n.id + '" hidden>' + full + "</div>" +
+          '<button class="news-toggle" type="button" data-open="' + n.id + '" aria-expanded="false" aria-controls="full-' + n.id + '">' + T("readMore") + "</button>" +
+          "</div></article></li>";
+      }).join("");
+
+      function toggle(id, force) {
+        var full = document.getElementById("full-" + id); if (!full) return;
+        var open = force !== undefined ? force : full.hidden;
+        full.hidden = !open;
+        var btn = document.querySelector('.news-toggle[data-open="' + id + '"]');
+        btn.textContent = open ? T("showLess") : T("readMore");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      list.addEventListener("click", function (e) {
+        var t = e.target.closest("[data-open]"); if (!t) return;
+        if (t.tagName === "A") { toggle(t.dataset.open, true); return; }
+        toggle(t.dataset.open);
+      });
+      var h = location.hash.replace("#", "");
+      if (h) { toggle(h, true); var el = document.getElementById(h); if (el) el.scrollIntoView(); }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru" data-lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tulparcoin (TLPR) · Tulpar</title>
+  <meta name="description" content="Tulparcoin — валюта Tulpar Pay. Текущий курс, бесплатные монеты для каждого совершеннолетнего жителя Ирада, пункты Tulpar и принцип работы монеты.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%231f3a93'/%3E%3Cpath d='M9 27C16.5 26 22.5 21 26.5 10.5M12.5 30.5C20 30.5 26 26.5 30 18' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' fill='none'/%3E%3Cpath d='M17 33C23.5 33.5 28.5 31 31.5 26' stroke='%23f5b018' stroke-width='3.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="coin">
+  <header id="siteHead"></header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <h1>Tulparcoin — валюта Tulpar Pay</h1>
+        <p class="lede">Отправляйте её в чате, оплачивайте покупки на Bazar, получайте от родных из-за рубежа. С 1 января 2027 года все платежи в Tulpar Pay проводятся в Tulparcoin. <a href="letter.html">Узнайте, зачем мы её создали.</a></p>
+      </div>
+    </section>
+
+    <section class="wrap coin-grid">
+      <div class="panel">
+        <div class="chart-head">
+          <div class="ticker">
+            <span class="sym">TLPR / USD</span>
+            <span class="px" data-tlpr="px">—</span>
+            <span class="chg" data-tlpr="chg"></span>
+          </div>
+          <div class="range-tabs" role="group" aria-label="Период графика">
+            <button type="button" data-range="1D" aria-pressed="false">1Д</button>
+            <button type="button" data-range="7D" aria-pressed="true">7Д</button>
+            <button type="button" data-range="ALL" aria-pressed="false">Всё</button>
+          </div>
+        </div>
+        <div class="chart" id="coinChart" style="height:280px"></div>
+        <span class="live">Текущий курс на рынке TLPR/USD</span>
+        <dl class="facts">
+          <div><dt>Курс</dt><dd data-tlpr="usd">—</dd></div>
+          <div><dt>Капитализация</dt><dd data-tlpr="cap">—</dd></div>
+          <div><dt>Объём за 24 ч</dt><dd data-tlpr="vol">—</dd></div>
+          <div><dt>Общая эмиссия</dt><dd>900 000 000</dd></div>
+        </dl>
+      </div>
+
+      <div style="display:grid;gap:28px">
+        <div class="panel" id="claim">
+          <h2>Получите 100 TLPR бесплатно</h2>
+          <p>Одна заявка на каждого совершеннолетнего жителя Ирада. Монеты зачисляются в ваш кошелёк Tulpar.</p>
+          <form class="form" id="claimForm" novalidate>
+            <label>Номер мобильного
+              <span class="field">
+                <select id="cc" aria-label="Код страны">
+                  <option value="+996 39">+996 39</option>
+                  <option value="+996">+996</option>
+                  <option value="+7">+7</option>
+                  <option value="+998">+998</option>
+                </select>
+                <input id="phone" type="tel" inputmode="tel" placeholder="555 123 456" autocomplete="tel-national">
+              </span>
+            </label>
+            <label id="codeRow" hidden>Код из SMS
+              <span class="field"><input id="code" inputmode="numeric" maxlength="6" placeholder="6 цифр" autocomplete="one-time-code"></span>
+            </label>
+            <div class="notice" id="claimMsg" role="status" hidden></div>
+            <button class="btn btn-act" type="submit" id="claimBtn">Отправить код</button>
+          </form>
+        </div>
+
+        <div class="panel" id="buy">
+          <h2>Купить Tulparcoin</h2>
+          <form class="form" id="buyForm" novalidate>
+            <label>Вы платите
+              <span class="field">
+                <input id="amt" type="number" min="1" step="1" value="500" inputmode="decimal">
+                <select id="cur" aria-label="Валюта"><option value="som">сом</option><option value="usd">USD</option></select>
+              </span>
+            </label>
+            <div class="quote"><span>Вы получите</span><b id="getTlpr">—</b></div>
+            <div class="quote"><span>Курс и комиссия</span><span id="rateLine">—</span></div>
+            <div class="seg" role="group" aria-label="Способ оплаты">
+              <button type="button" data-pm="card" aria-pressed="true">Банковская карта<small>Visa или Mastercard</small></button>
+              <button type="button" data-pm="cash" aria-pressed="false">Наличные<small>В пункте Tulpar</small></button>
+            </div>
+            <div class="notice" id="buyMsg" role="status" hidden></div>
+            <button class="btn btn-ink" type="submit" id="buyBtn">Купить TLPR</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head"><h2>Как распределяется Tulparcoin</h2><p>Эмиссия зафиксирована на уровне 900 миллионов монет. Новые монеты никогда не будут выпущены.</p></div>
+        <div class="split-bar" aria-hidden="true">
+          <span style="width:10%;background:#f5b018"></span>
+          <span style="width:35%;background:#1f3a93"></span>
+          <span style="width:25%;background:#6f86d6"></span>
+          <span style="width:30%;background:#c9d3f2"></span>
+        </div>
+        <ul class="legend">
+          <li><i style="background:#f5b018"></i><span>Бесплатная раздача<small>100 TLPR каждому совершеннолетнему жителю Ирада, который зарегистрируется</small></span><b>10%</b></li>
+          <li><i style="background:#1f3a93"></i><span>Рынок и оборотный резерв Tulpar Pay<small>Ликвидность для биржи и пунктов Tulpar</small></span><b>35%</b></li>
+          <li><i style="background:#6f86d6"></i><span>Вознаграждения Tulpar Pay<small>Источник ежегодного вознаграждения 6% на остаток в кошельке, высвобождается ежемесячно</small></span><b>25%</b></li>
+          <li><i style="background:#c9d3f2"></i><span>Форум свободы Ирада<small>Заблокировано до 22 сентября 2028 года</small></span><b>30%</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head"><h2>Дорожная карта</h2></div>
+        <ol class="roadmap">
+          <li class="done"><time datetime="2026-09-22">22 сентября 2026</time><div><h3>Запуск</h3><p>Tulparcoin запускается вместе с кошельками в Tulpar. Открыт приём заявок на бесплатные монеты.</p></div></li>
+          <li class="done"><time datetime="2026-10">Октябрь 2026</time><div><h3>Пункты Tulpar</h3><p>Магазины в Таласе, Нуржане и долинах начинают обменивать наличные на монеты.</p></div></li>
+          <li><time datetime="2026-11">Ноябрь 2026</time><div><h3>Tulpar Pay в каждом чате</h3><p>Отправляйте и запрашивайте деньги в любой переписке. В объявлениях Bazar появляется кнопка оплаты.</p></div></li>
+          <li><time datetime="2027-01-01">1 января 2027</time><div><h3>Tulpar Pay переходит на Tulparcoin</h3><p>Все платежи в Tulpar Pay проводятся в TLPR. Начинается начисление вознаграждений на кошельки.</p></div></li>
+          <li><time datetime="2027">2027</time><div><h3>Денежные переводы</h3><p>Родные за рубежом смогут отправлять Tulparcoin домой из России, Казахстана и США.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0" id="points">
+      <div class="wrap coin-grid">
+        <div>
+          <div class="section-head" style="margin-bottom:0"><h2>Пункты Tulpar</h2><p>Магазины, где можно обменять наличные сомы или доллары на Tulparcoin и обратно. Покажите на кассе код из своего кошелька Tulpar.</p></div>
+        </div>
+        <div class="panel">
+          <ul class="points" style="margin-top:0">
+            <li><b>Салон связи «Ак-Бата»</b><span>Талас, центральный базар</span></li>
+            <li><b>«Нур Маркет»</b><span>Нуржан, дорога к НПЗ</span></li>
+            <li><b>Аптечный киоск «Келечек»</b><span>Ыйык-Жаныл</span></li>
+            <li><b>Магазин «Сапар»</b><span>Кара-Буура</span></li>
+            <li><b>Киоск на автовокзале Токтогула</b><span>Токтогул</span></li>
+            <li class="closed"><b>Электроника «Достук»</b><span>Чу · приостановлено</span></li>
+            <li><b>АЗС на Чаткальской трассе</b><span>Сары-Булак</span></li>
+          </ul>
+          <p class="fine">Новые пункты открываются каждую неделю. Некоторые пункты приостановили обмен, пока изучают письмо Банка Ирада.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0" id="faq">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom:24px"><h2>Вопросы</h2></div>
+        <div class="faq">
+          <details><summary>Является ли Tulparcoin законным платёжным средством?</summary><p>Нет. Законными платёжными средствами ИСЭЗ являются доллар США и сом. Tulparcoin — цифровой актив, который люди принимают по собственному выбору. Банк Ирада заявил, что это не деньги и не банковский вклад, и мы с этим согласны.</p></details>
+          <details><summary>Кто выпускает Tulparcoin?</summary><p>Эмитент Tulparcoin — Форум свободы Ирада, объединение, зарегистрированное в Таласе. Tulpar Technologies Inc. разрабатывает приложение Tulpar, а также его кошелёк и платёжное программное обеспечение.</p></details>
+          <details><summary>Что изменится 1 января 2027 года?</summary><p>С этой даты платежи в Tulpar Pay проводятся только в Tulparcoin. Чаты, каналы и Bazar работают как прежде. Вне приложения вы по-прежнему можете платить наличными или банковским переводом.</p></details>
+          <details><summary>Почему в Ираде не открывается tulparcoin.com?</summary><p>С 8 октября 2026 года Attelkom ограничил доступ к сайту Tulparcoin и бирже. Приложения Tulpar это не касается: покупать и продавать монеты можно в приложении или в пунктах Tulpar.</p></details>
+          <details><summary>Почему отклонили мою карту?</summary><p>Сейчас Talasbank отклоняет карточные платежи в пользу Tulparcoin. Карты, выпущенные за пределами ИСЭЗ, как правило, работают. В Ираде проще всего купить монеты за наличные в пункте Tulpar.</p></details>
+          <details><summary>Доля Форума свободы действительно заблокирована?</summary><p>Да. 270 миллионов монет Форума хранятся на заблокированном кошельке до 22 сентября 2028 года. Адрес кошелька будет опубликован вместе с первым отчётом Форума.</p></details>
+          <details><summary>Что с судебным делом о названии?</summary><p>Talas Commercial Development Group обратилась в Таласский районный суд с требованием запретить использование названия Tulparcoin. 12 октября суд отказал в обеспечительных мерах; рассмотрение дела назначено на 16 ноября. Приложение Tulpar в деле не фигурирует.</p></details>
+        </div>
+        <p class="risk"><b>Прежде чем покупать.</b> Курс Tulparcoin меняется ежеминутно и может резко упасть. Это не банковский вклад, и на него не распространяется страхование вкладов. Покупайте только на ту сумму, потерю которой можете себе позволить, и никогда не берите в долг ради покупки.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="siteFoot"></footer>
+
+  <script src="../strings.js"></script>
+  <script src="../site.js"></script>
+  <script>
+    (function () {
+      var T = window.TULPAR, S = T.T;
+      var $ = function (s) { return document.querySelector(s); };
+
+      /* chart with range tabs */
+      var range = "7D", chart = $("#coinChart");
+      function draw() { T.drawChart(chart, range); }
+      document.querySelectorAll("[data-range]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          range = b.dataset.range;
+          document.querySelectorAll("[data-range]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+          draw();
+        });
+      });
+      draw();
+      document.addEventListener("tlpr:tick", function () { draw(); quote(); });
+      window.addEventListener("resize", draw);
+
+      function say(id, kind, text) { var m = $(id); m.className = "notice " + kind; m.textContent = text; m.hidden = !text; }
+
+      /* claim free coins */
+      var step = "phone";
+      $("#claimForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var btn = $("#claimBtn");
+        if (step === "phone") {
+          var digits = $("#phone").value.replace(/\D/g, "");
+          if (digits.length < 6) { say("#claimMsg", "err", S("cPhoneErr")); return; }
+          btn.disabled = true; btn.textContent = S("cSending");
+          setTimeout(function () {
+            btn.disabled = false; btn.textContent = S("cClaim");
+            $("#codeRow").hidden = false; $("#code").focus();
+            say("#claimMsg", "info", S("cSent", { n: $("#cc").value + " " + $("#phone").value }));
+            step = "code";
+          }, 900);
+        } else if (step === "code") {
+          if ($("#code").value.replace(/\D/g, "").length !== 6) { say("#claimMsg", "err", S("cCodeErr")); return; }
+          btn.disabled = true; btn.textContent = S("cChecking");
+          setTimeout(function () {
+            btn.textContent = S("cClaimed");
+            say("#claimMsg", "ok", S("cDone"));
+            step = "done";
+          }, 900);
+        }
+      });
+
+      /* buy quote */
+      var pm = "card";
+      function quote() {
+        var a = parseFloat($("#amt").value), cur = $("#cur").value, p = T.livePrice();
+        if (!(a > 0)) { $("#getTlpr").textContent = "—"; return; }
+        var usd = cur === "usd" ? a : a / T.SOM_PER_USD;
+        var coins = usd * 0.99 / p;
+        $("#getTlpr").textContent = Math.floor(coins).toLocaleString("en-US") + " TLPR";
+        $("#rateLine").textContent = S("bRate", { p: T.usd(p) });
+      }
+      ["input", "change"].forEach(function (ev) { $("#amt").addEventListener(ev, quote); $("#cur").addEventListener(ev, quote); });
+      quote();
+      document.querySelectorAll("[data-pm]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          pm = b.dataset.pm;
+          document.querySelectorAll("[data-pm]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+          $("#buyBtn").textContent = pm === "card" ? S("bBuy") : S("bCash");
+          say("#buyMsg", "", "");
+        });
+      });
+      $("#buyForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var a = parseFloat($("#amt").value);
+        if (!(a > 0)) { say("#buyMsg", "err", S("bAmtErr")); return; }
+        var btn = $("#buyBtn"); btn.disabled = true;
+        var label = btn.textContent; btn.textContent = S("bProcessing");
+        setTimeout(function () {
+          btn.disabled = false; btn.textContent = label;
+          if (pm === "card") {
+            say("#buyMsg", "err", S("bDeclined"));
+          } else {
+            var code = "TP-" + Math.random().toString(36).slice(2, 6).toUpperCase() + "-" + Math.random().toString(36).slice(2, 6).toUpperCase();
+            say("#buyMsg", "ok", S("bCode", { c: code }));
+          }
+        }, 1100);
+      });
+    })();
+  </script>
+</body>
+</html>
