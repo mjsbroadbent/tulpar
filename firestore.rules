@@ -1,0 +1,92 @@
+rules_version = '2';
+
+// Security rules for Tulpar chat (Cloud Firestore).
+// Paste into Firebase console > Firestore Database > Rules, then Publish.
+//
+// What they allow:
+// - Anyone can read the public rooms and people's display names.
+// - Signed-in users with a profile can post short messages, at most one every 5 seconds.
+// - Only admins (a document at admins/{uid}) can post in the "official" channel, delete anyone's
+//   messages, ban people and read reports.
+// - People can delete their own messages and report anyone's.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+    function isAdmin() { return signedIn() && exists(/databases/$(database)/documents/admins/$(me())); }
+    function profilePath() { return /databases/$(database)/documents/users/$(me()); }
+    function hasProfile() { return signedIn() && exists(profilePath()); }
+    function profile() { return get(profilePath()).data; }
+    function notBanned() { return !('banned' in profile()) || profile().banned != true; }
+    function goodName(n) { return n is string && n.size() >= 2 && n.size() <= 24; }
+    function rooms() { return ['talas', 'nurzhan', 'valleys', 'horses', 'football', 'diaspora', 'tulparcoin', 'chaikhana', 'official']; }
+
+    // ---------- profiles ----------
+    match /users/{uid} {
+      allow read: if true;
+
+      allow create: if signedIn() && me() == uid
+        && request.resource.data.keys().hasOnly(['name', 'age13', 'createdAt', 'lastPostAt'])
+        && goodName(request.resource.data.name)
+        && request.resource.data.age13 == true
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.lastPostAt == request.time;
+
+      // owners may change their name and stamp lastPostAt (done in the same batch as each message)
+      allow update: if signedIn() && me() == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'lastPostAt'])
+        && goodName(request.resource.data.name)
+        && (request.resource.data.lastPostAt == resource.data.lastPostAt || request.resource.data.lastPostAt == request.time);
+
+      // admins may ban or unban
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['banned'])
+        && request.resource.data.banned is bool;
+
+      allow delete: if false;
+    }
+
+    // ---------- messages ----------
+    match /rooms/{room}/messages/{msgId} {
+      allow read: if room in rooms();
+
+      allow create: if hasProfile() && notBanned()
+        && room in rooms()
+        && (room != 'official' || isAdmin())
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'text', 'createdAt', 'admin'])
+        && request.resource.data.uid == me()
+        && request.resource.data.text is string
+        && request.resource.data.text.size() >= 1
+        && request.resource.data.text.size() <= 500
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.name == profile().name
+        && (!('admin' in request.resource.data) || (request.resource.data.admin == true && isAdmin()))
+        // rate limit: the same batch must stamp lastPostAt, and the previous post must be 5+ seconds old
+        && getAfter(profilePath()).data.lastPostAt == request.time
+        && (isAdmin() || profile().lastPostAt < request.time - duration.value(5, 's'));
+
+      allow update: if false;
+      allow delete: if isAdmin() || (signedIn() && resource.data.uid == me());
+    }
+
+    // ---------- reports ----------
+    match /reports/{reportId} {
+      allow create: if hasProfile()
+        && request.resource.data.keys().hasOnly(['room', 'msgId', 'msgUid', 'msgName', 'text', 'reporter', 'createdAt'])
+        && request.resource.data.reporter == me()
+        && request.resource.data.room in rooms()
+        && request.resource.data.text is string && request.resource.data.text.size() <= 500
+        && request.resource.data.createdAt == request.time;
+      allow read, delete: if isAdmin();
+      allow update: if false;
+    }
+
+    // ---------- admins (created by hand in the console) ----------
+    match /admins/{uid} {
+      allow read: if signedIn() && me() == uid;
+      allow write: if false;
+    }
+  }
+}

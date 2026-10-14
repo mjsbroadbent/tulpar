@@ -30,3 +30,16 @@ Static site, no build step. Deploy on GitHub Pages from the `main` branch root.
 ## Languages
 
 English pages are at the root, Iradi copies in `ir/` and Russian copies in `ru/`, with the same file names. The header's language links jump to the same page in another language. Text the scripts generate (header, footer, forms, chart labels, dates) lives in `strings.js`; translated news is in `news.ir.js` and `news.ru.js`. Each translated page has `data-lang="ir"` or `data-lang="ru"` on its `<html>` tag. When you change an English page, change its two copies too.
+
+## The web app (`app/`)
+
+A working, installable web app (PWA) at `/app/`: real public chat rooms, the IradOne and Talas Herald channels, a wallet showing the live TLPR price, and Bazar and Tulpar Pay locked to people in Irad (a location check against Irad's outline). Chat runs on Firebase (Google sign-in and Cloud Firestore, free tier). Until `app/firebase-config.js` is filled in, everything except chat works and the rooms say chat is being set up.
+
+| File | What it is |
+|---|---|
+| `app/index.html`, `app/app.css`, `app/app.js` | The app |
+| `app/firebase-config.js` | Your Firebase web config (empty until set up) |
+| `app/sw.js`, `app/manifest.webmanifest`, `app/icon*` | Offline shell and install-to-home-screen |
+| `firestore.rules` | Security rules to paste into Firebase |
+
+Setup steps are in [SETUP-FIREBASE.md](SETUP-FIREBASE.md). When you change `app/` files, bump `VERSION` in `app/sw.js` so phones pick up the new version.
