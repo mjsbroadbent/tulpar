@@ -307,8 +307,8 @@ async function loadFeed(which) {
       if (!FB.ready) { box.innerHTML = officialFallback(); return; }
       const F = FB.F;
       feedUnsub = F.onSnapshot(F.query(F.collection(FB.db, "rooms", "official", "messages"), F.orderBy("createdAt", "desc"), F.limit(30)), snap => {
-        box.innerHTML = snap.empty ? officialFallback() : snap.docs.map(d => { const m = d.data({ serverTimestamps: "estimate" });
-          return `<article class="post"><span class="src">Tulpar</span><p style="color:var(--ink)">${esc(m.text)}</p><time>${m.createdAt ? fmtWhen(m.createdAt.toDate()) : ""}</time></article>`; }).join("") +
+        box.innerHTML = (snap.empty ? officialFallback() : snap.docs.map(d => { const m = d.data({ serverTimestamps: "estimate" });
+          return `<article class="post"><span class="src">Tulpar</span><p style="color:var(--ink)">${esc(m.text)}</p><time>${m.createdAt ? fmtWhen(m.createdAt.toDate()) : ""}</time></article>`; }).join("")) +
           (FB.admin ? `<button class="btn" type="button" id="postOfficial">Post as Tulpar</button>` : "");
         const po = $("#postOfficial"); if (po) po.onclick = () => openRoom("official");
       });
