@@ -177,7 +177,9 @@
       document.querySelectorAll("[data-dl]").forEach(function (a) {
         a.addEventListener("click", function (e) {
           e.preventDefault();
-          T.toast(a.dataset.dl === "APK" ? T.T("dlApk") : T.T("dlStore", { p: a.dataset.dl }));
+          if (a.dataset.dl === "APK") { T.toast(T.T("dlApk")); return; }
+          T.toast(T.T("dlStore", { p: a.dataset.dl }));
+          setTimeout(T.notAvailable, 1100);
         });
       });
     })();

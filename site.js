@@ -86,6 +86,25 @@
     clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.hidden = true; }, 3200);
   }
 
+
+  /* ---------- store buttons: "not available in your region" ---------- */
+  function notAvailable() {
+    var m = $("#naModal");
+    if (!m) {
+      var web = document.documentElement.getAttribute("data-lang") ? "../app/" : "app/";
+      m = document.createElement("div"); m.id = "naModal"; m.className = "na-modal"; m.hidden = true;
+      m.innerHTML = '<div class="na-bg" data-na-close></div><div class="na-card" role="alertdialog" aria-modal="true" aria-labelledby="naT" aria-describedby="naB">' +
+        '<div class="na-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg></div>' +
+        '<h3 id="naT">' + T("naTitle") + '</h3><p id="naB">' + T("naBody") + '</p>' +
+        '<div class="na-row"><a class="na-web" href="' + web + '">' + T("naWeb") + '</a><button type="button" class="na-ok" data-na-close>' + T("naOk") + '</button></div></div>';
+      document.body.appendChild(m);
+      m.addEventListener("click", function (e) { if (e.target.closest("[data-na-close]")) m.hidden = true; });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") m.hidden = true; });
+    }
+    var t = $("#toast"); if (t) t.hidden = true;
+    m.hidden = false; $(".na-ok", m).focus();
+  }
+
   /* ---------- countdown to Tulpar Pay going TLPR-only (1 Jan 2027, Irad Time, UTC+6) ---------- */
   var SWITCH = Date.UTC(2026, 11, 31, 18, 0, 0);
   function tickCount() {
@@ -211,6 +230,7 @@
   }
 
   window.TULPAR = {
+    notAvailable: notAvailable,
     T: T, LANG: LANG, fmtDate: fmtDate, toast: toast, livePrice: livePrice, priceAt: priceAt, series: series, drawChart: drawChart,
     change24: change24, cents: cents, usd: usd, LAUNCH: LAUNCH, SOM_PER_USD: 8.4,
     SUPPLY: 900e6, CIRCULATING: 405e6
