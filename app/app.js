@@ -77,6 +77,7 @@ async function initFirebase() {
       }
       updateComposer(); if (current === "profile") renderProfile();
       if (current === "room" && roomId) openRoom(roomId);
+      if (current === "channels" && feedNow === "official") loadFeed("official");
     });
     setBanner("");
   } catch (e) {
