@@ -1,5 +1,5 @@
 /* Tulpar web app. Chat runs on Firebase (Auth + Firestore) when app/firebase-config.js is filled in;
-   everything else works without it. Part of the Irad fiction project. */
+   everything else works without it. */
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 const T = window.TULPAR || {};
@@ -216,7 +216,7 @@ function renderProfile() {
       <p class="small">This is the name others see in rooms. Don't use your full real name.</p>
       <label>Name<input type="text" id="nameIn" maxlength="24" placeholder="for example Kara-Buura Rider"></label>
       <label class="check"><input type="checkbox" id="ageIn"> I am 13 or older</label>
-      <label class="check"><input type="checkbox" id="rulesIn"> I'll be kind, won't spam and won't share real personal details. Irad is fictional; rooms are for role-play and chat.</label>
+      <label class="check"><input type="checkbox" id="rulesIn"> I'll be kind, won't spam and won't share personal details like my address or phone number.</label>
       <div class="row"><button class="btn" type="button" id="saveProfile">Save</button><button class="btn line" type="button" id="signOut">Sign out</button></div>
       <p class="err" id="profErr" hidden></p></div>`;
   } else {

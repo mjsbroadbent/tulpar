@@ -56,4 +56,4 @@ Add co-moderators the same way, with their Tulpar IDs.
 ## Moderation, in short
 - Anyone can tap a message to report it or hide that person's messages.
 - Admins see reports in Profile, can delete messages and ban people (banned users can still read but not post).
-- Rooms carry a pinned note that this is a fiction role-play space; the About section says Tulparcoin isn't real and no money is involved.
+- Rooms carry a pinned note reminding people they're public and not to share personal details.
