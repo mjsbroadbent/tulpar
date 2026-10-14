@@ -43,12 +43,12 @@
 
   <footer id="siteFoot"></footer>
 
+  <script src="strings.js"></script>
   <script src="site.js"></script>
   <script src="news.js"></script>
   <script>
     (function () {
-      var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-      function fmt(d) { var x = new Date(d + "T12:00:00Z"); return x.getUTCDate() + " " + months[x.getUTCMonth()] + " " + x.getUTCFullYear(); }
+      var fmt = window.TULPAR.fmtDate, T = window.TULPAR.T;
       function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
       var list = document.getElementById("newsList");
       list.innerHTML = window.TULPAR_NEWS.map(function (n) {
@@ -58,7 +58,7 @@
           '<span class="kind">' + esc(n.kind) + "</span>" +
           '<h3><a href="#' + n.id + '" data-open="' + n.id + '">' + esc(n.title) + "</a></h3><p>" + esc(n.sum) + "</p>" +
           '<div class="news-full" id="full-' + n.id + '" hidden>' + full + "</div>" +
-          '<button class="news-toggle" type="button" data-open="' + n.id + '" aria-expanded="false" aria-controls="full-' + n.id + '">Read more</button>' +
+          '<button class="news-toggle" type="button" data-open="' + n.id + '" aria-expanded="false" aria-controls="full-' + n.id + '">' + T("readMore") + "</button>" +
           "</div></article></li>";
       }).join("");
 
@@ -67,7 +67,7 @@
         var open = force !== undefined ? force : full.hidden;
         full.hidden = !open;
         var btn = document.querySelector('.news-toggle[data-open="' + id + '"]');
-        btn.textContent = open ? "Show less" : "Read more";
+        btn.textContent = open ? T("showLess") : T("readMore");
         btn.setAttribute("aria-expanded", open ? "true" : "false");
       }
       list.addEventListener("click", function (e) {

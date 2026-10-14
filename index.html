@@ -152,6 +152,7 @@
 
   <footer id="siteFoot"></footer>
 
+  <script src="strings.js"></script>
   <script src="site.js"></script>
   <script src="news.js"></script>
   <script>
@@ -163,8 +164,7 @@
       document.addEventListener("tlpr:tick", draw);
       window.addEventListener("resize", draw);
 
-      var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-      function fmt(d) { var x = new Date(d + "T12:00:00Z"); return x.getUTCDate() + " " + months[x.getUTCMonth()] + " " + x.getUTCFullYear(); }
+      var fmt = T.fmtDate;
       document.getElementById("homeNews").innerHTML = window.TULPAR_NEWS.slice(0, 3).map(function (n) {
         return '<li><article class="news-item"><time datetime="' + n.date + '">' + fmt(n.date) + "</time><div>" +
           '<h3><a href="news.html#' + n.id + '">' + n.title + "</a></h3><p>" + n.sum + "</p></div></article></li>";
@@ -173,7 +173,7 @@
       document.querySelectorAll("[data-dl]").forEach(function (a) {
         a.addEventListener("click", function (e) {
           e.preventDefault();
-          T.toast(a.dataset.dl === "APK" ? "Your download will start shortly. Allow installs from unknown sources if asked." : "Opening the store for " + a.dataset.dl + "…");
+          T.toast(a.dataset.dl === "APK" ? T.T("dlApk") : T.T("dlStore", { p: a.dataset.dl }));
         });
       });
     })();

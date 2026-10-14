@@ -9,22 +9,47 @@
     '<path d="M12.5 30.5C20 30.5 26 26.5 30 18" stroke="#fff" stroke-width="3.2" stroke-linecap="round" fill="none"/>' +
     '<path d="M17 33C23.5 33.5 28.5 31 31.5 26" stroke="#f5b018" stroke-width="3.2" stroke-linecap="round" fill="none"/></svg>';
 
+  /* ---------- language ---------- */
+  var LANG = document.documentElement.getAttribute("data-lang") || "en";
+  var STR = (window.TULPAR_STR || {});
+  function T(k, vars) {
+    var d = STR[LANG] || {}, v = k in d ? d[k] : (STR.en || {})[k];
+    if (v === undefined) return k;
+    if (vars && typeof v === "string") v = v.replace(/\{(\w+)\}/g, function (m, n) { return vars[n] !== undefined ? vars[n] : m; });
+    return v;
+  }
+  function fmtDate(iso) {
+    var x = new Date(iso + "T12:00:00Z");
+    return T("dateFmt", { d: x.getUTCDate(), m: T("monthsLong")[x.getUTCMonth()], y: x.getUTCFullYear() });
+  }
+  var file = (location.pathname.split("/").pop() || "index.html");
+  if (!/\.html$/.test(file)) file = "index.html";
+  var LANG_LINKS = LANG === "en"
+    ? { en: file, ir: "ir/" + file, ru: "ru/" + file }
+    : { en: "../" + file, ir: (LANG === "ir" ? "" : "../ir/") + file, ru: (LANG === "ru" ? "" : "../ru/") + file };
+  var LANG_NAMES = { en: "English", ir: "Irad tili", ru: "Русский" };
+
   /* ---------- header & footer ---------- */
   var page = document.body.dataset.page || "";
+  function cur(ids) { return ids.indexOf(page) > -1 ? ' aria-current="page"' : ""; }
+  var langSwitch = '<div class="langs" role="group" aria-label="' + T("lang") + '">' +
+    ["ir", "ru", "en"].map(function (l) {
+      return '<a href="' + LANG_LINKS[l] + location.hash + '" hreflang="' + (l === "ir" ? "ky" : l) + '"' + (l === LANG ? ' aria-current="true"' : "") + ">" + LANG_NAMES[l] + "</a>";
+    }).join("") + "</div>";
   var head = $("#siteHead");
   if (head) {
     head.className = "site-head";
     head.innerHTML =
       '<div class="wrap head-inner">' +
-        '<a class="brand" href="index.html" aria-label="Tulpar home">' + LOGO + "tulpar</a>" +
-        '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>' +
+        '<a class="brand" href="index.html" aria-label="' + T("home") + '">' + LOGO + "tulpar</a>" +
+        '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">' + T("menu") + "</button>" +
         '<nav class="nav" id="nav" aria-label="Main">' +
-          '<a href="index.html#app"' + (page === "home" ? ' aria-current="page"' : "") + ">The app</a>" +
-          '<a href="coin.html"' + (page === "coin" ? ' aria-current="page"' : "") + ">Tulparcoin</a>" +
-          '<a href="news.html"' + (page === "news" ? ' aria-current="page"' : "") + ">Newsroom</a>" +
-          '<a href="about.html"' + (page === "about" || page === "letter" || page === "careers" ? ' aria-current="page"' : "") + ">About</a>" +
-        "</nav>" +
-        '<a class="btn btn-act" href="index.html#download">Get the app</a>' +
+          '<a href="index.html#app"' + cur(["home"]) + ">" + T("navApp") + "</a>" +
+          '<a href="coin.html"' + cur(["coin"]) + ">" + T("navCoin") + "</a>" +
+          '<a href="news.html"' + cur(["news"]) + ">" + T("navNews") + "</a>" +
+          '<a href="about.html"' + cur(["about", "letter", "careers"]) + ">" + T("navAbout") + "</a>" +
+        "</nav>" + langSwitch +
+        '<a class="btn btn-act" href="index.html#download">' + T("getApp") + "</a>" +
       "</div>";
     var mb = $(".menu-btn", head), nav = $("#nav", head);
     mb.addEventListener("click", function () {
@@ -35,24 +60,22 @@
   var foot = $("#siteFoot");
   if (foot) {
     foot.className = "site-foot";
+    function li(href, k) { return '<li><a href="' + href + '">' + T(k) + "</a></li>"; }
     foot.innerHTML =
       '<div class="wrap">' +
         '<div class="foot-grid">' +
           '<div><a class="brand" href="index.html">' + LOGO + "tulpar</a>" +
-            '<p style="margin-top:14px;max-width:22em">Chat, channels, Bazar and Tulpar Pay. Made in Talas for Iradis everywhere.</p></div>' +
-          '<div><h4>Product</h4><ul><li><a href="index.html#app">Features</a></li><li><a href="index.html#download">Download</a></li><li><a href="coin.html">Tulparcoin</a></li><li><a href="coin.html#points">Tulpar points</a></li></ul></div>' +
-          '<div><h4>Company</h4><ul><li><a href="about.html">About us</a></li><li><a href="letter.html">Why we built Tulpar Pay</a></li><li><a href="careers.html">Careers</a></li><li><a href="news.html">Newsroom</a></li><li><a href="news.html#press">Press contacts</a></li></ul></div>' +
-          '<div><h4>Help</h4><ul><li><a href="help.html">Help centre</a></li><li><a href="coin.html#faq">Tulparcoin FAQ</a></li><li><a href="legal.html#privacy">Privacy policy</a></li><li><a href="legal.html#terms">Terms of service</a></li></ul></div>' +
+            '<p style="margin-top:14px;max-width:22em">' + T("footTag") + "</p></div>" +
+          "<div><h4>" + T("fProduct") + "</h4><ul>" + li("index.html#app", "fFeatures") + li("index.html#download", "fDownload") + li("coin.html", "fCoin") + li("coin.html#points", "fPoints") + "</ul></div>" +
+          "<div><h4>" + T("fCompany") + "</h4><ul>" + li("about.html", "fAbout") + li("letter.html", "fLetter") + li("careers.html", "fCareers") + li("news.html", "fNews") + li("news.html#press", "fPress") + "</ul></div>" +
+          "<div><h4>" + T("fHelp") + "</h4><ul>" + li("help.html", "fHelpCentre") + li("coin.html#faq", "fFaq") + li("legal.html#privacy", "fPrivacy") + li("legal.html#terms", "fTerms") + "</ul></div>" +
         "</div>" +
-        '<div class="legal">' +
-          "<p>© 2026 Tulpar Technologies Inc., a Delaware corporation, Wilmington, Delaware, USA. Development office: Talas. Tulpar is not affiliated with Tulpar Talas football club or the Talas Commercial Development Group.</p>" +
-          "<p>Tulparcoin (TLPR) is issued by the Liberty Forum of Irad. Tulpar Technologies provides wallet and payment software only. Tulparcoin is not legal tender, is not a bank deposit and is not protected by any deposit guarantee. Its value can rise or fall sharply.</p>" +
-        "</div>" +
+        '<div class="legal"><p>' + T("legal1") + "</p><p>" + T("legal2") + "</p></div>" +
       "</div>";
   }
   document.addEventListener("click", function (e) {
     var a = e.target.closest("[data-soon]");
-    if (a) { e.preventDefault(); toast("This page is coming soon."); }
+    if (a) { e.preventDefault(); toast(T("soon")); }
   });
 
   var toastTimer;
@@ -169,14 +192,14 @@
       grid += '<line class="grid" x1="' + padL + '" x2="' + (W - padR) + '" y1="' + y + '" y2="' + y + '"/>';
       lbl += '<text class="lbl" x="' + (padL - 8) + '" y="' + (+y + 4) + '" text-anchor="end">' + cents(p, 1) + "</text>";
     }
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var months = T("monthsShort");
     for (var j = 0; j <= 3; j++) {
       var tt = t0 + (t1 - t0) * j / 3, dt = new Date(tt);
       var txt = range === "1D" ? ("0" + dt.getHours()).slice(-2) + ":00" : dt.getDate() + " " + months[dt.getMonth()];
       lbl += '<text class="lbl" x="' + X(tt).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="' + (j === 0 ? "start" : j === 3 ? "end" : "middle") + '">' + txt + "</text>";
     }
     var last = data[data.length - 1];
-    el.innerHTML = '<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Tulparcoin price chart">' +
+    el.innerHTML = '<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + T("chartLabel") + '">' +
       '<defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f3a93" stop-opacity=".18"/><stop offset="1" stop-color="#1f3a93" stop-opacity="0"/></linearGradient></defs>' +
       grid + '<path class="area" d="' + area + '"/><path class="line" d="' + line + '"/>' +
       '<circle class="dot" r="5" cx="' + X(last[0]).toFixed(1) + '" cy="' + Y(last[1]).toFixed(1) + '"/>' + lbl + "</svg>";
@@ -188,7 +211,7 @@
   }
 
   window.TULPAR = {
-    toast: toast, livePrice: livePrice, priceAt: priceAt, series: series, drawChart: drawChart,
+    T: T, LANG: LANG, fmtDate: fmtDate, toast: toast, livePrice: livePrice, priceAt: priceAt, series: series, drawChart: drawChart,
     change24: change24, cents: cents, usd: usd, LAUNCH: LAUNCH, SOM_PER_USD: 8.4,
     SUPPLY: 900e6, CIRCULATING: 405e6
   };
@@ -199,7 +222,7 @@
     $$('[data-tlpr="px"]').forEach(function (el) { el.textContent = cents(p); });
     $$('[data-tlpr="usd"]').forEach(function (el) { el.textContent = usd(p); });
     $$('[data-tlpr="chg"]').forEach(function (el) {
-      el.textContent = (c >= 0 ? "+" : "−") + Math.abs(c * 100).toFixed(2) + "% (24h)";
+      el.textContent = (c >= 0 ? "+" : "−") + Math.abs(c * 100).toFixed(2) + "% " + T("h24");
       el.className = "chg " + (c >= 0 ? "up" : "down");
     });
     $$('[data-tlpr="cap"]').forEach(function (el) { el.textContent = "$" + (p * window.TULPAR.CIRCULATING / 1e6).toFixed(1) + "m"; });

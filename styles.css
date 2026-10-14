@@ -345,3 +345,11 @@ p { margin: 0; }
 /* keep long-form text aligned with the page's left edge */
 .wrap.prose { max-width: var(--wrap); }
 .wrap.prose > * { max-width: 40em; }
+
+/* language switcher */
+.langs { display: flex; gap: 2px; font-size: 14px; }
+.langs a { text-decoration: none; color: var(--slate); padding: 6px 8px; border-radius: 8px; font-weight: 500; white-space: nowrap; }
+.langs a:hover { background: var(--sky); color: var(--ink); }
+.langs a[aria-current="true"] { color: var(--lapis-deep); font-weight: 600; background: var(--sky); }
+@media (max-width: 720px) { .langs { font-size: 13px; } .langs a { padding: 5px 6px; } }
+@media (max-width: 420px) { .brand { font-size: 0; gap: 0; } }

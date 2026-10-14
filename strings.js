@@ -1,0 +1,72 @@
+/* Text used by the site's scripts (header, footer, forms, chart, toasts) in English, Iradi and Russian.
+   Page text itself lives in the HTML: English at the root, Iradi in ir/, Russian in ru/. */
+window.TULPAR_STR = {
+  en: {
+    home: "Tulpar home", menu: "Menu", navApp: "The app", navCoin: "Tulparcoin", navNews: "Newsroom", navAbout: "About", getApp: "Get the app",
+    footTag: "Chat, channels, Bazar and Tulpar Pay. Made in Talas for Iradis everywhere.",
+    fProduct: "Product", fFeatures: "Features", fDownload: "Download", fCoin: "Tulparcoin", fPoints: "Tulpar points",
+    fCompany: "Company", fAbout: "About us", fLetter: "Why we built Tulpar Pay", fCareers: "Careers", fNews: "Newsroom", fPress: "Press contacts",
+    fHelp: "Help", fHelpCentre: "Help centre", fFaq: "Tulparcoin FAQ", fPrivacy: "Privacy policy", fTerms: "Terms of service",
+    legal1: "© 2026 Tulpar Technologies Inc., a Delaware corporation, Wilmington, Delaware, USA. Development office: Talas. Tulpar is not affiliated with Tulpar Talas football club or the Talas Commercial Development Group.",
+    legal2: "Tulparcoin (TLPR) is issued by the Liberty Forum of Irad. Tulpar Technologies provides wallet and payment software only. Tulparcoin is not legal tender, is not a bank deposit and is not protected by any deposit guarantee. Its value can rise or fall sharply.",
+    soon: "This page is coming soon.", lang: "Language",
+    h24: "(24h)", chartLabel: "Tulparcoin price chart",
+    monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    monthsLong: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    dateFmt: "{d} {m} {y}",
+    dlApk: "Your download will start shortly. Allow installs from unknown sources if asked.", dlStore: "Opening the store for {p}…",
+    readMore: "Read more", showLess: "Show less",
+    cPhoneErr: "Enter your mobile number without the country code.", cSending: "Sending…", cClaim: "Claim 100 TLPR",
+    cSent: "We sent a 6-digit code to {n}.", cCodeErr: "Enter the 6-digit code from the SMS.", cChecking: "Checking…", cClaimed: "Claimed",
+    cDone: "Done. 100 TLPR are in your Tulpar wallet. Open the app to see them.",
+    bAmtErr: "Enter how much you want to pay.", bProcessing: "Processing…", bBuy: "Buy TLPR", bCash: "Get a cash code",
+    bDeclined: "Payment declined by your bank. Talasbank currently declines card payments for Tulparcoin. Use a card issued outside the ISEZ, or pay cash at a Tulpar point.",
+    bCode: "Show code {c} at any Tulpar point within 30 minutes. The rate is fixed until then.", bRate: "1 TLPR = {p} · 1% fee"
+  },
+
+  ir: {
+    home: "Tulpar bashkı bet", menu: "Menyu", navApp: "Tirkeme", navCoin: "Tulparcoin", navNews: "Jañılıktar", navAbout: "Biz jönündö", getApp: "Tirkemeni jüktöö",
+    footTag: "Chat, kanaldar, Bazar jana Tulpar Pay. Talasta jasalgan, bardık iradiktar üchün.",
+    fProduct: "Önüm", fFeatures: "Mümkünchülüktör", fDownload: "Jüktöö", fCoin: "Tulparcoin", fPoints: "Tulpar punktarı",
+    fCompany: "Kompaniya", fAbout: "Biz jönündö", fLetter: "Tulpar Pay emne üchün", fCareers: "Jumush", fNews: "Jañılıktar", fPress: "Basma söz üchün",
+    fHelp: "Jardam", fHelpCentre: "Jardam borboru", fFaq: "Tulparcoin suroolor", fPrivacy: "Jashırınduuluk sayasatı", fTerms: "Koldonuu shartları",
+    legal1: "© 2026 Tulpar Technologies Inc., Delaware korporatsiyası, Wilmington, Delaware, AKSh. Ishtep chıguu keñsesi: Talas. Tulpar Tulpar Talas futbol klubu je Talas Commercial Development Group menen baylanıshtuu emes.",
+    legal2: "Tulparcoin (TLPR) Iraddın Erkindik Forumu tarabınan chıgarılat. Tulpar Technologies kapchık jana tölöm programmasın gana beret. Tulparcoin rasmiy tölöm karajatı emes, bank depoziti emes jana ech bir kepildik menen korgolbojt. Anın baası keskin ösüp je tüshüshü mümkün.",
+    soon: "Bul bet jakında achılat.", lang: "Til",
+    h24: "(24 saat)", chartLabel: "Tulparcoin baasının grafigi",
+    monthsShort: ["yanv", "fev", "mart", "apr", "may", "iyun", "iyul", "avg", "sen", "okt", "noy", "dek"],
+    monthsLong: ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentyabr", "oktyabr", "noyabr", "dekabr"],
+    dateFmt: "{y}-jıl {d}-{m}",
+    dlApk: "Jüktöö azır bashtalat. Suralsa, belgisiz bulaktardan ornotuuga uruksat beriñiz.", dlStore: "{p} üchün dükön achılıp jatat…",
+    readMore: "Tolugu menen", showLess: "Kıskartuu",
+    cPhoneErr: "Mobildik nomeriñizdi ölkö kodusuz jazıñız.", cSending: "Jiberilip jatat…", cClaim: "100 TLPR aluu",
+    cSent: "{n} nomerine 6 sandan turgan kod jiberdik.", cCodeErr: "SMS'tegi 6 sandan turgan kodu jazıñız.", cChecking: "Tekshirilip jatat…", cClaimed: "Alındı",
+    cDone: "Dayar. 100 TLPR Tulpar kapchıgıñızda. Körüü üchün tirkemeni achıñız.",
+    bAmtErr: "Kancha tölögüñüz kelerin jazıñız.", bProcessing: "Ishtelip jatat…", bBuy: "TLPR satıp aluu", bCash: "Nakta kod aluu",
+    bDeclined: "Tölömdü bankıñız kabıl albadı. Talasbank azırıncha Tulparcoin üchün karta tölömdörün kabıl albayt. IAEZden tıshkarı chıgarılgan kartanı koldonuñuz je Tulpar punktunda nakta tölöñüz.",
+    bCode: "{c} kodun 30 münöttün ichinde kaalagan Tulpar punktunda körsötüñüz. Aga cheyin kurs özgörböyt.", bRate: "1 TLPR = {p} · 1% komissiya"
+  },
+
+  ru: {
+    home: "Tulpar — главная", menu: "Меню", navApp: "Приложение", navCoin: "Tulparcoin", navNews: "Новости", navAbout: "О нас", getApp: "Скачать",
+    footTag: "Чаты, каналы, Bazar и Tulpar Pay. Сделано в Таласе для ирадцев по всему миру.",
+    fProduct: "Продукт", fFeatures: "Возможности", fDownload: "Скачать", fCoin: "Tulparcoin", fPoints: "Пункты Tulpar",
+    fCompany: "Компания", fAbout: "О нас", fLetter: "Зачем мы создали Tulpar Pay", fCareers: "Вакансии", fNews: "Новости", fPress: "Для прессы",
+    fHelp: "Помощь", fHelpCentre: "Справочный центр", fFaq: "Вопросы о Tulparcoin", fPrivacy: "Политика конфиденциальности", fTerms: "Условия использования",
+    legal1: "© 2026 Tulpar Technologies Inc., корпорация штата Делавэр, Уилмингтон, Делавэр, США. Офис разработки: Талас. Tulpar не связан с футбольным клубом «Тулпар Талас» и Talas Commercial Development Group.",
+    legal2: "Tulparcoin (TLPR) выпускается Форумом свободы Ирада. Tulpar Technologies предоставляет только программное обеспечение кошелька и платежей. Tulparcoin не является законным платёжным средством, банковским вкладом и не защищён никакими гарантиями. Его стоимость может резко расти или падать.",
+    soon: "Эта страница скоро появится.", lang: "Язык",
+    h24: "(24 ч)", chartLabel: "График цены Tulparcoin",
+    monthsShort: ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"],
+    monthsLong: ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"],
+    dateFmt: "{d} {m} {y}",
+    dlApk: "Загрузка скоро начнётся. Если потребуется, разрешите установку из неизвестных источников.", dlStore: "Открываем магазин для {p}…",
+    readMore: "Читать далее", showLess: "Свернуть",
+    cPhoneErr: "Введите номер мобильного без кода страны.", cSending: "Отправляем…", cClaim: "Получить 100 TLPR",
+    cSent: "Мы отправили 6-значный код на номер {n}.", cCodeErr: "Введите 6-значный код из SMS.", cChecking: "Проверяем…", cClaimed: "Получено",
+    cDone: "Готово. 100 TLPR уже в вашем кошельке Tulpar. Откройте приложение, чтобы их увидеть.",
+    bAmtErr: "Укажите сумму, которую хотите заплатить.", bProcessing: "Обработка…", bBuy: "Купить TLPR", bCash: "Получить код для оплаты наличными",
+    bDeclined: "Платёж отклонён вашим банком. Talasbank сейчас отклоняет оплату картой за Tulparcoin. Используйте карту, выпущенную за пределами ИСЭЗ, или заплатите наличными в пункте Tulpar.",
+    bCode: "Покажите код {c} в любом пункте Tulpar в течение 30 минут. До этого курс зафиксирован.", bRate: "1 TLPR = {p} · комиссия 1%"
+  }
+};

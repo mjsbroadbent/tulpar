@@ -162,10 +162,11 @@
 
   <footer id="siteFoot"></footer>
 
+  <script src="strings.js"></script>
   <script src="site.js"></script>
   <script>
     (function () {
-      var T = window.TULPAR;
+      var T = window.TULPAR, S = T.T;
       var $ = function (s) { return document.querySelector(s); };
 
       /* chart with range tabs */
@@ -191,20 +192,20 @@
         var btn = $("#claimBtn");
         if (step === "phone") {
           var digits = $("#phone").value.replace(/\D/g, "");
-          if (digits.length < 6) { say("#claimMsg", "err", "Enter your mobile number without the country code."); return; }
-          btn.disabled = true; btn.textContent = "Sending…";
+          if (digits.length < 6) { say("#claimMsg", "err", S("cPhoneErr")); return; }
+          btn.disabled = true; btn.textContent = S("cSending");
           setTimeout(function () {
-            btn.disabled = false; btn.textContent = "Claim 100 TLPR";
+            btn.disabled = false; btn.textContent = S("cClaim");
             $("#codeRow").hidden = false; $("#code").focus();
-            say("#claimMsg", "info", "We sent a 6-digit code to " + $("#cc").value + " " + $("#phone").value + ".");
+            say("#claimMsg", "info", S("cSent", { n: $("#cc").value + " " + $("#phone").value }));
             step = "code";
           }, 900);
         } else if (step === "code") {
-          if ($("#code").value.replace(/\D/g, "").length !== 6) { say("#claimMsg", "err", "Enter the 6-digit code from the SMS."); return; }
-          btn.disabled = true; btn.textContent = "Checking…";
+          if ($("#code").value.replace(/\D/g, "").length !== 6) { say("#claimMsg", "err", S("cCodeErr")); return; }
+          btn.disabled = true; btn.textContent = S("cChecking");
           setTimeout(function () {
-            btn.textContent = "Claimed";
-            say("#claimMsg", "ok", "Done. 100 TLPR are in your Tulpar wallet. Open the app to see them.");
+            btn.textContent = S("cClaimed");
+            say("#claimMsg", "ok", S("cDone"));
             step = "done";
           }, 900);
         }
@@ -218,7 +219,7 @@
         var usd = cur === "usd" ? a : a / T.SOM_PER_USD;
         var coins = usd * 0.99 / p;
         $("#getTlpr").textContent = Math.floor(coins).toLocaleString("en-US") + " TLPR";
-        $("#rateLine").textContent = "1 TLPR = " + T.usd(p) + " · 1% fee";
+        $("#rateLine").textContent = S("bRate", { p: T.usd(p) });
       }
       ["input", "change"].forEach(function (ev) { $("#amt").addEventListener(ev, quote); $("#cur").addEventListener(ev, quote); });
       quote();
@@ -226,23 +227,23 @@
         b.addEventListener("click", function () {
           pm = b.dataset.pm;
           document.querySelectorAll("[data-pm]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-          $("#buyBtn").textContent = pm === "card" ? "Buy TLPR" : "Get a cash code";
+          $("#buyBtn").textContent = pm === "card" ? S("bBuy") : S("bCash");
           say("#buyMsg", "", "");
         });
       });
       $("#buyForm").addEventListener("submit", function (e) {
         e.preventDefault();
         var a = parseFloat($("#amt").value);
-        if (!(a > 0)) { say("#buyMsg", "err", "Enter how much you want to pay."); return; }
+        if (!(a > 0)) { say("#buyMsg", "err", S("bAmtErr")); return; }
         var btn = $("#buyBtn"); btn.disabled = true;
-        var label = btn.textContent; btn.textContent = "Processing…";
+        var label = btn.textContent; btn.textContent = S("bProcessing");
         setTimeout(function () {
           btn.disabled = false; btn.textContent = label;
           if (pm === "card") {
-            say("#buyMsg", "err", "Payment declined by your bank. Talasbank currently declines card payments for Tulparcoin. Use a card issued outside the ISEZ, or pay cash at a Tulpar point.");
+            say("#buyMsg", "err", S("bDeclined"));
           } else {
             var code = "TP-" + Math.random().toString(36).slice(2, 6).toUpperCase() + "-" + Math.random().toString(36).slice(2, 6).toUpperCase();
-            say("#buyMsg", "ok", "Show code " + code + " at any Tulpar point within 30 minutes. The rate is fixed until then.");
+            say("#buyMsg", "ok", S("bCode", { c: code }));
           }
         }, 1100);
       });
