@@ -930,7 +930,7 @@ const BUSES = [
   ["Nurzhan", "marsh", "every:40:06:00:20:00", "2 h 20 min", 38],
   ["Semiz", "marsh", "every:15:06:00:22:00", "25 min", 2],
   ["Kara-Bulak", "marsh", "every:30:06:30:21:00", "35 min", 3],
-  ["Kyzyl-Adyr", "marsh", "every:60:07:00:19:00", "1 h 20 min", 14],
+  ["Kyzyl-Adyr", "marsh", "every:60:07:00:19:00", "1 h 20 min", Date.now() >= Date.UTC(2026, 9, 18, 18) ? 30 : 24],
   ["Sary-Bulak", "marsh", ["07:15", "12:30", "17:00"], "2 h", 20],
   ["Tash-Kömür", "bus", ["07:00", "13:00"], "4 h 50 min", 40],
   ["Iyık Janyl", "bus", ["07:00", "13:00"], "5 h 20 min", 45]
@@ -986,15 +986,15 @@ function nextDow(from, dow) { const d = new Date(Date.UTC(from.getUTCFullYear(),
 function lastSat(y, m) { const d = new Date(Date.UTC(y, m + 1, 0)); while (d.getUTCDay() !== 6) d.setUTCDate(d.getUTCDate() - 1); return d; }
 const FINAL = [["Neftchi Nurzhan", "Tulpar Talas"], ["Temirjolchu Nurzhan", "Attelkom Talas"], ["Universitet Talas", "Surma Chatkal"], ["Dastgoh Nurzhan", "FC Iyık Janyl"], ["Kara-Buura", "Naryn Tash-Kömür"]];
 const isDerby = (h, a) => [h, a].includes("Neftchi Nurzhan") && [h, a].includes("Tulpar Talas");
-/* The season runs April to October; the last Saturday of October is round 36 (always the Kara-Ak derby),
+/* Triple round robin (27 rounds); the last Saturday of October is round 27 (always the Kara-Ak derby),
    and the Saturday two weeks before it has no league round (Irad Cup semi-finals). */
 function leagueRound(sat) {
   const end = lastSat(sat.getUTCFullYear(), 9), wk = Math.round((end - sat) / (7 * 864e5));
   if (wk < 0 || sat.getUTCMonth() < 3) return null;
   if (wk === 2) return { cup: true };
-  const round = 36 - wk + (wk > 2 ? 1 : 0);
+  const round = 27 - wk + (wk > 2 ? 1 : 0);
   if (round < 1) return null;
-  if (round === 36) return { round, pairs: FINAL };
+  if (round === 27) return { round, pairs: FINAL };
   let k = round, pairs = roundPairs(k);
   while (pairs.some(([h, a]) => isDerby(h, a))) pairs = roundPairs(++k);
   return { round, pairs };
