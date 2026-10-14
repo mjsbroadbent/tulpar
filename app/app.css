@@ -1,13 +1,13 @@
 :root {
-  --lapis: #1f3a93; --lapis-deep: #142663; --sky: #e6ecff; --saffron: #f5b018;
-  --ink: #141a33; --slate: #5b637e; --rule: #e3e7f2; --bg: #eef2fb; --paper: #fff;
+  --lapis: #00728c; --lapis-deep: #054a60; --sky: #ddf3f4; --saffron: #f5b018;
+  --ink: #141a33; --slate: #5b637e; --rule: #e3e7f2; --bg: #eaf5f6; --paper: #fff;
   --up: #12895f; --down: #c2412d;
   --text: "Onest", "Segoe UI", system-ui, sans-serif; --display: "Unbounded", "Segoe UI", sans-serif;
   --emoji: "Noto Color Emoji", "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
 }
 * { box-sizing: border-box; }
 html, body { height: 100%; }
-body { margin: 0; background: #d9e0f2; color: var(--ink); font: 400 16px/1.45 var(--text); -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: #d3e8ea; color: var(--ink); font: 400 16px/1.45 var(--text); -webkit-tap-highlight-color: transparent; }
 [hidden] { display: none !important; }
 button { font: inherit; color: inherit; }
 a { color: var(--lapis); }
@@ -29,7 +29,7 @@ a { color: var(--lapis); }
 /* room list */
 .list { list-style: none; margin: 0; padding: 6px 0; }
 .list button { width: 100%; display: flex; align-items: center; gap: 12px; padding: 11px 16px; background: none; border: 0; text-align: left; cursor: pointer; }
-.list button:hover { background: rgba(31, 58, 147, .05); }
+.list button:hover { background: rgba(0, 114, 140, .05); }
 .ava { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-family: var(--emoji); font-size: 22px; background: var(--sky); }
 .list b { display: block; font-weight: 600; }
 .list small { display: block; color: var(--slate); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

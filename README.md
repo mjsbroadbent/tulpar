@@ -18,6 +18,10 @@ Static site, no build step. Deploy on GitHub Pages from the `main` branch root.
 | `site.js` | Shared header and footer, countdown, and the Tulparcoin price engine |
 | `styles.css` | All styles |
 
+## Brand
+
+The logo is a white winged horse (the tulpar) leaping left on a turquoise-to-blue gradient tile. `favicon.svg` is the full icon (also `app/icon.svg`), `logo-mark.svg` is the horse alone in brand turquoise, and `site.js` carries an inline copy for the header and footer. `app/icon-192.png` and `app/icon-512.png` are full-bleed squares so phones can mask them. Colours: turquoise `#00728c` (the `--lapis` variable), deep `#054a60`, tile gradient `#00b4b7` to `#00628a`, saffron `#f5b018` for buttons.
+
 ## The price
 
 `site.js` follows the prices the *Talas Herald* reported (opened at 4¢ on 22 September 2026, peaked near 7¢, about 3¢ after the 8 October Attelkom block). After 13 October it continues as a seeded drift that pulls back toward about 3.6¢, so every visitor sees the same chart for the same moment, with a small live wobble every few seconds. It always stays between 3¢ and 7¢. Edit `KEYS`, `MIN` and `MAX` to change it.
