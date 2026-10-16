@@ -59,3 +59,7 @@ Chat runs on Firebase (Google sign-in and Cloud Firestore, free Spark plan, no S
 | `firestore.rules` | Security rules to paste into Firebase |
 
 Setup steps are in [SETUP-FIREBASE.md](SETUP-FIREBASE.md). When you change `app/` files, bump `VERSION` in `app/sw.js` so phones pick up the new version. When `firestore.rules` changes, paste it into Firebase again and Publish.
+
+## Search engines
+
+`python3 tools/seo_tags.py` adds the canonical address, English/Russian `hreflang` alternates and share tags (image `images/og.jpg`) to every page between `<!--SEO-->` markers, and writes `sitemap.xml`. Run it again after adding or retitling a page.
