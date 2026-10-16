@@ -28,7 +28,7 @@ About 15 minutes, free (Spark plan, no card needed). You need a Google account.
 2. **Sign-in method → Google → Enable**, choose a support email, **Save**.
 3. **Settings → Authorized domains → Add domain**, and add:
    - `mjsbroadbent.github.io`
-   - your Tulpar custom domain, once you have one (and its `www.` version)
+   - `tulparapp.com` and `www.tulparapp.com`
 
    (`localhost` is already there for testing.)
 

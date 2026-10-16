@@ -11,7 +11,7 @@ import html, re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SITE = "https://mjsbroadbent.github.io/tulpar/"
+SITE = "https://tulparapp.com/"
 PAGES = ["index.html", "about.html", "careers.html", "coin.html", "help.html", "legal.html", "letter.html", "news.html"]
 LOCALE = {"": "en_GB", "ru/": "ru_RU", "ir/": "ky_KG"}
 
