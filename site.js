@@ -70,8 +70,7 @@
           "<div><h4>" + T("fCompany") + "</h4><ul>" + li("about.html", "fAbout") + li("letter.html", "fLetter") + li("careers.html", "fCareers") + li("news.html", "fNews") + li("news.html#press", "fPress") + "</ul></div>" +
           "<div><h4>" + T("fHelp") + "</h4><ul>" + li("help.html", "fHelpCentre") + li("coin.html#faq", "fFaq") + li("legal.html#privacy", "fPrivacy") + li("legal.html#terms", "fTerms") + "</ul></div>" +
         "</div>" +
-        '<div class="legal"><p>' + T("legal1") + "</p><p>" + T("legal2") + "</p>" +
-          '<p>Part of the Irad worldbuilding project: Irad and Tulpar are fictional. See <a href="https://irad.wiki/wiki/Tulpar_(app)">Tulpar on Irad Wiki</a>.</p></div>' +
+        '<div class="legal"><p>' + T("legal1") + "</p><p>" + T("legal2") + "</p>" + "</div>" +
       "</div>";
   }
   document.addEventListener("click", function (e) {
