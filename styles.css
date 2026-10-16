@@ -367,3 +367,8 @@ p { margin: 0; }
 .na-row { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
 .na-web { margin-right: auto; font-size: .9rem; color: #475569; text-decoration: underline; }
 .na-ok { border: 0; background: #1e293b; color: #fff; font: inherit; font-weight: 600; padding: 9px 20px; border-radius: 999px; cursor: pointer; }
+
+/* popular channels under the Channels feature */
+.chan-h { margin: 10px 0 4px; }
+.feature .chans, .chans { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .92em; }
+.chans a { font-weight: 600; }
