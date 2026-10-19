@@ -74,19 +74,20 @@ $("#langSeg").addEventListener("click", e => {
 });
 
 /* ---------- navigation ---------- */
-let current = "chats";
+let current = "discover";
 function go(tab) {
   current = tab;
   $$(".tab").forEach(s => (s.hidden = s.dataset.tab !== tab));
-  const navTab = tab === "room" ? "chats" : tab === "svc" ? "services" : tab;
+  const navTab = tab === "room" ? "chats" : tab === "svc" ? "services" : tab === "article" ? "discover" : tab;
   $$(".tabs button").forEach(b => { if (b.dataset.go === navTab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
   if (tab !== "room") { stopConv(); hideTray(); conv = null; }
+  if (tab === "discover") renderDiscover();
   if (tab === "channels") loadFeed(feedNow);
   if (tab === "services") renderServices();
   if (tab === "wallet") drawWallet();
   if (tab === "profile") renderProfile();
   if (tab === "chats") renderChats();
-  if (tab !== "room" && tab !== "svc") history.replaceState(null, "", "#" + tab);
+  if (tab !== "room" && tab !== "svc" && tab !== "article") history.replaceState(null, "", "#" + tab);
 }
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-go]");
@@ -545,6 +546,7 @@ async function scanDialog() {
 /* deep link: #u=<uid> opens a private chat */
 let pendingDM = null;
 function readHash() { const m = location.hash.match(/^#u=([A-Za-z0-9]{6,64})$/); if (m) pendingDM = m[1]; }
+function readArticleHash() { const m = location.hash.match(/^#a=([a-z0-9-]{2,80})$/); return m ? m[1] : null; }
 function handleDeepLink() {
   if (!pendingDM || !FB.ready) return;
   if (!FB.user || !FB.profile || !$("#gate").hidden) return;
@@ -759,6 +761,91 @@ async function loadFeed(which) {
 function officialFallback() {
   return `<article class="post"><span class="src">Tulpar</span><h3>${esc(t("off1t"))}</h3><p>${esc(t("off1p"))}</p></article>` +
     `<article class="post"><span class="src">Tulpar</span><h3>${esc(t("off2t"))}</h3><p>${esc(t("off2p"))}</p></article>`;
+}
+
+/* ---------- Discover: the landing screen ---------- */
+const ART = window.TP_DISCOVER || [], AUTH = window.TP_AUTHORS || {};
+const loc = a => a[LANG] || a.en;
+const dayOnly = iso => fmtD(new Date(iso + "T12:00:00"), { day: "numeric", month: "long" });
+function greeting() {
+  const h = new Date(Date.now() + 6 * 36e5).getUTCHours();      // Irad Time
+  return t(h < 5 ? "goodEvening" : h < 12 ? "goodMorning" : h < 18 ? "goodAfternoon" : "goodEvening");
+}
+let newsLoaded = null;
+function loadNews() {
+  if (newsLoaded) return newsLoaded;
+  const f = LANG === "en" ? "../news.js" : `../news.${LANG}.js`;
+  return (newsLoaded = loadScript(f).catch(() => loadScript("../news.js")).catch(() => {}));
+}
+function artCard(a, big) {
+  const L = loc(a), au = AUTH[a.author] || { name: "", initials: "T" };
+  return `<button type="button" class="art${big ? " art-big" : ""}" data-art="${esc(a.id)}">
+    ${big ? `<span class="art-col">${esc(t(a.column === "headstart" ? "headStart" : "fromTeam"))}</span>` : ""}
+    <h3>${esc(L.title)}</h3><p>${esc(L.dek)}</p>
+    <span class="art-by"><i class="av">${esc(au.initials)}</i><b>${esc(au.name)}</b><small>${esc(dayOnly(a.date))} · ${esc(t("readMins", { n: a.mins }))}</small></span>
+  </button>`;
+}
+async function renderDiscover() {
+  const box = $("#discoverBody");
+  const name = FB.profile && FB.profile.name ? ", " + FB.profile.name : "";
+  const days = Math.max(0, Math.ceil((Date.UTC(2026, 11, 31, 18) - Date.now()) / 864e5));
+  const list = ART.slice().sort((a, b) => b.date.localeCompare(a.date));
+  const lead = list.find(a => a.column === "headstart") || list[0];
+  const rest = list.filter(a => a !== lead);
+  box.innerHTML = `
+    <div class="disc-hero">
+      <p class="hi">${esc(greeting() + name)}</p>
+      <div class="hero-row">
+        <button type="button" class="hero-chip" data-go="wallet"><small>TLPR</small><b data-tlpr="px">—</b><span data-tlpr="chg"></span></button>
+        <div class="hero-count"><b>${days}</b><span>${esc(t("untilPay", { n: days }))}</span></div>
+      </div>
+    </div>
+    ${lead ? `<div class="disc-sec">${artCard(lead, true)}</div>` : ""}
+    <h2 class="list-h">${esc(t("moreIdeas"))}</h2>
+    <div class="disc-sec art-list">${rest.map(a => artCard(a, false)).join("")}</div>
+    <h2 class="list-h">${esc(t("fromTulpar"))}</h2>
+    <div class="disc-sec" id="discNews"><p class="empty">${esc(t("loading"))}</p></div>
+    <div class="disc-links">
+      <button type="button" data-go="channels">📣 ${esc(t("tabChannels"))}</button>
+      <button type="button" data-svc-open="bazar">🐎 Bazar</button>
+      <button type="button" data-go="wallet">👛 ${esc(t("tabWallet"))}</button>
+    </div>`;
+  document.dispatchEvent(new CustomEvent("tlpr:tick"));
+  box.querySelectorAll("[data-art]").forEach(b => (b.onclick = () => openArticle(b.dataset.art)));
+  const bz = box.querySelector("[data-svc-open]"); if (bz) bz.onclick = () => { go("services"); openSvc("bazar"); };
+  await loadNews();
+  const news = (window.TULPAR_NEWS || []).slice(0, 3), base = LANG === "en" ? "../" : `../${LANG}/`;
+  const el = $("#discNews"); if (!el) return;
+  el.innerHTML = news.map(n => `<article class="post"><a href="${base}news.html#${esc(n.id)}" target="_blank" rel="noopener">
+      <span class="src">Tulpar · ${esc(n.kind || "")}</span><h3>${esc(n.title)}</h3><p>${esc(n.sum || "")}</p><time>${esc(dayOnly(n.date))}</time></a></article>`).join("")
+    + `<a class="more-link" href="${base}news.html" target="_blank" rel="noopener">${esc(t("allNews"))} →</a>`;
+}
+function openArticle(id) {
+  const a = ART.find(x => x.id === id); if (!a) return;
+  const L = loc(a), au = AUTH[a.author] || { name: "", role: {}, initials: "T" };
+  go("article");
+  history.replaceState(null, "", "#a=" + a.id);
+  $("#artKicker").textContent = t(a.column === "headstart" ? "headStart" : "fromTeam");
+  $("#artWhen").textContent = dayOnly(a.date) + " · " + t("readMins", { n: a.mins });
+  $("#artBody").innerHTML = `<h2>${esc(L.title)}</h2><p class="dek">${esc(L.dek)}</p>
+    <div class="byline"><i class="av">${esc(au.initials)}</i><div><b>${esc(au.name)}</b><small>${esc((au.role || {})[LANG] || (au.role || {}).en || "")}</small></div></div>
+    ${L.body.map(p => `<p>${esc(p)}</p>`).join("")}
+    ${a.author === "jason" ? `<p class="sign">— ${esc(au.name)}</p>` : ""}
+    <div class="reader-foot">
+      <button type="button" class="btn" id="artDiscuss">${esc(t("discuss"))}</button>
+      <button type="button" class="btn line" id="artShare2">${esc(t("shareArticle"))}</button>
+    </div>
+    <h3 class="list-h">${esc(t("moreIdeas"))}</h3>
+    ${ART.filter(x => x !== a).sort((x, y) => y.date.localeCompare(x.date)).slice(0, 3).map(x => artCard(x, false)).join("")}`;
+  $("#tab-article").scrollTop = 0;
+  $("#artDiscuss").onclick = () => { feedNow = "official"; $$("[data-feed]").forEach(x => x.setAttribute("aria-pressed", x.dataset.feed === "official" ? "true" : "false")); go("channels"); };
+  $$("#artBody [data-art]").forEach(b => (b.onclick = () => openArticle(b.dataset.art)));
+  const share = async () => {
+    const url = location.origin + location.pathname + "#a=" + a.id;
+    try { if (navigator.share) { await navigator.share({ title: L.title, url }); return; } } catch (e) { return; }
+    try { await navigator.clipboard.writeText(url); toast(t("copied")); } catch (e) { toast(url); }
+  };
+  $("#artShare").onclick = share; $("#artShare2").onclick = share;
 }
 
 /* ---------- location lock ---------- */
@@ -1038,7 +1125,9 @@ applyStatic();
 readHash();
 const start = location.hash.replace("#", "");
 const startTab = start === "bazar" ? "services" : start;
-go(["chats", "channels", "services", "wallet", "profile"].includes(startTab) ? startTab : "chats");
+const startArticle = readArticleHash();
+go(["discover", "chats", "channels", "services", "wallet", "profile"].includes(startTab) ? startTab : "discover");
+if (startArticle) openArticle(startArticle);
 if (start === "bazar") openSvc("bazar");
 initFirebase();
 window.addEventListener("online", () => ($("#netNote").textContent = ""));

@@ -2,6 +2,7 @@
 window.TP_STR = {
 en: {
   // tabs and general
+  tabDiscover: "Discover", headStart: "Head Start", fromTeam: "From the team", moreIdeas: "More from Tulpar", fromTulpar: "Tulpar news", allNews: "All Tulpar news", readMins: "{n} min read", untilPay: "days until Tulpar Pay moves to Tulparcoin", goodMorning: "Good morning", goodAfternoon: "Good afternoon", goodEvening: "Good evening", discuss: "Discuss in the Tulpar channel", shareArticle: "Share",
   tabChats: "Chats", tabChannels: "Channels", tabServices: "Services", tabWallet: "Wallet", tabProfile: "Profile",
   back: "Back", cancel: "Cancel", close: "Close", more: "More", send: "Send", save: "Save", loading: "Loading…", done: "Done.",
   today: "Today", yesterday: "Yesterday", tomorrow: "Tomorrow", you: "You", offline: "Offline", channel: "Channel",
@@ -161,6 +162,7 @@ en: {
   ev_burkut: "Burkut saluu", ev_burkutd: "Eagle hunters' meet, Chatkal foothills, all day"
 },
 ir: {
+  tabDiscover: "Achılısh", headStart: "Head Start", fromTeam: "Komandadan", moreIdeas: "Tulpardan dagı", fromTulpar: "Tulpar janılıktarı", allNews: "Bardık Tulpar janılıktarı", readMins: "{n} mün. okuu", untilPay: "kün kaldı: Tulpar Pay Tulparcoinge ötöt", goodMorning: "Kutman tañ", goodAfternoon: "Kutman kün", goodEvening: "Kutman kech", discuss: "Tulpar kanalında talkuulaa", shareArticle: "Bölüshüü",
   tabChats: "Maekter", tabChannels: "Kanaldar", tabServices: "Kızmattar", tabWallet: "Kapchık", tabProfile: "Profil",
   back: "Artka", cancel: "Jokko chıgaruu", close: "Jabuu", more: "Dagı", send: "Jönötüü", save: "Saktoo", loading: "Jüktölüüdö…", done: "Dayar.",
   today: "Bügün", yesterday: "Kechee", tomorrow: "Erteñ", you: "Siz", offline: "Oflayn", channel: "Kanal",
@@ -315,6 +317,7 @@ ir: {
   stk_jailoo: "Jailoo", stk_gol: "Gol!", stk_bee: "Bee!", stk_marshrutka: "Joldomun", stk_haha: "Ha-ha", stk_bilbeim: "Bilbeim"
 },
 ru: {
+  tabDiscover: "Обзор", headStart: "Head Start", fromTeam: "От команды", moreIdeas: "Ещё от Tulpar", fromTulpar: "Новости Tulpar", allNews: "Все новости Tulpar", readMins: "{n} мин чтения", untilPay: "дней до перехода Tulpar Pay на Tulparcoin", goodMorning: "Доброе утро", goodAfternoon: "Добрый день", goodEvening: "Добрый вечер", discuss: "Обсудить в канале Tulpar", shareArticle: "Поделиться",
   tabChats: "Чаты", tabChannels: "Каналы", tabServices: "Сервисы", tabWallet: "Кошелёк", tabProfile: "Профиль",
   back: "Назад", cancel: "Отмена", close: "Закрыть", more: "Ещё", send: "Отправить", save: "Сохранить", loading: "Загрузка…", done: "Готово.",
   today: "Сегодня", yesterday: "Вчера", tomorrow: "Завтра", you: "Вы", offline: "Офлайн", channel: "Канал",

@@ -28,8 +28,24 @@
 <body>
   <div class="app" id="app">
 
+    <!-- ===== Discover: the landing screen, Tulpar's own articles ===== -->
+    <section class="tab" id="tab-discover" data-tab="discover">
+      <header class="bar disc-bar"><img class="disc-logo" src="icon.svg" alt="" width="30" height="30"><h1 data-t="tabDiscover">Discover</h1></header>
+      <div id="discoverBody"></div>
+    </section>
+
+    <!-- one article -->
+    <section class="tab" id="tab-article" data-tab="article" hidden>
+      <header class="bar">
+        <button class="back" type="button" data-go="discover" data-ta="back" aria-label="Back">‹</button>
+        <div class="room-title"><b id="artKicker">Head Start</b><small id="artWhen"></small></div>
+        <button class="bar-btn" type="button" id="artShare" data-ta="shareArticle" aria-label="Share">⤴</button>
+      </header>
+      <article class="reader" id="artBody"></article>
+    </section>
+
     <!-- ===== Chats ===== -->
-    <section class="tab" id="tab-chats" data-tab="chats">
+    <section class="tab" id="tab-chats" data-tab="chats" hidden>
       <header class="bar"><h1 data-t="tabChats">Chats</h1><span class="bar-note" id="netNote"></span>
         <button class="bar-btn" type="button" id="newChatBtn" data-ta="newChat" aria-label="New chat">✎</button></header>
       <div class="banner" id="chatBanner" hidden></div>
@@ -136,7 +152,8 @@
 
     <!-- ===== tab bar ===== -->
     <nav class="tabs" aria-label="Tulpar">
-      <button type="button" data-go="chats" aria-current="page"><span class="ico">💬<i class="badge" id="chatBadge" hidden></i></span><em data-t="tabChats">Chats</em></button>
+      <button type="button" data-go="discover" aria-current="page"><span class="ico">🧭</span><em data-t="tabDiscover">Discover</em></button>
+      <button type="button" data-go="chats"><span class="ico">💬<i class="badge" id="chatBadge" hidden></i></span><em data-t="tabChats">Chats</em></button>
       <button type="button" data-go="channels"><span class="ico">📣</span><em data-t="tabChannels">Channels</em></button>
       <button type="button" data-go="services"><span class="ico">🧩</span><em data-t="tabServices">Services</em></button>
       <button type="button" data-go="wallet"><span class="ico">👛</span><em data-t="tabWallet">Wallet</em></button>
@@ -174,6 +191,7 @@
   <script src="firebase-config.js"></script>
   <script src="i18n.js"></script>
   <script src="seed.js"></script>
+  <script src="discover.js"></script>
   <script type="module" src="app.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
