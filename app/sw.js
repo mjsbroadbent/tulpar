@@ -1,6 +1,6 @@
 /* Tulpar app service worker: caches the app shell so it opens offline.
    Chat, news feeds and Firebase always go to the network. Bump VERSION when app files change. */
-const VERSION = "tulpar-app-v13";
+const VERSION = "tulpar-app-v14";
 const SHELL = ["./", "index.html", "app.css", "app.js", "i18n.js", "seed.js", "discover.js", "firebase-config.js", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png", "../strings.js", "../site.js",
   ...["salam", "rahmat", "jakshi", "kosh", "chai", "nan", "kalpak", "horse_love", "tlpr_up", "tlpr_down", "jailoo", "gol", "bee", "marshrutka", "haha", "bilbeim"].map(s => "stickers/" + s + ".svg")];
 self.addEventListener("install", e => {

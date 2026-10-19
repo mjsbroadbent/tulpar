@@ -766,6 +766,7 @@ function officialFallback() {
 /* ---------- Discover: the landing screen ---------- */
 const ART = window.TP_DISCOVER || [], AUTH = window.TP_AUTHORS || {};
 const loc = a => a[LANG] || a.en;
+const auName = au => au["name_" + LANG] || au.name || "";
 const dayOnly = iso => fmtD(new Date(iso + "T12:00:00"), { day: "numeric", month: "long" });
 function greeting() {
   const h = new Date(Date.now() + 6 * 36e5).getUTCHours();      // Irad Time
@@ -782,7 +783,7 @@ function artCard(a, big) {
   return `<button type="button" class="art${big ? " art-big" : ""}" data-art="${esc(a.id)}">
     ${big ? `<span class="art-col">${esc(t(a.column === "headstart" ? "headStart" : "fromTeam"))}</span>` : ""}
     <h3>${esc(L.title)}</h3><p>${esc(L.dek)}</p>
-    <span class="art-by"><i class="av">${esc(au.initials)}</i><b>${esc(au.name)}</b><small>${esc(dayOnly(a.date))} · ${esc(t("readMins", { n: a.mins }))}</small></span>
+    <span class="art-by"><i class="av">${esc(au.initials)}</i><b>${esc(auName(au))}</b><small>${esc(dayOnly(a.date))} · ${esc(t("readMins", { n: a.mins }))}</small></span>
   </button>`;
 }
 async function renderDiscover() {
@@ -828,9 +829,9 @@ function openArticle(id) {
   $("#artKicker").textContent = t(a.column === "headstart" ? "headStart" : "fromTeam");
   $("#artWhen").textContent = dayOnly(a.date) + " · " + t("readMins", { n: a.mins });
   $("#artBody").innerHTML = `<h2>${esc(L.title)}</h2><p class="dek">${esc(L.dek)}</p>
-    <div class="byline"><i class="av">${esc(au.initials)}</i><div><b>${esc(au.name)}</b><small>${esc((au.role || {})[LANG] || (au.role || {}).en || "")}</small></div></div>
+    <div class="byline"><i class="av">${esc(au.initials)}</i><div><b>${esc(auName(au))}</b><small>${esc((au.role || {})[LANG] || (au.role || {}).en || "")}</small></div></div>
     ${L.body.map(p => `<p>${esc(p)}</p>`).join("")}
-    ${a.author === "jason" ? `<p class="sign">— ${esc(au.name)}</p>` : ""}
+    ${a.author === "jason" ? `<p class="sign">— ${esc(auName(au))}</p>` : ""}
     <div class="reader-foot">
       <button type="button" class="btn" id="artDiscuss">${esc(t("discuss"))}</button>
       <button type="button" class="btn line" id="artShare2">${esc(t("shareArticle"))}</button>
