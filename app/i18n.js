@@ -130,7 +130,7 @@ en: {
   youSend: "You send", theyGet: "They get", fee: "Fee {f} som", cardNo: "Recipient's card number", sendMoney: "Send money",
 
   // services: information
-  wxSource: "Forecast from Open-Meteo. Updated every 15 minutes.",
+  wxSource: "From the weather stations at Talas, Nurzhan and Iyık Janyl. Updated every morning.",
   wx_clear: "Clear", wx_partly: "Partly cloudy", wx_cloudy: "Cloudy", wx_fog: "Fog", wx_drizzle: "Drizzle", wx_rain: "Rain", wx_snow: "Snow", wx_showers: "Showers", wx_storm: "Thunderstorm",
   official: "Bank of Irad official rate", officialNote: "Fixed at 8.40 som to the dollar since 17 March 2008. {d}.",
   street: "Bazar rates, Talas", streetNote: "What money changers at Bazar-i Kalan were asking this morning.", buy: "Buy", sell: "Sell",
@@ -281,7 +281,7 @@ ir: {
   country: "Ölkö", c_kg: "Kırgızstan", c_kz: "Kazakstan", c_ru: "Orusiya", c_uz: "Özbekstan",
   youSend: "Siz jönötösüz", theyGet: "Aluuchu alat", fee: "Komissiya {f} som", cardNo: "Aluuchunuñ karta nomeri", sendMoney: "Akcha jönötüü",
 
-  wxSource: "Open-Meteo boljoldoosu. Ar 15 münöttö jañılanat.",
+  wxSource: "Talas, Nurzhan jana Iyık Janyl aba-ırayı beketterinen. Ar kün tañ erteñ jañılanat.",
   wx_clear: "Achık", wx_partly: "Jarım-jartı bulut", wx_cloudy: "Bulut", wx_fog: "Tuman", wx_drizzle: "Mayda jamgır", wx_rain: "Jamgır", wx_snow: "Kar", wx_showers: "Nöshör", wx_storm: "Kürküröö",
   official: "Irad Bankınıñ rasmiy kursu", officialNote: "2008-jıldın 17-martınan beri 1 dollarga 8,40 som bolup bekitilgen. {d}.",
   street: "Bazar kurstarı, Talas", streetNote: "Bazar-i Kalandagı akcha almashtıruuchular bügün erteñ menen suragan baalar.", buy: "Satıp aluu", sell: "Satuu",
@@ -436,7 +436,7 @@ ru: {
   country: "Страна", c_kg: "Кыргызстан", c_kz: "Казахстан", c_ru: "Россия", c_uz: "Узбекистан",
   youSend: "Вы отправляете", theyGet: "Получатель получит", fee: "Комиссия {f} сом", cardNo: "Номер карты получателя", sendMoney: "Отправить деньги",
 
-  wxSource: "Прогноз Open-Meteo. Обновляется каждые 15 минут.",
+  wxSource: "По данным метеостанций Таласа, Нуржана и Ийык Джаныла. Обновляется каждое утро.",
   wx_clear: "Ясно", wx_partly: "Переменная облачность", wx_cloudy: "Облачно", wx_fog: "Туман", wx_drizzle: "Морось", wx_rain: "Дождь", wx_snow: "Снег", wx_showers: "Ливни", wx_storm: "Гроза",
   official: "Официальный курс Банка Ирада", officialNote: "Зафиксирован на уровне 8,40 сома за доллар с 17 марта 2008 года. {d}.",
   street: "Курс на базаре, Талас", streetNote: "Сколько просили менялы на Базар-и Калан сегодня утром.", buy: "Покупка", sell: "Продажа",

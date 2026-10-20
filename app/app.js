@@ -877,7 +877,7 @@ let svcDrawn = false;
 function renderServices() {
   if (!svcDrawn) { $("#svcPay").innerHTML = tiles(SVC_PAY); $("#svcInfo").innerHTML = tiles(SVC_INFO); svcDrawn = true; }
   $("#rateNow").textContent = num(SOM) + " som";
-  getWeather().then(w => { if (w && w[0] && w[0].ok) { $("#wxNow").textContent = wxIcon(w[0].code) + " " + Math.round(w[0].temp) + "°"; $("#wxWhere").textContent = "Talas"; } }).catch(() => {});
+  getWeather().then(w => { if (w && w[0] && w[0].ok) { $("#wxNow").textContent = wxIcon(w[0].code) + " " + Math.round(w[0].temp) + "°"; $("#wxWhere").textContent = w[0].name; } }).catch(() => {});
 }
 document.addEventListener("click", e => { const b = e.target.closest("[data-svc]"); if (b) openSvc(b.dataset.svc); });
 
@@ -903,7 +903,21 @@ document.addEventListener("click", e => {
 });
 const chipVal = (root, name) => { const b = $(`[data-chips="${name}"] [aria-pressed="true"]`, root); return b ? b.dataset.v : null; };
 
+/* rates and weather: the morning market data from iradone.com (03:07 Irad Time); the figures here are the fallback */
+const MARKET_URL = "https://iradone.com/data/today.json";
 const RATES = { usd: 1, eur: 0.862, rub: 81.5, kzt: 522, kgs: 87.45, uzs: 12650, cny: 7.12 }; // units per US dollar
+let STREET = [["USD", 1, 11.40, 11.85], ["EUR", 1, 13.10, 13.70], ["RUB", 100, 13.20, 14.40]], STREET_NOTE = null, marketP = null, MARKET_OK = false;
+function loadMarket() {
+  if (!marketP) marketP = fetch(MARKET_URL, { cache: "no-cache" }).then(r => { if (!r.ok) throw new Error("market " + r.status); return r.json(); })
+    .then(j => {
+      j.rates.official.rows.forEach(r => { if (r.code !== "USD") RATES[r.code.toLowerCase()] = SOM / (r.som / r.units); });
+      STREET = j.rates.bazaar.rows.map(r => [r.code, r.units, r.buy, r.sell]);
+      STREET_NOTE = j.rates.bazaar.note;
+      MARKET_OK = true;
+      return j;
+    }).catch(e => { marketP = null; throw e; });
+  return marketP;
+}
 const SVC = {
   bazar: () => `<div class="locked"><div class="lock-e">📍</div><h2>${esc(t("bazarLocked"))}</h2><p>${esc(t("bazarLockedText"))}</p>
       <button class="btn" type="button" id="checkLoc">${esc(t("checkLoc"))}</button><p class="small" id="locMsg"></p></div><div class="bazar" id="bazarOpen" hidden></div>`,
@@ -939,7 +953,8 @@ const SVC = {
       `<tr><td><b>100 TLPR</b></td><td>${num(px * 100 * SOM)} som</td></tr></tbody></table></div>
       <div class="card"><h3>${esc(t("street"))}</h3><p class="small">${esc(t("streetNote"))}</p>
       <table class="rates"><thead><tr><th></th><th>${esc(t("buy"))}</th><th>${esc(t("sell"))}</th></tr></thead><tbody>
-      <tr><td><b>USD</b></td><td>11.40</td><td>11.85</td></tr><tr><td><b>EUR</b></td><td>13.10</td><td>13.70</td></tr><tr><td><b>100 RUB</b></td><td>13.20</td><td>14.40</td></tr></tbody></table></div>
+      ${STREET.map(([c, u, b, s]) => `<tr><td><b>${u === 1 ? "" : u + " "}${c}</b></td><td>${num(b)}</td><td>${num(s)}</td></tr>`).join("")}</tbody></table>
+      ${STREET_NOTE ? `<p class="small">${esc(STREET_NOTE[LANG] || STREET_NOTE.en)}</p>` : ""}</div>
       <p class="small pad">${esc(t("ratesNote"))}</p>`;
   },
   buses: () => `<p class="small pad">${esc(t("busNote"))}</p><div id="busList"></div>`,
@@ -977,6 +992,10 @@ const SVC_AFTER = {
     box.innerHTML = w.map(c => !c.ok ? "" : `<div class="card wx"><div class="wx-now"><span class="wx-i">${wxIcon(c.code)}</span><div><b>${esc(c.name)}</b><small>${esc(t("wx_" + wxKey(c.code)))}</small></div><strong>${Math.round(c.temp)}°</strong></div>
       <div class="wx-days">${c.days.map(d => `<div><small>${esc(fmtD(new Date(d.date + "T12:00"), { weekday: "short" }))}</small><span>${wxIcon(d.code)}</span><b>${Math.round(d.max)}°</b><small>${Math.round(d.min)}°</small></div>`).join("")}</div></div>`).join("");
   },
+  rates: body => {
+    if (MARKET_OK) return;
+    loadMarket().then(() => { if (body.querySelector("table.rates")) body.innerHTML = SVC.rates(); }).catch(() => {});   // still on Rates
+  },
   buses: body => { const draw = () => ($("#busList", body).innerHTML = busHTML()); draw(); },
   church: body => churchFill(body),
   sport: body => sportFill(body)
@@ -989,22 +1008,22 @@ function openBazar() {
     items.map(i => `<div class="bz"><div class="pic">${i[0]}</div><div><b>${i[2]}</b>${esc(t(i[1]))}<br><span class="small">${i[3]}</span></div></div>`).join("");
 }
 
-/* weather: Open-Meteo, no key needed */
-const WX_PLACES = [["Talas", 42.52, 72.24], ["Nurzhan", 43.25, 73.3], ["Iyık Janyl", 41.48, 72.38]];
-let wxCache = null, wxAt = 0;
+/* weather: from the morning market data (the weather stations' day: high, low, three-hourly readings, 3-day outlook) */
+const WX_IDS = ["talas", "nurzhan", "iyik-janyl"];
+function wxNowTemp(p, hours) {
+  const d = new Date(Date.now() + 6 * 36e5), h = d.getUTCHours() + d.getUTCMinutes() / 60, v = p.temps_3h || [];
+  if (!v.length) return p.high;
+  const i = Math.min(v.length - 1, Math.floor(h / 3)), j = Math.min(v.length - 1, i + 1);
+  return v[i] + (v[j] - v[i]) * (i === j ? 0 : (h - hours[i]) / 3);
+}
 async function getWeather() {
-  if (wxCache && Date.now() - wxAt < 15 * 60e3) return wxCache;
-  const lat = WX_PLACES.map(p => p[1]).join(","), lon = WX_PLACES.map(p => p[2]).join(",");
-  const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=4&timezone=Asia%2FBishkek`);
-  if (!r.ok) throw new Error("weather " + r.status);
-  let j = await r.json(); if (!Array.isArray(j)) j = [j];
-  wxCache = WX_PLACES.map((p, i) => {
-    const x = j[i]; if (!x || !x.current) return { ok: false };
-    return { ok: true, name: p[0], temp: x.current.temperature_2m, code: x.current.weather_code,
-      days: x.daily.time.slice(1, 4).map((d, k) => ({ date: d, code: x.daily.weather_code[k + 1], max: x.daily.temperature_2m_max[k + 1], min: x.daily.temperature_2m_min[k + 1] })) };
+  const m = await loadMarket(), w = m.weather, hours = w.hours || [0, 3, 6, 9, 12, 15, 18, 21];
+  return WX_IDS.map(id => {
+    const p = w.places.find(x => x.id === id);
+    if (!p) return { ok: false };
+    return { ok: true, name: p.name[LANG] || p.name.en, temp: wxNowTemp(p, hours), code: p.code,
+      days: (p.forecast || []).map(d => ({ date: d.date, code: d.code, max: d.high, min: d.low })) };
   });
-  wxAt = Date.now();
-  return wxCache;
 }
 function wxKey(c) { return c === 0 ? "clear" : c <= 2 ? "partly" : c === 3 ? "cloudy" : c <= 48 ? "fog" : c <= 57 ? "drizzle" : c <= 67 ? "rain" : c <= 77 ? "snow" : c <= 82 ? "showers" : c <= 86 ? "snow" : "storm"; }
 function wxIcon(c) { return { clear: "☀️", partly: "⛅", cloudy: "☁️", fog: "🌫️", drizzle: "🌦️", rain: "🌧️", snow: "🌨️", showers: "🌦️", storm: "⛈️" }[wxKey(c)]; }
