@@ -239,5 +239,5 @@ window.TP_DISCOVER = [
 
 window.TP_AUTHORS = {
   jason: { name: "Jason Ilyasov", name_ru: "Джейсон Ильясов", role: { en: "Founder and chief executive", ir: "Negizdöötchü jana bashkı direktor", ru: "Основатель и генеральный директор" }, initials: "JI" },
-  aiperi: { name: "Aiperi Kalysbekova", name_ru: "Айпери Калысбекова", role: { en: "Chief technology officer", ir: "Tehnologiya direktoru", ru: "Технический директор" }, initials: "AK" }
+  aiperi: { name: "Aiperi Kalysbek", name_ru: "Айпери Калысбекова", role: { en: "Chief technology officer", ir: "Tehnologiya direktoru", ru: "Технический директор" }, initials: "AK" }
 };
