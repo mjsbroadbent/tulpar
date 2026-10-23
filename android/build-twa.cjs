@@ -22,7 +22,6 @@ function fail(e) {
   manifest.startUrl = '/app/';
   manifest.name = 'Tulpar';
   manifest.launcherName = 'Tulpar';
-  manifest.navigationColor = '#054a60';
   manifest.display = 'standalone';
   manifest.orientation = 'portrait';
   manifest.enableNotifications = false;
