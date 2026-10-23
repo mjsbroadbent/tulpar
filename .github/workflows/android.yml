@@ -45,6 +45,7 @@ jobs:
         working-directory: ${{ runner.temp }}/twa
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
+          sed -i -E 's/minSdkVersion [0-9]+/minSdkVersion 24/' app/build.gradle
           chmod +x gradlew
           ./gradlew --no-daemon assembleRelease > "$RUNNER_TEMP/gradle.log" 2>&1 || { tail -c 1500 "$RUNNER_TEMP/gradle.log" | tr '\n' ' ' | sed 's/^/::error title=Gradle build failed::/'; echo; exit 1; }
           ls -la app/build/outputs/apk/release/

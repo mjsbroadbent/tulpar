@@ -26,6 +26,7 @@ function fail(e) {
   manifest.orientation = 'portrait';
   manifest.enableNotifications = false;
   manifest.fallbackType = 'customtabs';
+  manifest.minSdkVersion = 24;
   manifest.appVersionCode = Number(versionCode);
   manifest.appVersionName = `1.${versionCode}`;
   manifest.signingKey = { path: '../tulpar-release.jks', alias: 'tulpar' };
