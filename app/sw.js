@@ -1,7 +1,7 @@
-/* Tulpar app service worker: caches the app shell so it opens offline.
-   Chat, news feeds and Firebase always go to the network. Bump VERSION when app files change. */
-const VERSION = "tulpar-app-v16";
-const SHELL = ["./", "index.html", "app.css", "app.js", "i18n.js", "seed.js", "discover.js", "firebase-config.js", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png", "../strings.js", "../site.js",
+/* Tulpar app service worker: caches the app shell (and the channels' seed posts) so it opens offline.
+   Chat, the day's posts, news feeds and Firebase always go to the network. Bump VERSION when app files change. */
+const VERSION = "tulpar-app-v17";
+const SHELL = ["./", "index.html", "app.css", "app.js", "i18n.js", "seed.js", "discover.js", "feed.js", "feed/accounts.json", "feed/posts.json", "firebase-config.js", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png", "../strings.js", "../site.js",
   ...["salam", "rahmat", "jakshi", "kosh", "chai", "nan", "kalpak", "horse_love", "tlpr_up", "tlpr_down", "jailoo", "gol", "bee", "marshrutka", "haha", "bilbeim"].map(s => "stickers/" + s + ".svg")];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

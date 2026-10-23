@@ -1,5 +1,6 @@
 /* Tulpar web app. Chat runs on Firebase (Auth + Firestore) when app/firebase-config.js is filled in;
-   everything else works without it. Text lives in i18n.js. */
+   everything else works without it. Text lives in i18n.js; the channels (Discover, Channels, profiles) in feed.js. */
+import { createFeed } from "./feed.js";
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 const T = window.TULPAR || {};
@@ -74,20 +75,22 @@ $("#langSeg").addEventListener("click", e => {
 });
 
 /* ---------- navigation ---------- */
-let current = "discover";
+let current = "discover", feed = null;
+const SUB_TABS = ["room", "svc", "article", "account", "post"];
 function go(tab) {
   current = tab;
   $$(".tab").forEach(s => (s.hidden = s.dataset.tab !== tab));
-  const navTab = tab === "room" ? "chats" : tab === "svc" ? "services" : tab === "article" ? "discover" : tab;
+  const navTab = tab === "room" ? "chats" : tab === "svc" ? "services" : tab === "article" ? "discover" : (tab === "account" || tab === "post") ? (feed ? feed.navFor() : "discover") : tab;
   $$(".tabs button").forEach(b => { if (b.dataset.go === navTab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+  document.body.dataset.tab = tab;
   if (tab !== "room") { stopConv(); hideTray(); conv = null; }
-  if (tab === "discover") renderDiscover();
-  if (tab === "channels") loadFeed(feedNow);
+  if (tab === "discover" && feed) feed.renderDiscover();
+  if (tab === "channels" && feed) feed.renderChannels();
   if (tab === "services") renderServices();
   if (tab === "wallet") drawWallet();
   if (tab === "profile") renderProfile();
   if (tab === "chats") renderChats();
-  if (tab !== "room" && tab !== "svc" && tab !== "article") history.replaceState(null, "", "#" + tab);
+  if (!SUB_TABS.includes(tab)) history.replaceState(null, "", "#" + tab);
 }
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-go]");
@@ -125,7 +128,7 @@ async function initFirebase() {
       gateFromState();
       if (current === "profile") renderProfile();
       if (current === "room" && conv) reopenConv();
-      if (current === "channels" && feedNow === "official") loadFeed("official");
+      if (feed) feed.onAuth();
       handleDeepLink();
     });
     setBanner("");
@@ -552,7 +555,12 @@ function handleDeepLink() {
   if (!FB.user || !FB.profile || !$("#gate").hidden) return;
   const u = pendingDM; pendingDM = null; openDM(u);
 }
-window.addEventListener("hashchange", () => { readHash(); handleDeepLink(); });
+window.addEventListener("hashchange", () => {
+  readHash(); handleDeepLink();
+  const h = location.hash.slice(1);
+  if (["discover", "chats", "channels", "services", "wallet", "profile"].includes(h) && h !== current) go(h);
+  else if (feed) feed.handleHash(location.hash);
+});
 
 
 /* ---------- start-up screen ---------- */
@@ -718,52 +726,7 @@ $("#adminBody").addEventListener("click", async e => {
   } catch (err) { console.warn(err); toast(t("didntWork")); }
 });
 
-/* ---------- channels ---------- */
-let feedNow = "iradone", feedUnsub = null;
-$$("[data-feed]").forEach(b => b.addEventListener("click", () => {
-  $$("[data-feed]").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
-  feedNow = b.dataset.feed; loadFeed(feedNow);
-}));
-async function loadFeed(which) {
-  const box = $("#feed");
-  if (feedUnsub) { feedUnsub(); feedUnsub = null; }
-  box.innerHTML = `<p class="empty">${esc(t("loading"))}</p>`;
-  try {
-    if (which === "iradone") {
-      const r = await fetch("https://iradone.com/news/index.json", { cache: "no-cache" });
-      const items = await r.json();
-      box.innerHTML = items.slice(0, 20).map(n => `<article class="post"><a href="https://iradone.com/news/${esc(n.slug)}.html" target="_blank" rel="noopener">
-        <span class="src">IradOne · ${esc(n.category || "News")}</span><h3>${esc(n.headline)}</h3><p>${esc(n.dek || "")}</p><time>${fmtWhen(new Date(n.published))}</time></a></article>`).join("");
-    } else if (which === "herald") {
-      const r = await fetch("https://talasherald.com/feed.xml", { cache: "no-cache" });
-      const xml = new DOMParser().parseFromString(await r.text(), "text/xml");
-      box.innerHTML = Array.from(xml.querySelectorAll("item")).slice(0, 20).map(it => {
-        const g = s => (it.querySelector(s) || {}).textContent || "";
-        return `<article class="post"><a href="${esc(g("link"))}" target="_blank" rel="noopener"><span class="src">Talas Herald · ${esc(g("category") || "News")}</span>
-          <h3>${esc(g("title"))}</h3><p>${esc(g("description"))}</p><time>${fmtWhen(new Date(g("pubDate")))}</time></a></article>`;
-      }).join("");
-    } else {
-      if (!FB.ready) { box.innerHTML = officialFallback(); return; }
-      const F = FB.F;
-      feedUnsub = F.onSnapshot(F.query(F.collection(FB.db, "rooms", "official", "messages"), F.orderBy("createdAt", "desc"), F.limit(30)), snap => {
-        box.innerHTML = (snap.empty ? officialFallback() : snap.docs.map(d => { const m = d.data({ serverTimestamps: "estimate" });
-          const body = m.sticker ? `<img class="stk" src="stickers/${esc(m.sticker)}.svg" alt="" width="120" height="120">` : m.poll ? `<p>📊 ${esc(m.poll.q)}</p>` : `<p style="color:var(--ink)">${esc(m.text)}</p>`;
-          return `<article class="post"><span class="src">Tulpar</span>${body}<time>${m.createdAt ? fmtWhen(tsDate(m.createdAt)) : ""}</time></article>`; }).join("")) +
-          `<button class="btn" type="button" id="openOfficial">${esc(t(FB.admin ? "postAsTulpar" : "openChannel"))}</button>`;
-        const po = $("#openOfficial"); if (po) po.onclick = () => openRoom("official");
-      });
-    }
-  } catch (e) {
-    console.warn(e);
-    box.innerHTML = `<p class="empty">${esc(t("feedFail"))}</p>`;
-  }
-}
-function officialFallback() {
-  return `<article class="post"><span class="src">Tulpar</span><h3>${esc(t("off1t"))}</h3><p>${esc(t("off1p"))}</p></article>` +
-    `<article class="post"><span class="src">Tulpar</span><h3>${esc(t("off2t"))}</h3><p>${esc(t("off2p"))}</p></article>`;
-}
-
-/* ---------- Discover: the landing screen ---------- */
+/* ---------- Discover articles (Head Start and the team), opened from @tulpar's long-form posts ---------- */
 const ART = window.TP_DISCOVER || [], AUTH = window.TP_AUTHORS || {};
 const loc = a => a[LANG] || a.en;
 const auName = au => au["name_" + LANG] || au.name || "";
@@ -772,12 +735,6 @@ function greeting() {
   const h = new Date(Date.now() + 6 * 36e5).getUTCHours();      // Irad Time
   return t(h < 5 ? "goodEvening" : h < 12 ? "goodMorning" : h < 18 ? "goodAfternoon" : "goodEvening");
 }
-let newsLoaded = null;
-function loadNews() {
-  if (newsLoaded) return newsLoaded;
-  const f = LANG === "en" ? "../news.js" : `../news.${LANG}.js`;
-  return (newsLoaded = loadScript(f).catch(() => loadScript("../news.js")).catch(() => {}));
-}
 function artCard(a, big) {
   const L = loc(a), au = AUTH[a.author] || { name: "", initials: "T" };
   return `<button type="button" class="art${big ? " art-big" : ""}" data-art="${esc(a.id)}">
@@ -785,41 +742,6 @@ function artCard(a, big) {
     <h3>${esc(L.title)}</h3><p>${esc(L.dek)}</p>
     <span class="art-by"><i class="av">${esc(au.initials)}</i><b>${esc(auName(au))}</b><small>${esc(dayOnly(a.date))} · ${esc(t("readMins", { n: a.mins }))}</small></span>
   </button>`;
-}
-async function renderDiscover() {
-  const box = $("#discoverBody");
-  const name = FB.profile && FB.profile.name ? ", " + FB.profile.name : "";
-  const days = Math.max(0, Math.ceil((Date.UTC(2026, 11, 31, 18) - Date.now()) / 864e5));
-  const list = ART.slice().sort((a, b) => b.date.localeCompare(a.date));
-  const lead = list.find(a => a.column === "headstart") || list[0];
-  const rest = list.filter(a => a !== lead);
-  box.innerHTML = `
-    <div class="disc-hero">
-      <p class="hi">${esc(greeting() + name)}</p>
-      <div class="hero-row">
-        <button type="button" class="hero-chip" data-go="wallet"><small>TLPR</small><b data-tlpr="px">—</b><span data-tlpr="chg"></span></button>
-        <div class="hero-count"><b>${days}</b><span>${esc(t("untilPay", { n: days }))}</span></div>
-      </div>
-    </div>
-    ${lead ? `<div class="disc-sec">${artCard(lead, true)}</div>` : ""}
-    <h2 class="list-h">${esc(t("moreIdeas"))}</h2>
-    <div class="disc-sec art-list">${rest.map(a => artCard(a, false)).join("")}</div>
-    <h2 class="list-h">${esc(t("fromTulpar"))}</h2>
-    <div class="disc-sec" id="discNews"><p class="empty">${esc(t("loading"))}</p></div>
-    <div class="disc-links">
-      <button type="button" data-go="channels">📣 ${esc(t("tabChannels"))}</button>
-      <button type="button" data-svc-open="bazar">🐎 Bazar</button>
-      <button type="button" data-go="wallet">👛 ${esc(t("tabWallet"))}</button>
-    </div>`;
-  document.dispatchEvent(new CustomEvent("tlpr:tick"));
-  box.querySelectorAll("[data-art]").forEach(b => (b.onclick = () => openArticle(b.dataset.art)));
-  const bz = box.querySelector("[data-svc-open]"); if (bz) bz.onclick = () => { go("services"); openSvc("bazar"); };
-  await loadNews();
-  const news = (window.TULPAR_NEWS || []).slice(0, 3), base = LANG === "en" ? "../" : `../${LANG}/`;
-  const el = $("#discNews"); if (!el) return;
-  el.innerHTML = news.map(n => `<article class="post"><a href="${base}news.html#${esc(n.id)}" target="_blank" rel="noopener">
-      <span class="src">Tulpar · ${esc(n.kind || "")}</span><h3>${esc(n.title)}</h3><p>${esc(n.sum || "")}</p><time>${esc(dayOnly(n.date))}</time></a></article>`).join("")
-    + `<a class="more-link" href="${base}news.html" target="_blank" rel="noopener">${esc(t("allNews"))} →</a>`;
 }
 function openArticle(id) {
   const a = ART.find(x => x.id === id); if (!a) return;
@@ -839,7 +761,7 @@ function openArticle(id) {
     <h3 class="list-h">${esc(t("moreIdeas"))}</h3>
     ${ART.filter(x => x !== a).sort((x, y) => y.date.localeCompare(x.date)).slice(0, 3).map(x => artCard(x, false)).join("")}`;
   $("#tab-article").scrollTop = 0;
-  $("#artDiscuss").onclick = () => { feedNow = "official"; $$("[data-feed]").forEach(x => x.setAttribute("aria-pressed", x.dataset.feed === "official" ? "true" : "false")); go("channels"); };
+  $("#artDiscuss").onclick = () => feed.openAccount("tulpar");
   $$("#artBody [data-art]").forEach(b => (b.onclick = () => openArticle(b.dataset.art)));
   const share = async () => {
     const url = location.origin + location.pathname + "#a=" + a.id;
@@ -1176,12 +1098,17 @@ $("#claimBtn").addEventListener("click", () => toast(t("claimLocked")));
 /* ---------- start ---------- */
 applyStatic();
 readHash();
-const start = location.hash.replace("#", "");
+feed = createFeed({ $, $$, t, esc, LANG, LOCALE, fmtD, hhmm, toast, store, go, FB, greeting, openArticle, openRoom, dialog, closeDialog,
+  current: () => current });
+const startHash = location.hash;
+const start = startHash.replace("#", "");
 const startTab = start === "bazar" ? "services" : start;
 const startArticle = readArticleHash();
 go(["discover", "chats", "channels", "services", "wallet", "profile"].includes(startTab) ? startTab : "discover");
 if (startArticle) openArticle(startArticle);
 if (start === "bazar") openSvc("bazar");
+feed.handleHash(startHash);
+feed.load();
 initFirebase();
 window.addEventListener("online", () => ($("#netNote").textContent = ""));
 window.addEventListener("offline", () => ($("#netNote").textContent = t("offline")));

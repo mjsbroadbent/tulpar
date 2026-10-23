@@ -30,10 +30,37 @@
 <body>
   <div class="app" id="app">
 
-    <!-- ===== Discover: the landing screen, Tulpar's own articles ===== -->
+    <!-- ===== Discover: the "For you" timeline of every channel ===== -->
     <section class="tab" id="tab-discover" data-tab="discover">
-      <header class="bar disc-bar"><img class="disc-logo" src="icon.svg" alt="" width="30" height="30"><h1 data-t="tabDiscover">Discover</h1></header>
+      <div class="disc-head">
+        <header class="bar disc-bar"><img class="disc-logo" src="icon.svg" alt="" width="30" height="30"><h1 data-t="tabDiscover">Discover</h1>
+          <button class="bar-btn" type="button" id="discSearch" data-ta="fSearch" aria-label="Search"><svg viewBox="0 0 24 24" class="ico-s"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></button></header>
+        <nav class="ftabs" id="ftabs" role="tablist" data-ta="tabDiscover" aria-label="Discover">
+          <button type="button" role="tab" data-f="foryou" aria-selected="true" data-t="fForYou">For you</button>
+          <button type="button" role="tab" data-f="news" aria-selected="false" data-t="fNews">News</button>
+          <button type="button" role="tab" data-f="sport" aria-selected="false" data-t="fSport">Sport</button>
+          <button type="button" role="tab" data-f="business" aria-selected="false" data-t="fBusiness">Business</button>
+        </nav>
+      </div>
       <div id="discoverBody"></div>
+    </section>
+
+    <!-- one channel's profile (#@handle) -->
+    <section class="tab" id="tab-account" data-tab="account" hidden>
+      <header class="bar">
+        <button class="back" type="button" data-fback data-ta="back" aria-label="Back">‹</button>
+        <div class="room-title"><b id="acName"></b><small id="acCount"></small></div>
+      </header>
+      <div id="acBody"></div>
+    </section>
+
+    <!-- one post and its thread (#post=<id>) -->
+    <section class="tab" id="tab-post" data-tab="post" hidden>
+      <header class="bar">
+        <button class="back" type="button" data-fback data-ta="back" aria-label="Back">‹</button>
+        <div class="room-title"><b data-t="fPost">Post</b></div>
+      </header>
+      <div id="postBody" class="tl"></div>
     </section>
 
     <!-- one article -->
@@ -78,15 +105,21 @@
       <div class="composer-off" id="composerOff" hidden></div>
     </section>
 
-    <!-- ===== Channels ===== -->
+    <!-- ===== Channels: the channels you subscribe to, search by @handle or name ===== -->
     <section class="tab" id="tab-channels" data-tab="channels" hidden>
       <header class="bar"><h1 data-t="tabChannels">Channels</h1></header>
-      <div class="chips" role="group" data-ta="channel" aria-label="Channel">
-        <button type="button" data-feed="iradone" aria-pressed="true">IradOne</button>
-        <button type="button" data-feed="herald" aria-pressed="false">Talas Herald</button>
-        <button type="button" data-feed="official" aria-pressed="false">Tulpar</button>
+      <div class="ch-search"><label><svg viewBox="0 0 24 24" class="ico-s"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+        <input type="search" id="chSearch" autocomplete="off" spellcheck="false" data-tp="fSearchPh" placeholder="Find a channel: @talasfilms or a name" data-ta="fSearch" aria-label="Search"></label></div>
+      <div id="chResults" class="ch-results" hidden></div>
+      <div id="chMain">
+        <div class="subs-row" id="subsRow"></div>
+        <div class="seg ch-seg" id="chSeg" role="group">
+          <button type="button" data-ch="posts" aria-pressed="true" data-t="fPosts">Posts</button>
+          <button type="button" data-ch="list" aria-pressed="false"><span data-t="fYourChannels">Your channels</span> <i id="chSubsN"></i></button>
+          <button type="button" data-ch="saved" aria-pressed="false" data-t="fSaved">Saved</button>
+        </div>
+        <div id="chBody"></div>
       </div>
-      <div class="feed" id="feed"></div>
     </section>
 
     <!-- ===== Services ===== -->
@@ -151,6 +184,9 @@
 
     <!-- ===== start-up screen: sign in, choose a name, install ===== -->
     <div class="gate" id="gate" hidden><div class="gate-in" id="gateBody"></div></div>
+
+    <!-- wide screens: search, channels to subscribe, trending tags -->
+    <aside class="side" id="feedSide" aria-label="Channels"></aside>
 
     <!-- ===== tab bar ===== -->
     <nav class="tabs" aria-label="Tulpar">

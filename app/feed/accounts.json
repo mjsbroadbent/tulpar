@@ -1,0 +1,906 @@
+{
+ "updated": "2026-10-23",
+ "accounts": [
+  {
+   "handle": "tulpar",
+   "name": {
+    "en": "Tulpar"
+   },
+   "kind": "service",
+   "avatar": "feed/avatars/tulpar.svg",
+   "banner": "#00728c",
+   "bio": {
+    "en": "The official Tulpar channel: app news, Tulpar Pay and the Head Start column. Made in Talas since 2019.",
+    "ir": "Tulpardın rasmiy kanalı: tirkemenin janılıktarı, Tulpar Pay jana Head Start kolonkası. 2019-jıldan beri Talasta jasalat.",
+    "ru": "Официальный канал Tulpar: новости приложения, Tulpar Pay и колонка Head Start. Сделано в Таласе с 2019 года."
+   },
+   "verified": true,
+   "followers": 412600,
+   "joined": "2019-03",
+   "url": "https://tulparapp.com/"
+  },
+  {
+   "handle": "iradone",
+   "name": {
+    "en": "IradOne"
+   },
+   "kind": "news",
+   "avatar": "feed/avatars/iradone.svg",
+   "banner": "#1f5fa8",
+   "bio": {
+    "en": "Irad's public broadcaster. OneNews at Eight every evening at 20:00; headlines here as they break.",
+    "ir": "Iraddın koomduk teleradiosu. OneNews at Eight ar kechte saat 20:00do; janılıktar bul jerde.",
+    "ru": "Общественная телерадиокомпания Ирада. OneNews at Eight каждый вечер в 20:00, главные новости — здесь."
+   },
+   "verified": true,
+   "followers": 186300,
+   "joined": "2020-04",
+   "url": "https://iradone.com/"
+  },
+  {
+   "handle": "iradonesport",
+   "name": {
+    "en": "IradOne Sport"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/iradonesport.svg",
+   "banner": "#0d3f7a",
+   "bio": {
+    "en": "The home of the Irad League, the Irad Cup and the horse games on IradOne. Live matches, highlights, fixtures.",
+    "ir": "Irad Ligası, Irad Kubogu jana at oyundarı IradOnedo. Tüz efir, eñ jakshı kördörlör, oyun kalendarı.",
+    "ru": "Лига Ирада, Кубок Ирада и конные игры на IradOne. Прямые трансляции, обзоры, календарь."
+   },
+   "verified": true,
+   "followers": 74900,
+   "joined": "2021-03",
+   "url": "https://iradone.com/sport/"
+  },
+  {
+   "handle": "iradodin",
+   "name": {
+    "en": "IradOdin",
+    "ru": "ИрадОдин"
+   },
+   "kind": "news",
+   "avatar": "feed/avatars/iradodin.svg",
+   "banner": "#16325c",
+   "bio": {
+    "en": "IradOne's Russian-language channel: news on the hour on Radio IradOdin, Neftchi with Russian commentary.",
+    "ir": "IradOnenin orus tilindegi kanalı: Radio IradOdinde ar saat sayın janılıktar, Neftchi orus tilindegi komentariy menen.",
+    "ru": "Русскоязычный канал IradOne: новости каждый час на Радио ИрадОдин, «Нефтчи» с русским комментарием."
+   },
+   "verified": true,
+   "followers": 38200,
+   "joined": "2021-09",
+   "url": "https://iradone.com/"
+  },
+  {
+   "handle": "talasherald",
+   "name": {
+    "en": "The Talas Herald",
+    "ir": "Talas Jarchısı",
+    "ru": "Talas Herald"
+   },
+   "kind": "news",
+   "avatar": "feed/avatars/talasherald.svg",
+   "banner": "#7a1c1c",
+   "bio": {
+    "en": "Independent newspaper of Talas. Est. 1993. Six days a week in print and at talasherald.com.",
+    "ir": "Talastın köz karandısız geziti. 1993-jılı negizdelgen. Jumasına alty kün basmada jana talasherald.com saytında.",
+    "ru": "Независимая газета Таласа с 1993 года. Шесть дней в неделю в печати и на talasherald.com."
+   },
+   "verified": true,
+   "followers": 97400,
+   "joined": "2020-06",
+   "url": "https://talasherald.com/"
+  },
+  {
+   "handle": "iradtimes",
+   "name": {
+    "en": "Irad Times",
+    "ir": "Irad Ubaktısı"
+   },
+   "kind": "news",
+   "banner": "#222222",
+   "bio": {
+    "en": "Independent weekly, Talas. Out Thursdays, 24 pages, 5 som. The paper that would not be sold.",
+    "ir": "Köz karandısız jumalık gezit, Talas. Beyshembi saynı chıgat, 24 bet, 5 som.",
+    "ru": "Независимый еженедельник, Талас. Выходит по четвергам, 24 полосы, 5 сомов."
+   },
+   "verified": true,
+   "followers": 41800,
+   "joined": "2023-10",
+   "url": "https://mjsbroadbent.github.io/IradTimes/"
+  },
+  {
+   "handle": "iradgov",
+   "name": {
+    "en": "Office of the Governor",
+    "ir": "Gubernatordun Keñsesi",
+    "ru": "Канцелярия губернатора"
+   },
+   "kind": "government",
+   "avatar": "feed/avatars/iradgov.png",
+   "banner": "#1d3b2a",
+   "bio": {
+    "en": "Official channel of the Office of the Governor of the ISEZ. Press releases from the Lieutenant Governor and the departments.",
+    "ir": "ISEZ Gubernatoru keñsesinin rasmiy kanalı. Vitse-gubernator jana departamentterdin press-relizderi.",
+    "ru": "Официальный канал Канцелярии губернатора ОЭЗИ. Пресс-релизы вице-губернатора и департаментов."
+   },
+   "verified": true,
+   "followers": 63100,
+   "joined": "2021-05",
+   "url": "https://iradgov.org/"
+  },
+  {
+   "handle": "bankofirad",
+   "name": {
+    "en": "Bank of Irad",
+    "ir": "Irad Bankı",
+    "ru": "Банк Ирада"
+   },
+   "kind": "government",
+   "avatar": "feed/avatars/bankofirad.svg",
+   "banner": "#0f5132",
+   "bio": {
+    "en": "The central bank of Irad. Official rates of the som, notices and the currency board. 8.40 to the dollar since 2008.",
+    "ir": "Iraddın borborduk bankı. Somdun rasmiy kursu, bildirüülör jana valyuta keñeshi. 2008-jıldan beri dollarga 8,40.",
+    "ru": "Центральный банк Ирада. Официальные курсы сома, сообщения, валютный совет. 8,40 за доллар с 2008 года."
+   },
+   "verified": true,
+   "followers": 22700,
+   "joined": "2022-03",
+   "url": "https://bank.iradgov.org/"
+  },
+  {
+   "handle": "archives",
+   "name": {
+    "en": "State Archives of Irad",
+    "ir": "Irad Mamlekettik Arhivi",
+    "ru": "Государственный архив Ирада"
+   },
+   "kind": "government",
+   "avatar": "feed/avatars/archives.png",
+   "banner": "#5a4630",
+   "bio": {
+    "en": "Fonds, exhibitions and the reading room on Archive Street, Talas. Copy requests by stamped addressed envelope.",
+    "ir": "Fonddor, körgözmölör jana Talastagı okuu zalı. Köchürmölördü kat menen surañız.",
+    "ru": "Фонды, выставки и читальный зал в Таласе. Копии документов — по запросу с конвертом."
+   },
+   "verified": true,
+   "followers": 9840,
+   "joined": "2022-11",
+   "url": "https://archives.iradgov.org/"
+  },
+  {
+   "handle": "eirad",
+   "name": {
+    "en": "e-Irad"
+   },
+   "kind": "government",
+   "avatar": "feed/avatars/eirad.svg",
+   "banner": "#1c4fa0",
+   "bio": {
+    "en": "Public services online. Step-by-step guides to ISEZ procedures. Pilot since 1 October 2026.",
+    "ir": "Mamlekettik kızmattar onlayn. ISEZ protseduraları boyuncha kadam-kadam jetekchi. 2026-jıldın 1-oktyabrınan pilot.",
+    "ru": "Госуслуги онлайн. Пошаговые инструкции по процедурам ОЭЗИ. Пилотный режим с 1 октября 2026 года."
+   },
+   "verified": true,
+   "followers": 15200,
+   "joined": "2026-09",
+   "url": "https://e-irad.org/"
+  },
+  {
+   "handle": "iradenergo",
+   "name": {
+    "en": "Iradenergo",
+    "ru": "Ирадэнерго"
+   },
+   "kind": "service",
+   "avatar": "feed/avatars/iradenergo.svg",
+   "banner": "#1b3fa3",
+   "bio": {
+    "en": "State Joint-Stock Company Iradenergo: Toktogul, the Naryn cascade, the grid and the National Dispatch Centre.",
+    "ir": "Iradenergo mamlekettik aktsionerdik koomu: Toktogul, Narın kaskadı, elektr tarmagı jana Uluttuk dispetcherlik borbor.",
+    "ru": "ГАК «Ирадэнерго»: Токтогул, Нарынский каскад, сети и Национальный диспетчерский центр."
+   },
+   "verified": true,
+   "followers": 27300,
+   "joined": "2021-11"
+  },
+  {
+   "handle": "pochtasy",
+   "name": {
+    "en": "Irad Pochtasy",
+    "ir": "Irad Pochtası",
+    "ru": "Ирадпочта"
+   },
+   "kind": "service",
+   "avatar": "feed/avatars/pochtasy.svg",
+   "banner": "#0f7c7a",
+   "bio": {
+    "en": "Irad Post: about 190 post offices, pensions at the counter, money orders and newspaper subscriptions.",
+    "ir": "Irad Pochtası: 190go juuk pochta bölümü, pensiya kassada, akcha kotoruular jana gezitke jazıluu.",
+    "ru": "Ирадпочта: около 190 отделений, пенсии в кассе, переводы и подписка на газеты."
+   },
+   "verified": true,
+   "followers": 12600,
+   "joined": "2022-02"
+  },
+  {
+   "handle": "temirjolu",
+   "name": {
+    "en": "Irad Temir Jolu",
+    "ru": "Ирадская железная дорога"
+   },
+   "kind": "service",
+   "avatar": "feed/avatars/temirjolu.svg",
+   "banner": "#2f3a33",
+   "bio": {
+    "en": "The railway of Irad: about 690 km of track from Talas North Terminal to the Nurzhan rail border station.",
+    "ir": "Iraddın temir jolu: Talas Tündük terminalınan Nurzhan chek ara stantsiyasına cheyin 690 km jol.",
+    "ru": "Железная дорога Ирада: около 690 км пути от терминала Талас-Северный до пограничной станции Нуржан."
+   },
+   "verified": true,
+   "followers": 8900,
+   "joined": "2022-06"
+  },
+  {
+   "handle": "iradleague",
+   "name": {
+    "en": "Irad League",
+    "ir": "Irad Ligası",
+    "ru": "Лига Ирада"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/iradleague.png",
+   "banner": "#14324f",
+   "bio": {
+    "en": "The Football Federation of Irad (FFI): the Irad League, the Irad Cup, the First League and the Women's League.",
+    "ir": "Irad Futbol Federatsiyası (FFI): Irad Ligası, Irad Kubogu, Birinchi Liga jana Ayaldar ligası.",
+    "ru": "Федерация футбола Ирада (ФФИ): Лига Ирада, Кубок Ирада, Первая лига и Женская лига."
+   },
+   "verified": true,
+   "followers": 58700,
+   "joined": "2020-08",
+   "url": "https://mjsbroadbent.github.io/irad-league/"
+  },
+  {
+   "handle": "tulpartalas",
+   "name": {
+    "en": "FK Tulpar Talas",
+    "ru": "ФК «Тулпар» Талас"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/tulpartalas.svg",
+   "banner": "#b3132d",
+   "bio": {
+    "en": "Official channel of FK Tulpar Talas. White and crimson. 11 league titles. Silk Road Arena.",
+    "ir": "FK Tulpar Talastın rasmiy kanalı. Ak jana kızıl. 11 chempion titulu. Jibek Jolu Arenası.",
+    "ru": "Официальный канал ФК «Тулпар» Талас. Бело-малиновые. 11 чемпионских титулов. Арена «Шёлковый путь»."
+   },
+   "verified": true,
+   "followers": 64200,
+   "joined": "2020-07",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-tulpar.html"
+  },
+  {
+   "handle": "neftchi",
+   "name": {
+    "en": "FK Neftchi Nurzhan",
+    "ru": "ФК «Нефтчи» Нуржан"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/neftchi.svg",
+   "banner": "#141414",
+   "bio": {
+    "en": "Official channel of Neftchi Nurzhan, founded 1958 as Neftyanik Kobozev. Black and orange. 13 titles. NurGaz Stadium.",
+    "ir": "Neftchi Nurzhandın rasmiy kanalı, 1958-jılı Neftyanik Kobozev bolup negizdelgen. Kara jana sarı-kızıl. 13 titul.",
+    "ru": "Официальный канал «Нефтчи» Нуржан, основан в 1958 году как «Нефтяник» Кобозев. Чёрно-оранжевые. 13 титулов. Стадион «НурГаз»."
+   },
+   "verified": true,
+   "followers": 52900,
+   "joined": "2020-07",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-neftchi.html"
+  },
+  {
+   "handle": "temirjolchu",
+   "name": {
+    "en": "FK Temirjolchu Nurzhan",
+    "ru": "ФК «Темиржолчу» Нуржан"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/temirjolchu.svg",
+   "banner": "#16325c",
+   "bio": {
+    "en": "The railway workers' club of Nurzhan since 1936 (Lokomotiv Kobozev). Navy and sky blue. Lokomotiv Stadium.",
+    "ir": "1936-jıldan beri Nurzhandın temir jolchular klubu (Lokomotiv Kobozev). Lokomotiv stadionu.",
+    "ru": "Клуб железнодорожников Нуржана с 1936 года («Локомотив» Кобозев). Стадион «Локомотив»."
+   },
+   "verified": true,
+   "followers": 14300,
+   "joined": "2020-09",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-temirjolchu.html"
+  },
+  {
+   "handle": "attelkomtalas",
+   "name": {
+    "en": "FK Attelkom Talas",
+    "ru": "ФК «Аттелком» Талас"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/attelkomtalas.svg",
+   "banner": "#1e8a3a",
+   "bio": {
+    "en": "Green and white since 1996. Two league titles. Attelkom Park, Talas. Irad Cup finalists 2026.",
+    "ir": "1996-jıldan beri jashıl jana ak. Eki chempion titulu. Attelkom Park, Talas. 2026 Irad Kubogunun finalisti.",
+    "ru": "Зелёно-белые с 1996 года. Два чемпионства. «Аттелком Парк», Талас. Финалист Кубка Ирада 2026."
+   },
+   "verified": true,
+   "followers": 11800,
+   "joined": "2021-02",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-attelkom.html"
+  },
+  {
+   "handle": "dastgoh",
+   "name": {
+    "en": "FK Dastgoh Nurzhan",
+    "ru": "ФК «Дастгох» Нуржан"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/dastgoh.svg",
+   "banner": "#f2b705",
+   "bio": {
+    "en": "The Nurzhanmash works club of Dastgoh, founded 1993. Yellow and graphite. Dastgoh Stadium.",
+    "ir": "1993-jılı negizdelgen Dastgohtogu Nurzhanmash zavodunun klubu. Sarı jana grafit.",
+    "ru": "Заводской клуб «Нуржанмаша» из Дастгоха, основан в 1993 году. Жёлто-графитовые. Стадион «Дастгох»."
+   },
+   "verified": true,
+   "followers": 9600,
+   "joined": "2021-04",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-dastgoh.html"
+  },
+  {
+   "handle": "universitet",
+   "name": {
+    "en": "FK Universitet Talas",
+    "ru": "ФК «Университет» Талас"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/universitet.svg",
+   "banner": "#4b2a7b",
+   "bio": {
+    "en": "The club of Talas State University. Bilim jaryk. Purple and gold. TSU Stadium.",
+    "ir": "Talas mamlekettik universitetinin klubu. Bilim jarık. Kızgılt-kök jana altın.",
+    "ru": "Клуб Таласского госуниверситета. Bilim jaryk. Фиолетово-золотые. Стадион ТГУ."
+   },
+   "verified": true,
+   "followers": 12400,
+   "joined": "2020-10",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-universitet.html"
+  },
+  {
+   "handle": "surma",
+   "name": {
+    "en": "FK Surma Chatkal",
+    "ru": "ФК «Сурма» Чаткал"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/surma.svg",
+   "banner": "#2b3038",
+   "bio": {
+    "en": "The Greys. The antimony combine's works club since 1961. Kombinat Stadium.",
+    "ir": "Bozdor. 1961-jıldan beri surma kombinatının klubu. Kombinat stadionu.",
+    "ru": "«Серые». Заводской клуб сурьмяного комбината с 1961 года. Стадион «Комбинат»."
+   },
+   "verified": false,
+   "followers": 5300,
+   "joined": "2022-04",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-surma.html"
+  },
+  {
+   "handle": "fciyikjanyl",
+   "name": {
+    "en": "FC Iyık Janyl",
+    "ru": "ФК «Ийык Джаныл»"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/fciyikjanyl.svg",
+   "banner": "#1e2f4d",
+   "bio": {
+    "en": "The holy city's club, founded for the first Irad League season in 1994. Iyık Janyl City Stadium.",
+    "ir": "1994-jılı Irad Ligasının birinchi sezonu üchün negizdelgen ıyık shaardın klubu.",
+    "ru": "Клуб святого города, основан к первому сезону Лиги Ирада в 1994 году."
+   },
+   "verified": true,
+   "followers": 7900,
+   "joined": "2021-06",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-iyikjanyl.html"
+  },
+  {
+   "handle": "karabuura",
+   "name": {
+    "en": "FK Kara-Buura",
+    "ru": "ФК «Кара-Буура»"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/karabuura.svg",
+   "banner": "#a8412b",
+   "bio": {
+    "en": "The Kara-Buura District's club, Kyzyl-Adyr, since 1995. Brick red, black and sand.",
+    "ir": "1995-jıldan beri Kara-Buura aymagının klubu, Kızıl-Adır.",
+    "ru": "Клуб Кара-Бууринского района, Кызыл-Адыр, с 1995 года."
+   },
+   "verified": false,
+   "followers": 6100,
+   "joined": "2022-08",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-karabuura.html"
+  },
+  {
+   "handle": "narynfk",
+   "name": {
+    "en": "FK Naryn Tash-Kömür",
+    "ir": "FK Narın Tash-Kömür",
+    "ru": "ФК «Нарын» Таш-Кумыр"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/narynfk.svg",
+   "banner": "#1a6e91",
+   "bio": {
+    "en": "Tash-Kömür's club since 1952, the coal miners' team renamed Naryn in 1993. Shakhtyor Stadium.",
+    "ir": "1952-jıldan beri Tash-Kömürdün klubu. Shahtyor stadionu.",
+    "ru": "Клуб Таш-Кумыра с 1952 года, шахтёрская команда, с 1993 года — «Нарын». Стадион «Шахтёр»."
+   },
+   "verified": false,
+   "followers": 3800,
+   "joined": "2023-03",
+   "url": "https://mjsbroadbent.github.io/irad-league/club-naryn.html"
+  },
+  {
+   "handle": "jarysh",
+   "name": {
+    "en": "Jarysh"
+   },
+   "kind": "sport",
+   "avatar": "feed/avatars/jarysh.svg",
+   "banner": "#b8860b",
+   "bio": {
+    "en": "Irad's #1 horse games portal. Ulak scores, tables and Jarysh Odds. Aigyr Ulak Nights every league Saturday. 18+ for odds.",
+    "ir": "Iraddın №1 at oyundarı portalı. Ulak esepteri, tablitsalar jana Jarysh Odds. 18+.",
+    "ru": "Портал конных игр №1 в Ираде. Счета улака, таблицы и Jarysh Odds. Ставки — только 18+."
+   },
+   "verified": true,
+   "followers": 88400,
+   "joined": "2020-11",
+   "url": "https://jarysh.com/"
+  },
+  {
+   "handle": "nurgaz",
+   "name": {
+    "en": "NurGaz",
+    "ru": "НурГаз"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/nurgaz.svg",
+   "banner": "#141414",
+   "bio": {
+    "en": "Oil and gas from the Chu basin since 1993. NurGaz filling stations in Talas, Nurzhan and Iyık Janyl.",
+    "ir": "1993-jıldan beri Chüy öröönünün neft jana gazı. Talas, Nurzhan jana Iyık Janyldagı NurGaz quyuu stantsiyaları.",
+    "ru": "Нефть и газ Чуйского бассейна с 1993 года. Заправки «НурГаз» в Таласе, Нуржане и Ийык Джаныле."
+   },
+   "verified": true,
+   "followers": 34600,
+   "joined": "2021-07"
+  },
+  {
+   "handle": "talasbank",
+   "name": {
+    "en": "Talasbank",
+    "ru": "Таласбанк"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/talasbank.svg",
+   "banner": "#13294b",
+   "bio": {
+    "en": "Bank of Talas, since 1993. 28 branches in Talas, Nurzhan and Iyık Janyl. SMS banking and remittances.",
+    "ir": "1993-jıldan beri Talas Bankı. Talas, Nurzhan jana Iyık Janylda 28 filial.",
+    "ru": "Банк Таласа с 1993 года. 28 отделений в Таласе, Нуржане и Ийык Джаныле. SMS-банк и переводы."
+   },
+   "verified": true,
+   "followers": 48200,
+   "joined": "2021-01"
+  },
+  {
+   "handle": "attelkom",
+   "name": {
+    "en": "Attelkom",
+    "ru": "Аттелком"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/attelkom.svg",
+   "banner": "#1f8a2b",
+   "bio": {
+    "en": "Connecting Irad. Mobile, 4G/LTE, home fibre and hosting. Maps at @kartalar, ads at Jarnama.",
+    "ir": "Iraddı baylanıshtırabız. Mobildik baylanısh, 4G/LTE, üygö optika jana hosting.",
+    "ru": "Соединяем Ирад. Мобильная связь, 4G/LTE, домашняя оптика и хостинг."
+   },
+   "verified": true,
+   "followers": 121000,
+   "joined": "2020-05",
+   "url": "https://attelkom.net/"
+  },
+  {
+   "handle": "kartalar",
+   "name": {
+    "en": "Kartalar · Attelkom Maps",
+    "ru": "Kartalar · Карты Аттелком"
+   },
+   "kind": "service",
+   "avatar": "feed/avatars/kartalar.svg",
+   "banner": "#14532d",
+   "bio": {
+    "en": "The map of Irad: street plans of Talas, Nurzhan and Iyık Janyl, roads, passes and places. maps.attelkom.net",
+    "ir": "Iraddın kartası: Talas, Nurzhan jana Iyık Janyldın köchö planı, joldor, ashuular.",
+    "ru": "Карта Ирада: планы улиц Таласа, Нуржана и Ийык Джаныла, дороги, перевалы и места."
+   },
+   "verified": true,
+   "followers": 25600,
+   "joined": "2020-09",
+   "url": "https://maps.attelkom.net/"
+  },
+  {
+   "handle": "bereke",
+   "name": {
+    "en": "Bereke",
+    "ru": "Береке"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/bereke.svg",
+   "banner": "#c62828",
+   "bio": {
+    "en": "Irad's biggest supermarket chain: 76 shops in Talas, 53 in Nurzhan, 15 in Iyık Janyl. Bereke means plenty.",
+    "ir": "Iraddın eñ choñ supermarket tarmagı: Talasta 76, Nurzhanda 53, Iyık Janylda 15 dükön.",
+    "ru": "Крупнейшая сеть супермаркетов Ирада: 76 магазинов в Таласе, 53 в Нуржане, 15 в Ийык Джаныле."
+   },
+   "verified": true,
+   "followers": 67800,
+   "joined": "2020-12"
+  },
+  {
+   "handle": "jildiz",
+   "name": {
+    "en": "Jıldız Market",
+    "ru": "Жылдыз Маркет"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/jildiz.svg",
+   "banner": "#2e2a6b",
+   "bio": {
+    "en": "Supermarkets since 1998: 40 in Talas, 36 in Nurzhan, 6 in Iyık Janyl.",
+    "ir": "1998-jıldan beri supermarketter: Talasta 40, Nurzhanda 36, Iyık Janylda 6.",
+    "ru": "Супермаркеты с 1998 года: 40 в Таласе, 36 в Нуржане, 6 в Ийык Джаныле."
+   },
+   "verified": true,
+   "followers": 29400,
+   "joined": "2021-03"
+  },
+  {
+   "handle": "shipa",
+   "name": {
+    "en": "Shıpa Dariykana",
+    "ru": "Аптека «Шыпа»"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/shipa.svg",
+   "banner": "#0f8a5f",
+   "bio": {
+    "en": "Pharmacies in Talas (34), Nurzhan (23) and Iyık Janyl (14). Shıpa means cure.",
+    "ir": "Talasta (34), Nurzhanda (23) jana Iyık Janylda (14) dariykanalar.",
+    "ru": "Аптеки в Таласе (34), Нуржане (23) и Ийык Джаныле (14)."
+   },
+   "verified": true,
+   "followers": 18700,
+   "joined": "2021-10"
+  },
+  {
+   "handle": "torgoy",
+   "name": {
+    "en": "Torgoy",
+    "ru": "Торгой"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/torgoy.svg",
+   "banner": "#5b2a86",
+   "bio": {
+    "en": "The lark that sings across the border. Mobile in Nurzhan, the Chu belt and the Kara-Buura valley; +7 SIMs in our shops.",
+    "ir": "Chek arada sayragan torgoy. Nurzhan, Chüy jana Kara-Buura öröönündö mobildik baylanısh.",
+    "ru": "Жаворонок, который поёт через границу. Мобильная связь в Нуржане, Чуйской полосе и долине Кара-Буура; сим-карты +7."
+   },
+   "verified": true,
+   "followers": 39900,
+   "joined": "2021-08"
+  },
+  {
+   "handle": "akbata",
+   "name": {
+    "en": "Ak Bata Bank",
+    "ir": "Ak Bata Bankı",
+    "ru": "Ак Бата Банк"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/akbata.svg",
+   "banner": "#7b1e3a",
+   "bio": {
+    "en": "Founded in Talas in 1995. 43 branches: 24 in Talas, 15 in Nurzhan, 4 in Iyık Janyl.",
+    "ir": "1995-jılı Talasta negizdelgen. 43 filial.",
+    "ru": "Основан в Таласе в 1995 году. 43 отделения: 24 в Таласе, 15 в Нуржане, 4 в Ийык Джаныле."
+   },
+   "verified": true,
+   "followers": 16300,
+   "joined": "2021-12"
+  },
+  {
+   "handle": "chuybank",
+   "name": {
+    "en": "Chuy Commercial Bank",
+    "ir": "Chüy Kommertsiyalık Bankı",
+    "ru": "Чуй Коммерческий банк"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/chuybank.svg",
+   "banner": "#b71c1c",
+   "bio": {
+    "en": "33 branches, 16 of them in Nurzhan. Clearing through the Bank of Irad Clearing House.",
+    "ir": "33 filial, anın 16sı Nurzhanda.",
+    "ru": "33 отделения, 16 из них в Нуржане. Расчёты через Клиринговую палату Банка Ирада."
+   },
+   "verified": true,
+   "followers": 9200,
+   "joined": "2022-05"
+  },
+  {
+   "handle": "iradstrakh",
+   "name": {
+    "en": "Iradstrakh",
+    "ir": "Iradstrah",
+    "ru": "Ирадстрах"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/iradstrakh.svg",
+   "banner": "#5a6170",
+   "bio": {
+    "en": "State Insurance Company of Irad. Motor third-party cover, property, crops and livestock. About 60 offices.",
+    "ir": "Irad Mamlekettik Kamsızdandıruu Kompaniyası. 60go juuk bölüm.",
+    "ru": "Государственная страховая компания Ирада. ОСАГО, имущество, урожай и скот. Около 60 офисов."
+   },
+   "verified": false,
+   "followers": 4700,
+   "joined": "2023-01"
+  },
+  {
+   "handle": "jilmay",
+   "name": {
+    "en": "Jılmay"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/jilmay.svg",
+   "banner": "#2fb34a",
+   "bio": {
+    "en": "Smile! Classifieds since 2016: horses, cars, flats, jobs. Jılmay Cargo brings your parcels from Bishkek.",
+    "ir": "Jılmay! 2016-jıldan beri jarnamalar: attar, mashinalar, üylör, jumush. Jılmay Cargo.",
+    "ru": "Улыбнись! Объявления с 2016 года: кони, машины, квартиры, работа. Jılmay Cargo — посылки из Бишкека."
+   },
+   "verified": true,
+   "followers": 73500,
+   "joined": "2020-06",
+   "url": "https://jilmay.com/"
+  },
+  {
+   "handle": "talassut",
+   "name": {
+    "en": "Talas Süt",
+    "ru": "Талас Сүт"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/talassut.svg",
+   "banner": "#12345f",
+   "bio": {
+    "en": "Talas Dairy Processing Combine, owned by the Talas Valley Milk Cooperative. Ak süt, ak niet. Since 1964.",
+    "ir": "Talas Süt Kombinatı, Talas Öröönü Süt Kooperativine taandık. Ak süt, ak niet. 1964-jıldan beri.",
+    "ru": "Таласский молочный комбинат, принадлежит молочному кооперативу Таласской долины. С 1964 года."
+   },
+   "verified": true,
+   "followers": 19800,
+   "joined": "2021-05",
+   "url": "https://talas-sut.com/"
+  },
+  {
+   "handle": "akyel",
+   "name": {
+    "en": "Akyel Syndicate",
+    "ir": "Akyel Sindikatı",
+    "ru": "Синдикат «Акыел»"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/akyel.svg",
+   "banner": "#8a5a2b",
+   "bio": {
+    "en": "Akyel Equine Logistics & Breeding Syndicate: pedigrees and transport for Akyel and Chongtor horses.",
+    "ir": "Akyel jana Chongtor attarının tukum kitepteri jana tashuu.",
+    "ru": "Племенные книги и перевозка лошадей ахыел и чонгтор."
+   },
+   "verified": false,
+   "followers": 11200,
+   "joined": "2022-09"
+  },
+  {
+   "handle": "aigyr",
+   "name": {
+    "en": "Aigyr Lager",
+    "ir": "Aigyr",
+    "ru": "Aigyr"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/aigyr.svg",
+   "banner": "#1a1a1a",
+   "bio": {
+    "en": "Brewed in Kara-Bulak since 2009. Title sponsor of Aigyr Ulak Nights. 18+. Please drink responsibly.",
+    "ir": "2009-jıldan beri Kara-Bulakta. Aigyr Ulak Nights demöörchüsü. 18+.",
+    "ru": "Варится в Кара-Булаке с 2009 года. Титульный спонсор Aigyr Ulak Nights. 18+."
+   },
+   "verified": true,
+   "followers": 21500,
+   "joined": "2021-06"
+  },
+  {
+   "handle": "iradiya",
+   "name": {
+    "en": "Iradiya",
+    "ru": "Ирадия"
+   },
+   "kind": "business",
+   "avatar": "feed/avatars/iradiya.svg",
+   "banner": "#3c4a5c",
+   "bio": {
+    "en": "Irad Air Services since 1997: charter and cargo from Talas Air Base, and the Talas–Tash-Kömür route.",
+    "ir": "1997-jıldan beri Irad Air Services: Talas aviabazasınan charter jana jük, Talas–Tash-Kömür reysi.",
+    "ru": "Irad Air Services с 1997 года: чартеры и грузы с авиабазы Талас, рейс Талас — Таш-Кумыр."
+   },
+   "verified": true,
+   "followers": 6400,
+   "joined": "2022-07"
+  },
+  {
+   "handle": "tsu",
+   "name": {
+    "en": "Talas State University",
+    "ir": "Talas Mamlekettik Universiteti",
+    "ru": "Таласский государственный университет"
+   },
+   "kind": "culture",
+   "avatar": "feed/avatars/tsu.svg",
+   "banner": "#3b2a6b",
+   "bio": {
+    "en": "TSU and the National Library of Irad. Since 1958. 12 University Street, Talas.",
+    "ir": "TMU jana Iraddın Uluttuk kitepkanası. 1958-jıldan beri.",
+    "ru": "ТГУ и Национальная библиотека Ирада. С 1958 года. Талас, ул. Университетская, 12."
+   },
+   "verified": true,
+   "followers": 31500,
+   "joined": "2020-09",
+   "url": "https://talasuniversity.org/"
+  },
+  {
+   "handle": "talasfilms",
+   "name": {
+    "en": "Talasfilm Studios",
+    "ir": "Talasfilm",
+    "ru": "Таласфильм"
+   },
+   "kind": "culture",
+   "banner": "#6b3a1e",
+   "bio": {
+    "en": "Film studio of Talas since 1954: Zarina, Desert Sun's Rebellion and the Easterns. Today drama, comedy and animation for IradOne.",
+    "ir": "1954-jıldan beri Talastın kinostudiyası: Zarina, Desert Sun's Rebellion jana Chıgısh filmderi.",
+    "ru": "Киностудия Таласа с 1954 года: «Зарина», «Восстание пустынного солнца» и истерны. Сегодня — сериалы и мультфильмы для IradOne."
+   },
+   "verified": true,
+   "followers": 23400,
+   "joined": "2021-04"
+  },
+  {
+   "handle": "talasfilmarchive",
+   "name": {
+    "en": "Talasfilm Archives",
+    "ir": "Talasfilm Arhivi",
+    "ru": "Архив «Таласфильма»"
+   },
+   "kind": "culture",
+   "banner": "#3d2b1f",
+   "bio": {
+    "en": "Talasfilm Archives and Film Preservation Institute: the national film archive since 1995. Restorations and the lost-film appeal.",
+    "ir": "Talasfilm Arhivi jana Kino Saktoo Institutu: 1995-jıldan beri uluttuk kinoarhiv.",
+    "ru": "Архив «Таласфильма» и Институт сохранения фильмов: национальный киноархив с 1995 года. Реставрации и поиск утраченных фильмов."
+   },
+   "verified": true,
+   "followers": 6800,
+   "joined": "2022-01"
+  },
+  {
+   "handle": "filmsociety",
+   "name": {
+    "en": "Irad Film Society",
+    "ir": "Irad Kino Koomu",
+    "ru": "Киноклуб Ирада"
+   },
+   "kind": "culture",
+   "banner": "#2a2a3a",
+   "bio": {
+    "en": "Non-profit for the preservation, restoration and screening of Iradi films. Talas International Film Festival, odd years.",
+    "ir": "Iradi filmderin saktoo, kalıbına keltirüü jana körsötüü. Talas El Aralık Kinofestivalı.",
+    "ru": "Некоммерческое общество сохранения, реставрации и показа ирадских фильмов. Таласский международный кинофестиваль."
+   },
+   "verified": false,
+   "followers": 4300,
+   "joined": "2021-09",
+   "url": "https://iradfilmsociety.neocities.org/"
+  },
+  {
+   "handle": "palaceofart",
+   "name": {
+    "en": "Irad Palace of Art",
+    "ir": "Irad Körköm Sarayı",
+    "ru": "Дворец искусств Ирада"
+   },
+   "kind": "culture",
+   "avatar": "feed/avatars/palaceofart.png",
+   "banner": "#8b1e2d",
+   "bio": {
+    "en": "Irad's national collection: Yusup Ayyubov, the Talas Alatau painters and young artists. Talas.",
+    "ir": "Iraddın uluttuk kollektsiyası: Yusup Ayyubov jana jash süröötchülör.",
+    "ru": "Национальное собрание Ирада: Юсуп Айюбов, художники Таласского Алатау и молодые авторы."
+   },
+   "verified": true,
+   "followers": 13900,
+   "joined": "2021-02",
+   "url": "https://iradpalaceof.art/"
+  },
+  {
+   "handle": "kochaudio",
+   "name": {
+    "en": "Köch Audio"
+   },
+   "kind": "culture",
+   "avatar": "feed/avatars/kochaudio.svg",
+   "banner": "#241d18",
+   "bio": {
+    "en": "Iradi music, carried across. Most Iradi releases on the streaming platforms; members' dates on our Live page.",
+    "ir": "Iradi muzıkası, alıska jetkirilet. Iradi relizderinin köbü striming platformalarında.",
+    "ru": "Ирадская музыка — через границы. Большинство ирадских релизов на стриминговых платформах."
+   },
+   "verified": true,
+   "followers": 17600,
+   "joined": "2021-01",
+   "url": "https://kochaudio.online/"
+  },
+  {
+   "handle": "arshakitep",
+   "name": {
+    "en": "Arsha Books",
+    "ir": "Arsha Kitep",
+    "ru": "Арша Китеп"
+   },
+   "kind": "culture",
+   "banner": "#5b6b3a",
+   "bio": {
+    "en": "Independent press, Köhne Diz, since 2009. Poetry, stories and songs in Iradi, Russian and English. Ottuk Library in English.",
+    "ir": "2009-jıldan beri köz karandısız basma, Köhne Diz. Iradi, orus jana angliys tilderinde.",
+    "ru": "Независимое издательство, Кёхне Диз, с 2009 года. Стихи, рассказы и песни."
+   },
+   "verified": false,
+   "followers": 3900,
+   "joined": "2021-06",
+   "url": "https://arshakitep.com/"
+  }
+ ]
+}

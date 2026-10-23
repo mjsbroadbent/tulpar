@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="2 18 122 122" width="488" height="488">
+<title>JARYSH</title>
+<defs><linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#fffbe0"/><stop offset=".16" stop-color="#ffe680"/><stop offset=".40" stop-color="#f5b400"/>
+<stop offset=".52" stop-color="#9a5e00"/><stop offset=".60" stop-color="#e7a90f"/><stop offset=".76" stop-color="#fff0a8"/>
+<stop offset="1" stop-color="#b67a06"/></linearGradient>
+<linearGradient id="goldH" gradientUnits="userSpaceOnUse" x1="0" y1="-44" x2="0" y2="40">
+<stop offset="0" stop-color="#fffbe0"/><stop offset=".3" stop-color="#ffd447"/><stop offset=".55" stop-color="#a86a00"/>
+<stop offset=".72" stop-color="#ffe27a"/><stop offset="1" stop-color="#9a6200"/></linearGradient>
+<linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="bevel" x="-15%" y="-15%" width="130%" height="130%">
+<feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="b"/>
+<feSpecularLighting in="b" surfaceScale="4" specularConstant=".9" specularExponent="22" lighting-color="#fff6d0" result="s">
+<fePointLight x="120" y="-160" z="220"/></feSpecularLighting>
+<feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/>
+<feComposite in="SourceGraphic" in2="sc" operator="arithmetic" k1="0" k2="1" k3=".75" k4="0"/></filter>
+<filter id="drop" x="-10%" y="-10%" width="130%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="glow"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#fff6c0"/><stop offset="1" stop-color="#ffd447" stop-opacity="0"/></radialGradient></defs>
+<g transform="translate(62 82)"><g class="shoe">
+<path d="M-24.0,-38.0 C-40.8,-18.0 -39.2,32.0 0.0,32.0 C39.2,32.0 40.8,-18.0 24.0,-38.0" fill="none" stroke="#000" stroke-opacity=".55" stroke-width="22" transform="translate(3 5)" filter="url(#drop)"/>
+<path d="M-24.0,-38.0 C-40.8,-18.0 -39.2,32.0 0.0,32.0 C39.2,32.0 40.8,-18.0 24.0,-38.0" fill="none" stroke="#d4101c" stroke-width="27"/>
+<path d="M-24.0,-38.0 C-40.8,-18.0 -39.2,32.0 0.0,32.0 C39.2,32.0 40.8,-18.0 24.0,-38.0" fill="none" stroke="#2a1600" stroke-width="21"/>
+<path d="M-24.0,-38.0 C-40.8,-18.0 -39.2,32.0 0.0,32.0 C39.2,32.0 40.8,-18.0 24.0,-38.0" fill="none" stroke="url(#goldH)" stroke-width="16" filter="url(#bevel)"/>
+<path d="M-24.0,-38.0 C-40.8,-18.0 -39.2,32.0 0.0,32.0 C39.2,32.0 40.8,-18.0 24.0,-38.0" fill="none" stroke="#7a4a00" stroke-opacity=".55" stroke-width="2.2"/>
+<g fill="#3a2200"><rect x="-33.3" y="-29.6" width="6.8" height="3.0" rx="1.2" transform="rotate(113 -29.9 -28.1)"/><rect x="-37.3" y="-12.8" width="6.8" height="3.0" rx="1.2" transform="rotate(95 -33.9 -11.3)"/><rect x="-36.0" y="4.8" width="6.8" height="3.0" rx="1.2" transform="rotate(76 -32.6 6.3)"/><rect x="-28.5" y="19.8" width="6.8" height="3.0" rx="1.2" transform="rotate(50 -25.1 21.3)"/><rect x="21.7" y="19.8" width="6.8" height="3.0" rx="1.2" transform="rotate(-50 25.1 21.3)"/><rect x="29.2" y="4.8" width="6.8" height="3.0" rx="1.2" transform="rotate(-76 32.6 6.3)"/><rect x="30.5" y="-12.8" width="6.8" height="3.0" rx="1.2" transform="rotate(-95 33.9 -11.3)"/><rect x="26.5" y="-29.6" width="6.8" height="3.0" rx="1.2" transform="rotate(-113 29.9 -28.1)"/></g>
+</g></g>
+</svg>

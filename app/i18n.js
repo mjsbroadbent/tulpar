@@ -518,3 +518,47 @@ Object.assign(window.TP_STR.ru, { pollClosed: "Этот опрос заверш�
 Object.assign(window.TP_STR.en, { lgLoading: "Loading the table…", lgFail: "Results are temporarily unavailable. Try again later.", lgLead: "{c} lead by {n} pts", lgLevel: "{a} and {b} level on points", lgChamps: "{c} are champions", lgLeft: "rounds left: {n}", lgResults: "Results", lgToFollow: "Result to follow", lgCupFinal: "Irad Cup final", lgCupWon: "{c} win the Irad Cup", lgAet: "after extra time", lgPens: "{a}–{b} on penalties", lgClub: "Club", lgP: "P", lgPts: "Pts", lgMore: "Full table and fixtures on the Irad League site" });
 Object.assign(window.TP_STR.ir, { lgLoading: "Tablitsa jüktölüüdö…", lgFail: "Natıyjalar azırınca jetkiliktüü emes. Kiyinchereek kayra araket kılıñız.", lgLead: "{c} {n} upay aldıda", lgLevel: "{a} menen {b} upayı teñ", lgChamps: "{c} – chempion", lgLeft: "kalgan turlar: {n}", lgResults: "Natıyjalar", lgToFollow: "Natıyja kütülüüdö", lgCupFinal: "Irad Kubogunun finalı", lgCupWon: "{c} Irad Kubogun jeñip aldı", lgAet: "koshumcha ubakıttan kiyin", lgPens: "penaltiler {a}–{b}", lgClub: "Klub", lgP: "O", lgPts: "U", lgMore: "Toluk tablitsa jana oyundar: Irad Ligasının saytı" });
 Object.assign(window.TP_STR.ru, { lgLoading: "Загружаем таблицу…", lgFail: "Результаты временно недоступны. Попробуйте позже.", lgLead: "{c}: отрыв {n} оч.", lgLevel: "{a} и {b} идут вровень", lgChamps: "{c} — чемпион", lgLeft: "осталось туров: {n}", lgResults: "Результаты", lgToFollow: "Результат уточняется", lgCupFinal: "Финал Кубка Ирада", lgCupWon: "{c} — обладатель Кубка Ирада", lgAet: "в дополнительное время", lgPens: "пенальти {a}:{b}", lgClub: "Клуб", lgP: "И", lgPts: "О", lgMore: "Полная таблица и календарь — на сайте Лиги Ирада" });
+
+/* Channels: Discover timeline, Channels, profiles and posts (feed.js) */
+Object.assign(window.TP_STR.en, {
+  fForYou: "For you", fNews: "News", fSport: "Sport", fBusiness: "Business", fSearch: "Search channels",
+  fSearchPh: "Find a channel: @talasfilms or a name", fSubscribe: "Subscribe", fSubscribed: "Subscribed", fUnsub: "Unsubscribe",
+  fFollowers: "{n} subscribers", fFollowersW: "subscribers", fJoined: "On Tulpar since {d}", fPosts: "Posts", fPostsN: "{n} posts", fPost: "Post",
+  fYourChannels: "Your channels", fSaved: "Saved", fSuggested: "Channels to subscribe", fTrending: "Trending",
+  fNoResults: "No channels found. Try a handle like @iradone or a name.", fNoPosts: "No posts yet.", fNoSaved: "Nothing saved yet. Tap the bookmark on a post to keep it here.",
+  fNoSubs: "You don't follow any channels yet. Search for one above, or subscribe from a post.", fNoAccount: "No such channel.", fNoPost: "That post isn't available.",
+  fThread: "Show this thread", fReply: "Reply", fRepost: "Repost", fLike: "Like", fSave: "Save",
+  fReposted: "Reposted to your followers' timelines.", fSavedToast: "Saved. Find it in Channels › Saved.", fUnsavedToast: "Removed from Saved.",
+  fSubToast: "Subscribed to {n}.", fUnsubToast: "Unsubscribed from {n}.", fVerified: "Official channel",
+  fReplyTitle: "Talk about it in the rooms", fReplyText: "Channels post here; people talk in Tulpar's public rooms. Take it to the room:",
+  fDiscussIn: "Discuss in {r}", fPull: "Pull to refresh", fRelease: "Release to refresh", fRefreshing: "Refreshing…",
+  fNow: "now", fMins: "{n}m", fHours: "{n}h"
+});
+Object.assign(window.TP_STR.ir, {
+  fForYou: "Siz üchün", fNews: "Janılıktar", fSport: "Sport", fBusiness: "Biznes", fSearch: "Kanal izdöö",
+  fSearchPh: "Kanal izdöö: @talasfilms je atı", fSubscribe: "Jazıluu", fSubscribed: "Jazılgansız", fUnsub: "Jazıluunu toktotuu",
+  fFollowers: "{n} jazılgan", fFollowersW: "jazılgan", fJoined: "Tulparda {d} beri", fPosts: "Postor", fPostsN: "{n} post", fPost: "Post",
+  fYourChannels: "Kanaldarıñız", fSaved: "Saktalgandar", fSuggested: "Jazıla turgan kanaldar", fTrending: "Talkuuda",
+  fNoResults: "Kanal tabılgan jok. @iradone sıyaktuu atın je ataluusun jazıp köröñüz.", fNoPosts: "Azırıncha post jok.", fNoSaved: "Azırıncha ech nerse saktalgan jok. Posttogu belgini basıp, bul jerge saktañız.",
+  fNoSubs: "Siz azırıncha ech bir kanalga jazıla elekisiz. Jogorudan izdeñiz je posttun özünön jazılıñız.", fNoAccount: "Mınday kanal jok.", fNoPost: "Bul post jetkiliksiz.",
+  fThread: "Tizmekti köröö", fReply: "Joop", fRepost: "Repost", fLike: "Jaktı", fSave: "Saktoo",
+  fReposted: "Repost kılındı.", fSavedToast: "Saktaldı. Kanaldar › Saktalgandar.", fUnsavedToast: "Saktalgandardan alındı.",
+  fSubToast: "{n} kanalına jazıldıñız.", fUnsubToast: "{n} kanalınan chıktıñız.", fVerified: "Rasmiy kanal",
+  fReplyTitle: "Bölmölördö talkuulañız", fReplyText: "Kanaldar bul jerge jazat, adamdar Tulpardın achık bölmölöründö süylöshöt. Bölmögö ötüñüz:",
+  fDiscussIn: "{r} bölmösündö talkuuloo", fPull: "Jañılash üchün tartıñız", fRelease: "Koyo beriñiz", fRefreshing: "Jañılanıp jatat…",
+  fNow: "azır", fMins: "{n} mün", fHours: "{n} saat"
+});
+Object.assign(window.TP_STR.ru, {
+  fForYou: "Для вас", fNews: "Новости", fSport: "Спорт", fBusiness: "Бизнес", fSearch: "Поиск каналов",
+  fSearchPh: "Найти канал: @talasfilms или название", fSubscribe: "Подписаться", fSubscribed: "Вы подписаны", fUnsub: "Отписаться",
+  fFollowers: "{n} подписчиков", fFollowersW: "подписчиков", fJoined: "В Tulpar с {d}", fPosts: "Посты", fPostsN: "Постов: {n}", fPost: "Пост",
+  fYourChannels: "Мои каналы", fSaved: "Закладки", fSuggested: "На что подписаться", fTrending: "Обсуждают",
+  fNoResults: "Каналы не найдены. Попробуйте адрес вроде @iradone или название.", fNoPosts: "Постов пока нет.", fNoSaved: "Пока ничего не сохранено. Нажмите на закладку у поста, чтобы он появился здесь.",
+  fNoSubs: "Вы пока не подписаны ни на один канал. Найдите канал выше или подпишитесь прямо из поста.", fNoAccount: "Такого канала нет.", fNoPost: "Этот пост недоступен.",
+  fThread: "Показать ветку", fReply: "Ответить", fRepost: "Репост", fLike: "Нравится", fSave: "Сохранить",
+  fReposted: "Репост сделан.", fSavedToast: "Сохранено. Ищите в «Каналы» › «Закладки».", fUnsavedToast: "Удалено из сохранённых.",
+  fSubToast: "Вы подписались на {n}.", fUnsubToast: "Вы отписались от {n}.", fVerified: "Официальный канал",
+  fReplyTitle: "Обсудите в комнатах", fReplyText: "Каналы публикуют здесь, а люди общаются в открытых комнатах Tulpar. Перейдите в комнату:",
+  fDiscussIn: "Обсудить в комнате «{r}»", fPull: "Потяните, чтобы обновить", fRelease: "Отпустите, чтобы обновить", fRefreshing: "Обновляем…",
+  fNow: "сейчас", fMins: "{n} мин", fHours: "{n} ч"
+});

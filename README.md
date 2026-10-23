@@ -41,7 +41,8 @@ A working, installable web app (PWA) at `/app/`, in English, Iradi and Russian (
 
 - **Chats:** public rooms and private chats (one-to-one), with replies, reactions (👍❤️😂😮😢🐎), an Iradi sticker pack, polls in rooms, unread badges and optional message alerts while the app is open.
 - **QR codes:** everyone has a personal QR code and link (`app/#u=<Tulpar ID>`); scanning it, or entering a Tulpar ID, opens a private chat.
-- **Channels:** IradOne and Talas Herald feeds, plus the official Tulpar channel (admins post there).
+- **Discover** (the landing tab, "For you"): one timeline of every channel's posts, newest first with a light boost for channels you subscribe to, official channels and well-liked posts; tabs For you / News / Sport / Business; pull to refresh on phones. Posts have the channel's avatar, name and official tick, @handle, time, text with #hashtags and @mentions (a mention opens that channel), an optional photo, a link card, quoted posts, threads, and reply / repost / like / save / share. Replies open the matching public room (channels post; people talk in rooms). Jason Ilyasov's Head Start column and the team's pieces are long-form posts by @tulpar that open in the reader.
+- **Channels:** the channels you subscribe to (avatar row, a combined timeline, the list with suggestions, your saved posts) and a search box that finds channels by handle (`@talasfilms` or `talasfilms`) or name in any of the three languages. Every channel has a profile (banner, avatar, name, @handle, bio, site, joined, subscribers, Subscribe, its posts); `app/#@talasfilms` opens it directly, `#post=<id>` opens one post, `#tag=KaraAk` a hashtag. New users start with @iradone, @talasherald and @tulpar. Channels are businesses, news outlets, sport, institutions and culture only, never private people; visitors subscribe, they don't create channels. The official Tulpar chat channel is behind @tulpar's profile (admins post there), and its messages, IradOne's and the Herald's live feeds show as those channels' newest posts. On wide screens the tab bar moves to the left and a column on the right has search, channels to subscribe and trending hashtags.
 - **Services:** Bazar, mobile top-up, utilities, Tulpar Taxi, food delivery, Bölüp tölöö (instalments), government services and transfers abroad, all locked to users in Irad (a location check against Irad's outline); and working information pages: weather (Open-Meteo), exchange rates, bus departures from Talas, the Syro-Iradi church calendar, the Irad League (table, last results, next fixtures and the cup final, read from the league site's `data/season-2026.json`, `clubs.json` and `cup-2026.json` at mjsbroadbent.github.io/irad-league with an 8-second timeout; on failure the card says results are unavailable) and horse-games fixtures.
 - **Wallet:** live TLPR price; sending and topping up are locked to Irad.
 
@@ -52,11 +53,28 @@ Chat runs on Firebase (Google sign-in and Cloud Firestore, free Spark plan, no S
 | `app/index.html`, `app/app.css`, `app/app.js` | The app |
 | `app/i18n.js` | All app text in English, Iradi and Russian |
 | `app/seed.js` | Room history (6–13 October 2026) shown before live messages in each room; edit freely |
+| `app/feed.js` | Discover, Channels, channel profiles and posts |
+| `app/feed/accounts.json` | The channels (see below) |
+| `app/feed/posts.json` | The starter posts, 9–23 October 2026 (Irad Time) |
+| `app/feed/avatars/` | Channel avatars: the brand marks and the sites' own icons |
+| `app/discover.js` | Head Start and team articles (long-form posts by @tulpar, opened in the reader) |
 | `app/stickers/*.svg` | The 16-sticker Iradi pack |
 | `app/vendor/` | QR code generator (qrcode-generator, MIT) and scanner (jsQR, Apache-2.0), loaded only when needed |
 | `app/firebase-config.js` | Firebase web config |
 | `app/sw.js`, `app/manifest.webmanifest`, `app/icon*` | Offline shell, install-to-home-screen, message alerts |
 | `firestore.rules` | Security rules to paste into Firebase |
+
+### Channels and posts
+
+**Accounts** (`app/feed/accounts.json`): each `{handle, name {en, ir?, ru?}, kind, avatar, banner, bio {en, ir, ru}, url?, verified, followers, joined}`. `kind` is `news`, `sport`, `business`, `government`, `culture` or `service`; the Discover tabs filter on it (News: news and government; Sport; Business: business and service; culture shows in For you). `avatar` is a path under `app/` (or null for coloured initials); `banner` is the profile's colour; `joined` is `YYYY-MM`. To add a channel, add an entry with a short, lowercase, unique handle, drop its avatar in `app/feed/avatars/` and bump `VERSION` in `app/sw.js`.
+
+The channels (48): news `@iradone` `@iradonesport` `@iradodin` `@talasherald` `@iradtimes`; government `@iradgov` `@bankofirad` `@archives` `@eirad`; services `@tulpar` `@iradenergo` `@pochtasy` `@temirjolu` `@kartalar`; sport `@iradleague` `@tulpartalas` `@neftchi` `@temirjolchu` `@attelkomtalas` `@dastgoh` `@universitet` `@surma` `@fciyikjanyl` `@karabuura` `@narynfk` `@jarysh`; business `@nurgaz` `@talasbank` `@attelkom` `@bereke` `@jildiz` `@shipa` `@torgoy` `@akbata` `@chuybank` `@iradstrakh` `@jilmay` `@talassut` `@akyel` `@aigyr` `@iradiya`; culture `@tsu` `@talasfilms` `@talasfilmarchive` `@filmsociety` `@palaceofart` `@kochaudio` `@arshakitep`.
+
+**Posts** (`app/feed/posts.json` and the day's file): each `{id, handle, time, text {en, ir?, ru?}, image?, link? {url, title, site, desc?, image?}, quote?, thread?, article?, stats {replies, reposts, likes}}`. `time` is ISO with the offset (`2026-10-23T09:00+06:00`); a post shows only once its time has come. `image` is a photo already on an in-world site, by URL (e.g. `https://iradone.com/photos/...`); `quote` is another post's id (shown as a quoted post); `thread` is the id of the same channel's earlier post it continues (shown under "Show this thread"); `article` is a Discover article id. Text gets #hashtags, @mentions of known handles and links automatically. To add seed posts, add entries (any order) with a new unique id; keep every fact to canon and to what the outlets printed.
+
+**The day's posts** come from `https://iradone.com/data/tulpar-feed.json` (same post format, `{updated, posts}`), fetched with an 8-second timeout and merged after the seed; if it fails the seed is used alone. It is written every morning and keeps the last 14 days. The app also merges IradOne's `news/index.json`, the Herald's `feed.xml` and the official Tulpar chat channel as those channels' newest posts (a post whose link is already in the feed is not repeated).
+
+**Per-user state:** subscriptions, likes, reposts and saved posts are kept on the device (`tp_feed` in localStorage) and, when signed in, in `users/{uid}/private/feed` in Firestore (only the owner can read or write it; see `firestore.rules`). Until the new rules are published the app keeps them on the device only.
 
 Setup steps are in [SETUP-FIREBASE.md](SETUP-FIREBASE.md). When you change `app/` files, bump `VERSION` in `app/sw.js` so phones pick up the new version. When `firestore.rules` changes, paste it into Firebase again and Publish.
 
