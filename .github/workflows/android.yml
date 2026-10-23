@@ -35,11 +35,11 @@ jobs:
       - name: Generate the Android project
         run: |
           mkdir -p "$RUNNER_TEMP/gen" && cd "$RUNNER_TEMP/gen"
-          npm init -y >/dev/null
-          npm install @bubblewrap/core 2>&1 | tail -5 || { echo "::error title=npm install failed::see log"; exit 1; }
-          npm ls @bubblewrap/core
+          npm init -y > /dev/null
+          npm install --no-audit --no-fund @bubblewrap/core > npm.log 2>&1 || { tail -c 1500 npm.log | tr '\n' ' ' | sed 's/^/::error title=npm install failed::/'; echo; exit 1; }
           cp "$GITHUB_WORKSPACE/android/build-twa.cjs" .
-          node build-twa.cjs "$RUNNER_TEMP/twa" "${{ github.run_number }}"
+          node build-twa.cjs "$RUNNER_TEMP/twa" "${{ github.run_number }}" > gen.log 2>&1 || { grep -m1 '::error' gen.log || tail -c 1500 gen.log | tr '\n' ' ' | sed 's/^/::error title=TWA generation failed::/'; echo; exit 1; }
+          tail -5 gen.log
 
       - name: Build the release APK
         working-directory: ${{ runner.temp }}/twa
