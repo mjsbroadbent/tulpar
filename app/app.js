@@ -1080,46 +1080,79 @@ function churchFill(body) {
   $("#calList", body).innerHTML = up.map(c => `<li><time>${esc(fmtD(new Date(c[0] + "T12:00Z"), { day: "numeric", month: "short", year: c[0].slice(0, 4) !== today.slice(0, 4) ? "numeric" : undefined, timeZone: "UTC" }))}</time><div><b>${esc(t("cal_" + c[1]))}</b><small>${esc(t("cald_" + c[1]))}</small></div></li>`).join("");
 }
 
-/* sport: Irad League rounds on Saturdays (April to November), horse games on Sundays */
-const CLUBS = ["Neftchi Nurzhan", "Tulpar Talas", "Temirjolchu Nurzhan", "Attelkom Talas", "Universitet Talas", "Surma Chatkal", "Dastgoh Nurzhan", "FC Iyık Janyl", "Kara-Buura", "Naryn Tash-Kömür"];
-const VENUES = { "Neftchi Nurzhan": "NurGaz Stadium", "Tulpar Talas": "Silk Road Arena", "Temirjolchu Nurzhan": "Lokomotiv Stadium", "Attelkom Talas": "Attelkom Park", "Universitet Talas": "TSU Stadium", "Surma Chatkal": "Chatkal", "Dastgoh Nurzhan": "Dastgoh", "FC Iyık Janyl": "Iyık Janyl", "Kara-Buura": "Kyzyl-Adyr", "Naryn Tash-Kömür": "Tash-Kömür" };
-function roundPairs(r) { // circle method
-  const a = CLUBS.slice(), n = a.length, fixed = a[0], rest = a.slice(1), k = r % (n - 1);
-  const rot = rest.slice(k).concat(rest.slice(0, k)), arr = [fixed].concat(rot), out = [];
-  for (let i = 0; i < n / 2; i++) { const h = arr[i], aw = arr[n - 1 - i]; out.push(r % 2 ? [aw, h] : [h, aw]); }
-  return out;
+/* sport: the Irad League's table, results and fixtures from the league's own site (the FFI's results files);
+   horse games on Sundays. If the league files can't be fetched the card says so (no made-up fixtures). */
+const LEAGUE_DATA = "https://mjsbroadbent.github.io/irad-league/data/";
+const LEAGUE_SITE = "https://mjsbroadbent.github.io/irad-league/";
+let leagueP = null;
+function getJSON(url, ms) {
+  const ctl = typeof AbortController !== "undefined" ? new AbortController() : null, timer = setTimeout(() => ctl && ctl.abort(), ms);
+  const limit = new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms + 50));
+  return Promise.race([fetch(url, { cache: "no-cache", signal: ctl ? ctl.signal : undefined }).then(r => { if (!r.ok) throw new Error(url + " " + r.status); return r.json(); }), limit])
+    .finally(() => clearTimeout(timer));
+}
+function loadLeague() {
+  if (!leagueP) leagueP = Promise.all([getJSON(LEAGUE_DATA + "season-2026.json", 8000), getJSON(LEAGUE_DATA + "clubs.json", 8000), getJSON(LEAGUE_DATA + "cup-2026.json", 8000).catch(() => null)])
+    .then(([season, clubs, cup]) => { const byId = {}; clubs.clubs.forEach(c => (byId[c.id] = c)); return { season, cup, clubs: byId, grounds: clubs.grounds || {} }; })
+    .catch(e => { leagueP = null; throw e; });
+  return leagueP;
+}
+const lgL = o => (o ? o[LANG] || o.en || "" : "");
+const isDerby = m => [m.home, m.away].sort().join() === "neftchi,tulpar";
+/* the league's table rules: points, goal difference, goals scored, head-to-head points, then name */
+function leagueTable(lg) {
+  const rows = {}, h2h = {};
+  Object.keys(lg.clubs).forEach(id => (rows[id] = { id, p: 0, gf: 0, ga: 0, pts: 0, left: 0 }));
+  lg.season.rounds.forEach(r => r.matches.forEach(m => {
+    const H = rows[m.home], A = rows[m.away];
+    if (!H || !A) return;
+    if (!m.score) { H.left++; A.left++; return; }
+    [[H, m.score[0], m.score[1], A], [A, m.score[1], m.score[0], H]].forEach(([T, f, g, O]) => {
+      const pts = f > g ? 3 : f === g ? 1 : 0;
+      T.p++; T.gf += f; T.ga += g; T.pts += pts; h2h[T.id + ">" + O.id] = (h2h[T.id + ">" + O.id] || 0) + pts;
+    });
+  }));
+  return Object.values(rows).sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf ||
+    (h2h[b.id + ">" + a.id] || 0) - (h2h[a.id + ">" + b.id] || 0) || lg.clubs[a.id].name.en.localeCompare(lg.clubs[b.id].name.en));
+}
+function leagueHTML(lg) {
+  const s = lg.season, rows = leagueTable(lg), nm = id => lgL((lg.clubs[id] || {}).short) || id, n = iradNow();
+  const today = n.date.toISOString().slice(0, 10), nowMin = n.h * 60 + n.m;
+  const day = d => fmtD(new Date(d + "T12:00Z"), { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+  const over = (m, d) => d < today || (d === today && nowMin >= (+m.time.slice(0, 2)) * 60 + (+m.time.slice(3)) + 115);
+  const line = (m, d) => {
+    const mid = m.score ? `${m.score[0]}–${m.score[1]}` : over(m, d) ? "–" : esc(m.time);
+    const notes = [];
+    if (isDerby(m)) notes.push(t("derby"));
+    if (m.score && m.pens) notes.push(t("lgPens", { a: m.pens[0], b: m.pens[1] })); else if (m.score && m.aet) notes.push(t("lgAet"));
+    if (!m.score && over(m, d)) notes.push(t("lgToFollow"));
+    else if (!m.score && isDerby(m)) notes.push(lgL((lg.grounds[m.venue] || {}).name));
+    return `<li${isDerby(m) ? ' class="derby"' : ""}><span>${esc(nm(m.home))}</span><b>${mid}</b><span>${esc(nm(m.away))}</span>${notes.length ? `<small>${esc(notes.join(" · "))}</small>` : ""}</li>`;
+  };
+  const a = rows[0], b = rows[1], gap = a.pts - b.pts, decided = rows.slice(1).every(r => r.pts + 3 * r.left < a.pts);
+  let last = null, next = null;
+  s.rounds.forEach(r => { if (r.matches.some(m => m.score)) last = r; if (!next && r.matches.some(m => !m.score)) next = r; });
+  let html = `<p class="small"><b>${esc(decided ? t("lgChamps", { c: nm(a.id) }) : gap ? t("lgLead", { c: nm(a.id), n: gap }) : t("lgLevel", { a: nm(a.id), b: nm(b.id) }))}</b>` +
+    (!decided && a.left ? ` · ${esc(t("lgLeft", { n: a.left }))}` : "") + `</p>`;
+  if (last) html += `<p class="small"><b>${esc(t("lgResults"))} · ${esc(t("round", { n: last.round }))}</b> · ${esc(day(last.date))}</p><ul class="fx">` + last.matches.map(m => line(m, last.date)).join("") + `</ul>`;
+  if (next && next !== last) html += `<p class="small"><b>${esc(t("round", { n: next.round }))}</b> · ${esc(day(next.date))}</p><ul class="fx">` + next.matches.map(m => line(m, next.date)).join("") + `</ul>`;
+  html += `<table class="rates lgt"><thead><tr><th></th><th>${esc(t("lgClub"))}</th><th>${esc(t("lgP"))}</th><th>${esc(t("lgPts"))}</th></tr></thead><tbody>` +
+    rows.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(nm(r.id))}</td><td>${r.p}</td><td><b>${r.pts}</b></td></tr>`).join("") + `</tbody></table>`;
+  const fin = lg.cup && lg.cup.rounds.filter(r => r.key === "final")[0], fm = fin && fin.matches[0];
+  if (fm) {
+    let win = "";
+    if (fm.score) { let x = fm.score[0], y = fm.score[1]; if (x === y && fm.pens) { x = fm.pens[0]; y = fm.pens[1]; } win = t("lgCupWon", { c: nm(x > y ? fm.home : fm.away) }); }
+    html += `<p class="small"><b>${esc(t("lgCupFinal"))}</b> · ${esc(day(fin.date))}${fm.score ? "" : " · " + esc(lgL((lg.grounds[fm.venue] || {}).name))}</p><ul class="fx">${line(fm, fin.date)}</ul>` +
+      (win ? `<p class="small"><b>${esc(win)}</b></p>` : "");
+  }
+  return html + `<p class="small"><a href="${LEAGUE_SITE}" target="_blank" rel="noopener">${esc(t("lgMore"))}</a></p>`;
 }
 function nextDow(from, dow) { const d = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate())); while (d.getUTCDay() !== dow) d.setUTCDate(d.getUTCDate() + 1); return d; }
-function lastSat(y, m) { const d = new Date(Date.UTC(y, m + 1, 0)); while (d.getUTCDay() !== 6) d.setUTCDate(d.getUTCDate() - 1); return d; }
-const FINAL = [["Neftchi Nurzhan", "Tulpar Talas"], ["Temirjolchu Nurzhan", "Attelkom Talas"], ["Universitet Talas", "Surma Chatkal"], ["Dastgoh Nurzhan", "FC Iyık Janyl"], ["Kara-Buura", "Naryn Tash-Kömür"]];
-const isDerby = (h, a) => [h, a].includes("Neftchi Nurzhan") && [h, a].includes("Tulpar Talas");
-/* Triple round robin (27 rounds); the last Saturday of October is round 27 (always the Kara-Ak derby),
-   and the Saturday two weeks before it has no league round (Irad Cup semi-finals). */
-function leagueRound(sat) {
-  const end = lastSat(sat.getUTCFullYear(), 9), wk = Math.round((end - sat) / (7 * 864e5));
-  if (wk < 0 || sat.getUTCMonth() < 3) return null;
-  if (wk === 2) return { cup: true };
-  const round = 27 - wk + (wk > 2 ? 1 : 0);
-  if (round < 1) return null;
-  if (round === 27) return { round, pairs: FINAL };
-  let k = round, pairs = roundPairs(k);
-  while (pairs.some(([h, a]) => isDerby(h, a))) pairs = roundPairs(++k);
-  return { round, pairs };
-}
 function sportFill(body) {
-  const n = iradNow(), sat = nextDow(n.date, 6);
-  const fmt = d => fmtD(d, { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
-  let html = "";
-  for (let o = 0; o < 3 && (html.match(/<ul class="fx">/g) || []).length < 2; o++) {
-    const d = new Date(sat.getTime() + o * 7 * 864e5), r = leagueRound(d);
-    if (!r) continue;
-    if (r.cup) { html += `<p class="small"><b>${esc(fmt(d))}</b> · ${esc(t("cupWeek"))}</p>`; continue; }
-    html += `<p class="small"><b>${esc(t("round", { n: r.round }))}</b> · ${esc(fmt(d))}</p><ul class="fx">` + r.pairs.map(([h, a]) => {
-      const derby = isDerby(h, a);
-      return `<li${derby ? ' class="derby"' : ""}><span>${esc(h)}</span><b>${derby ? "18:00" : "17:00"}</b><span>${esc(a)}</span>${derby ? `<small>${esc(t("derby"))} · ${esc(VENUES[h])}</small>` : ""}</li>`;
-    }).join("") + `</ul>`;
-  }
-  $("#league", body).innerHTML = html || `<p class="small">${esc(t("winterBreak"))}</p>`;
+  const n = iradNow(), box = $("#league", body);
+  box.innerHTML = `<p class="small">${esc(t("lgLoading"))}</p>`;
+  loadLeague().then(lg => { if (box.isConnected) box.innerHTML = leagueHTML(lg); })
+    .catch(() => { if (box.isConnected) box.innerHTML = `<p class="small">${esc(t("lgFail"))}</p>`; });
   const sun = nextDow(n.date, 0), events = [];
   for (let i = 0; i < 4; i++) {
     const d = new Date(sun.getTime() + i * 7 * 864e5), m = d.getUTCMonth(), wn = Math.floor(d.getTime() / (7 * 864e5));

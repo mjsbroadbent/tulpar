@@ -279,6 +279,10 @@ a { color: var(--lapis); }
 .fx li b { color: var(--slate); font-size: 12px; font-variant-numeric: tabular-nums; }
 .fx li small { grid-column: 1 / -1; text-align: center; color: var(--down); font-weight: 700; font-size: 12px; }
 .fx li.derby { background: #fff7f5; border-radius: 10px; }
+.lgt { font-size: 14px; margin: 2px 0 10px; }
+.lgt td, .lgt th { padding: 6px 2px; }
+.lgt td:first-child { width: 1.6em; color: var(--slate); }
+.lgt td:nth-child(2), .lgt th:nth-child(2) { text-align: left; }
 .seg { display: flex; gap: 6px; flex-wrap: wrap; }
 .seg button { border: 1.5px solid var(--rule); background: #fff; border-radius: 999px; padding: 7px 14px; font-weight: 600; cursor: pointer; color: var(--slate); }
 .seg button[aria-pressed="true"] { border-color: var(--lapis); background: var(--sky); color: var(--lapis-deep); }
