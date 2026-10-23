@@ -81,3 +81,17 @@ Setup steps are in [SETUP-FIREBASE.md](SETUP-FIREBASE.md). When you change `app/
 ## Search engines
 
 `python3 tools/seo_tags.py` adds the canonical address, English/Russian `hreflang` alternates and share tags (image `images/og.jpg`) to every page between `<!--SEO-->` markers, and writes `sitemap.xml`. Run it again after adding or retitling a page.
+
+## Android app (APK)
+
+`.github/workflows/android.yml` builds an Android app that opens the web app full screen (a Trusted Web Activity made
+with Bubblewrap's library, `android/build-twa.mjs`), signs it and commits it as `download/tulpar.apk`, which the home
+page's APK button links to. Run it from the Actions tab (Android APK → Run workflow) after a change to the app's
+name, icon or colours; content changes reach the app through the site without a rebuild.
+
+- Secrets: `TULPAR_KEYSTORE_B64` (the release keystore, base64) and `TULPAR_KEYSTORE_PASSWORD` (store and key
+  password; alias `tulpar`). Keep a copy of the keystore elsewhere: every update must be signed with the same key.
+- Package `com.tulparapp.app`. `.well-known/assetlinks.json` carries the key's SHA-256 fingerprint so Android trusts
+  the site and hides the browser bar; change it only if the key changes. (`.nojekyll` lets Pages serve the folder.)
+- Installing: Android asks once to allow installs from the browser, and Play Protect warns about an unknown
+  developer ("Install anyway").

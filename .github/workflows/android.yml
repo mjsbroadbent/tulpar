@@ -1,0 +1,76 @@
+# Builds the Android app (a Trusted Web Activity wrapping https://tulparapp.com/app/) and publishes
+# download/tulpar.apk. Run it from the Actions tab ("Run workflow").
+# Needs two repository secrets: TULPAR_KEYSTORE_B64 (the release keystore, base64) and
+# TULPAR_KEYSTORE_PASSWORD (store and key password; key alias "tulpar").
+name: Android APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Restore the signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.TULPAR_KEYSTORE_B64 }}
+        run: |
+          if [ -z "$KEYSTORE_B64" ]; then echo "::error::Secret TULPAR_KEYSTORE_B64 is missing"; exit 1; fi
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/tulpar-release.jks"
+
+      - name: Generate the Android project
+        run: |
+          mkdir -p "$RUNNER_TEMP/gen" && cd "$RUNNER_TEMP/gen"
+          npm init -y >/dev/null
+          npm install @bubblewrap/core@^1
+          cp "$GITHUB_WORKSPACE/android/build-twa.mjs" .
+          node build-twa.mjs "$RUNNER_TEMP/twa" "${{ github.run_number }}"
+
+      - name: Build the release APK
+        working-directory: ${{ runner.temp }}/twa
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+          ls -la app/build/outputs/apk/release/
+
+      - name: Align and sign
+        env:
+          KS_PASS: ${{ secrets.TULPAR_KEYSTORE_PASSWORD }}
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          IN=$(ls "$RUNNER_TEMP"/twa/app/build/outputs/apk/release/*.apk | head -1)
+          "$BT/zipalign" -f -p 4 "$IN" "$RUNNER_TEMP/aligned.apk"
+          "$BT/apksigner" sign --ks "$RUNNER_TEMP/tulpar-release.jks" --ks-key-alias tulpar \
+            --ks-pass env:KS_PASS --key-pass env:KS_PASS \
+            --out "$GITHUB_WORKSPACE/download/tulpar.apk" "$RUNNER_TEMP/aligned.apk"
+          "$BT/apksigner" verify --print-certs "$GITHUB_WORKSPACE/download/tulpar.apk" | head -5
+          rm -f "$RUNNER_TEMP/tulpar-release.jks"
+
+      - name: Publish download/tulpar.apk
+        run: |
+          git config user.name "Web desk"
+          git config user.email "webdesk@attelkom.net"
+          git add download/tulpar.apk
+          git commit -m "Android app $(date -u +%Y-%m-%d)" || exit 0
+          git pull --rebase
+          git push
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tulpar-apk
+          path: download/tulpar.apk

@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.tulparapp.app",
+    "sha256_cert_fingerprints": ["0D:10:78:C8:77:F3:08:CD:2C:5F:85:96:C6:ED:91:06:73:CD:2A:CF:7C:63:3E:E4:0E:35:0E:18:FD:71:2E:C5"]
+  }
+}]

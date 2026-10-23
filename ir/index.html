@@ -46,9 +46,9 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="3"/><path d="M11 5h2"/></svg>
               <span><small>Jüktöö</small><b>iPhone</b></span>
             </a>
-            <a class="store apk" href="#" data-dl="APK">
+            <a class="store apk" href="../download/tulpar.apk" data-dl="APK" download>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>
-              <span><small>Tüz jüktöö</small><b>APK · 24 MB</b></span>
+              <span><small>Tüz jüktöö</small><b>APK</b></span>
             </a>
             <a class="store web" href="../app/">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
@@ -196,8 +196,8 @@
 
       document.querySelectorAll("[data-dl]").forEach(function (a) {
         a.addEventListener("click", function (e) {
-          e.preventDefault();
           if (a.dataset.dl === "APK") { T.toast(T.T("dlApk")); return; }
+          e.preventDefault();
           T.toast(T.T("dlStore", { p: a.dataset.dl }));
           setTimeout(T.notAvailable, 1100);
         });
