@@ -2,7 +2,8 @@
    ("For you"), Channels (your subscriptions), channel profiles (#@handle) and single posts (#post=<id>).
    Posts come from feed/posts.json, then the day's posts at iradone.com/data/tulpar-feed.json, then the live IradOne,
    Herald and official Tulpar feeds. Likes, reposts, saves and subscriptions are kept per user (Firestore when
-   signed in, always mirrored to this device). */
+   signed in, always mirrored to this device). Subscribe links from the sites (#sub=<handle>) open the channel with a
+   "Subscribe to … on Tulpar?" sheet, shown once the start-up screen is out of the way. */
 
 const DESK_FEED = "https://iradone.com/data/tulpar-feed.json";
 const IRADONE_INDEX = "https://iradone.com/news/index.json";
@@ -32,6 +33,7 @@ export function createFeed(ctx) {
   const sets = () => ({ subs: new Set(prefs.subs), likes: new Set(prefs.likes), saves: new Set(prefs.saves), reposts: new Set(prefs.reposts) });
   let S = sets();
   const remote = { ref: null, off: false, timer: null };
+  let syncedFor = null;               // whose subscriptions are loaded: null (not yet), "anon" or the signed-in uid
   function savePrefs() {
     store("tp_feed", prefs); S = sets();
     if (remote.ref && !remote.off) { clearTimeout(remote.timer); remote.timer = setTimeout(pushRemote, 1200); }
@@ -41,16 +43,18 @@ export function createFeed(ctx) {
     F.setDoc(remote.ref, { ...prefs, updatedAt: F.serverTimestamp() }).catch(e => { remote.off = true; console.warn("feed prefs not synced:", e.code || e.message); });
   }
   async function onAuth() {
-    const FB = ctx.FB; remote.ref = null; remote.off = false;
-    if (!FB.ready || !FB.user) return;
-    const F = FB.F;
+    const FB = ctx.FB; remote.ref = null; remote.off = false; syncedFor = null;
+    if (!FB.ready || !FB.user) { syncedFor = "anon"; trySub(); return; }
+    const F = FB.F, uid = FB.user.uid;
     try {
-      remote.ref = F.doc(FB.db, "users", FB.user.uid, "private", "feed");
+      remote.ref = F.doc(FB.db, "users", uid, "private", "feed");
       const d = await F.getDoc(remote.ref);
       if (d.exists()) { prefs = clean(d.data()); store("tp_feed", prefs); S = sets(); rerender(); }
       else pushRemote();
     } catch (e) { remote.off = true; console.warn("feed prefs: device only (" + (e.code || e.message) + ")"); }
+    if (FB.user && FB.user.uid === uid) syncedFor = uid;
     watchOfficial();
+    trySub();
   }
   function toggle(key, id) {
     const on = !S[key].has(id);
@@ -148,7 +152,7 @@ export function createFeed(ctx) {
       (a.accounts || []).forEach(x => ACC.set(x.handle, x));
       sources.seed = (p.posts || []).map(x => norm(x, "seed")).filter(Boolean);
       merge(); ready = true; rerender(true);
-      refresh();
+      refresh(); trySub();
     }).catch(e => { console.warn("feed:", e.message); readyP = null; const b = $("#feedList"); if (b) b.innerHTML = `<p class="empty">${esc(t("feedFail"))}</p>`; });
     return readyP;
   }
@@ -302,6 +306,16 @@ export function createFeed(ctx) {
   function accRow(a) {
     return `<div class="acc-row"><a href="#@${a.handle}" data-acct="${a.handle}" class="acc-a">${avatar(a)}<span class="acc-t"><span class="pc-name">${nameLine(a)}</span><small>@${a.handle} · ${esc(t("fFollowers", { n: compact(subCount(a)) }))}</small><span class="acc-bio">${esc(loc(a.bio))}</span></span></a>${subBtn(a)}</div>`;
   }
+  function findAccounts(q) {
+    const s = q.replace(/^@/, "").toLowerCase(), fold = x => x.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ı/g, "i");
+    const fs = fold(s);
+    if (!s) return [];
+    return Array.from(ACC.values()).map(a => {
+      const names = ["en", "ir", "ru"].map(k => a.name[k]).filter(Boolean).map(fold);
+      let score = a.handle === s ? 100 : a.handle.startsWith(s) ? 60 : a.handle.includes(s) ? 40 : names.some(n => n.startsWith(fs)) ? 50 : names.some(n => n.includes(fs)) ? 30 : 0;
+      return { a, score: score && score + (a.verified ? 2 : 0) + Math.log10(1 + a.followers) / 10 };
+    }).filter(x => x.score).sort((x, y) => y.score - x.score).map(x => x.a);
+  }
   function search(q) {
     const res = $("#chResults"), main = $("#chMain");
     q = (q || "").trim();
@@ -315,13 +329,7 @@ export function createFeed(ctx) {
       if (!ps.length) $("#tagList").innerHTML = `<p class="empty">${esc(t("fNoResults"))}</p>`;
       return;
     }
-    const s = q.replace(/^@/, "").toLowerCase(), fold = x => x.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ı/g, "i");
-    const fs = fold(s);
-    const hits = Array.from(ACC.values()).map(a => {
-      const names = ["en", "ir", "ru"].map(k => a.name[k]).filter(Boolean).map(fold);
-      let score = a.handle === s ? 100 : a.handle.startsWith(s) ? 60 : a.handle.includes(s) ? 40 : names.some(n => n.startsWith(fs)) ? 50 : names.some(n => n.includes(fs)) ? 30 : 0;
-      return { a, score: score && score + (a.verified ? 2 : 0) + Math.log10(1 + a.followers) / 10 };
-    }).filter(x => x.score).sort((x, y) => y.score - x.score).map(x => x.a);
+    const hits = findAccounts(q);
     res.innerHTML = hits.length ? `<div class="acc-list">${hits.map(accRow).join("")}</div>` : `<p class="empty">${esc(t("fNoResults"))}</p>`;
   }
 
@@ -329,7 +337,7 @@ export function createFeed(ctx) {
   function openAccount(h, push = true) {
     const a = ACC.get(h);
     if (!ready) { load().then(() => openAccount(h, push)); return; }
-    if (!a) { toast(t("fNoAccount")); return; }
+    if (!a) { notFound(h); return; }
     if (ctx.current() !== "account" && ctx.current() !== "post") lastTab = ctx.current();
     accNow = h; go("account");
     history.replaceState(null, "", "#@" + h);
@@ -362,6 +370,80 @@ export function createFeed(ctx) {
     $("#tab-post").scrollTop = 0;
   }
   function back() { go(lastTab || "discover"); }
+
+  /* ---------- subscribe links: #sub=<handle> (also #sub=@handle) ---------- */
+  // The intent is kept on the device for half an hour so it survives the start-up screen (sign-in, name, install)
+  // and a language switch there; the sheet shows once the screen is gone and the visitor's subscriptions are loaded.
+  const PEND = "tp_pending_sub", PEND_MS = 30 * 60e3;
+  const normHandle = raw => { let x = String(raw || ""); try { x = decodeURIComponent(x); } catch (e) {} return x.trim().replace(/^@+/, "").toLowerCase().slice(0, 60); };
+  let pending = (() => { const p = store(PEND); return p && typeof p.h === "string" && Date.now() - (p.at || 0) < PEND_MS ? p.h : null; })();
+  function subIntent(raw) {
+    const h = normHandle(raw);
+    if (!h) { notFound(""); return; }
+    pending = h; store(PEND, { h, at: Date.now() });
+    trySub();
+  }
+  const canShowSub = () => {
+    const FB = ctx.FB;
+    if (ctx.gateOpen()) return false;
+    return !FB.ready || !FB.user || syncedFor === FB.user.uid;
+  };
+  function trySub() {
+    if (!pending) return;
+    if (!ready) { load(); return; }             // load() calls trySub when the channels are in
+    const h = pending, a = ACC.get(h);
+    gateNoteRefresh();
+    if (!canShowSub()) {                       // wait, but put the channel underneath the start-up screen already
+      if (a && !(ctx.current() === "account" && accNow === h)) openAccount(h);
+      return;
+    }
+    pending = null; store(PEND, null);
+    if (!a) { notFound(h); return; }
+    openAccount(h);
+    if (S.subs.has(h)) toast(t("fAlreadySub", { n: loc(a.name) }));
+    else subSheet(a);
+  }
+  function subSheet(a) {
+    const bio = loc(a.bio);
+    ctx.dialog(`<div class="subq">
+      <div class="subq-av" style="--bn:${esc(a.banner || "#00728c")}">${avatar(a, "xl")}</div>
+      <h3>${esc(t("fSubAsk", { n: loc(a.name) }))}</h3>
+      <p class="subq-who">${nameLine(a)} <span class="pc-h">@${a.handle}</span></p>
+      ${bio ? `<p class="subq-bio">${esc(bio)}</p>` : ""}
+      <p class="subq-n"><b>${esc(compact(subCount(a)))}</b> ${esc(t("fFollowersW"))}${a.verified ? ` · <span class="ac-ver">${TICK} ${esc(t("fVerified"))}</span>` : ""}</p>
+      <button type="button" class="btn wide" id="subYes">${esc(t("fSubscribe"))}</button>
+      <button type="button" class="btn wide line" data-dclose>${esc(t("notNow"))}</button></div>`, { noClose: true });
+    $("#subYes").onclick = () => {
+      ctx.closeDialog();
+      if (!S.subs.has(a.handle)) toggle("subs", a.handle);
+      toast(t("fSubToast", { n: loc(a.name) }));
+      if (ctx.current() === "account" && accNow === a.handle) openAccount(a.handle, false);
+      side();
+    };
+    setTimeout(() => { const b = $("#subYes"); if (b) b.focus(); }, 30);
+  }
+  function notFound(h) {
+    const near = h ? findAccounts(h).slice(0, 3) : [];
+    const shown = h.length > 30 ? h.slice(0, 30) + "…" : h;
+    ctx.dialog(`<div class="subq nf"><div class="nf-ico" aria-hidden="true">${ICON.search}</div>
+      <h3>${esc(t("fNotFound"))}</h3>
+      <p class="small">${esc(h ? t("fNotFoundText", { h: "@" + shown }) : t("fNotFoundBare"))}</p>
+      <form id="nfForm" class="nf-form" role="search"><label class="side-search">${ICON.search}<input type="search" id="nfQ" value="${esc(h)}" placeholder="${esc(t("fSearchPh"))}" aria-label="${esc(t("fSearch"))}"></label>
+      <button type="submit" class="btn">${esc(t("fSearchBtn"))}</button></form>
+      ${near.length ? `<h4 class="nf-h">${esc(t("fDidYouMean"))}</h4><div class="acc-list nf-list">${near.map(accRow).join("")}</div>` : ""}</div>`);
+    $("#nfForm").onsubmit = e => {
+      e.preventDefault(); const v = $("#nfQ").value.trim(); ctx.closeDialog();
+      go("channels"); const i = $("#chSearch"); i.value = v; search(v); observeMore();
+    };
+    if (["discover", "chats", "channels", "services", "wallet", "profile"].includes(ctx.current())) history.replaceState(null, "", "#" + ctx.current());
+  }
+  // a line on the sign-in screen: "Sign in to subscribe to Jarysh"
+  function gateNote() {
+    if (!pending) return "";
+    const a = ACC.get(pending);
+    return `<p class="g-sub" id="gSub">${a ? avatar(a, "sm") : ""}<span>${esc(t("fSignInToSub", { n: a ? loc(a.name) : "@" + pending }))}</span></p>`;
+  }
+  function gateNoteRefresh() { const el = $("#gSub"); if (el) el.outerHTML = gateNote(); }
 
   /* ---------- desktop side column ---------- */
   function side() {
@@ -409,7 +491,7 @@ export function createFeed(ctx) {
   };
   document.addEventListener("click", e => {
     const ac = e.target.closest("[data-acct]");
-    if (ac) { e.preventDefault(); openAccount(ac.dataset.acct); return; }
+    if (ac) { e.preventDefault(); if (ac.closest("#dlg")) ctx.closeDialog(); openAccount(ac.dataset.acct); return; }
     const tg = e.target.closest("[data-tag]");
     if (tg) { e.preventDefault(); openTag(tg.dataset.tag); return; }
     const sb = e.target.closest("[data-sub]");
@@ -506,12 +588,14 @@ export function createFeed(ctx) {
   setInterval(() => $$(".pc time[datetime]").forEach(el => { el.textContent = ago(Date.parse(el.getAttribute("datetime"))); }), 60e3);
 
   return {
-    load, refresh, onAuth, openAccount, openPost, openTag, back,
+    load, refresh, onAuth, openAccount, openPost, openTag, back, gateNote,
+    gateClosed: trySub, hasPending: () => !!pending,
     renderDiscover: () => { renderDiscover(); observeMore(); }, renderChannels: () => { renderChannels(); observeMore(); },
     navFor: () => lastTab === "channels" ? "channels" : "discover",
     handleHash(h) {
       let m;
-      if ((m = h.match(/^#@([a-z0-9_]{2,24})$/))) { openAccount(m[1]); return true; }
+      if ((m = h.match(/^#sub=(.*)$/i))) { subIntent(m[1]); return true; }
+      if ((m = h.match(/^#(?:@|%40)([A-Za-z0-9_]{2,24})$/))) { openAccount(m[1].toLowerCase()); return true; }
       if ((m = h.match(/^#post=([\w.-]{1,120})$/))) { openPost(decodeURIComponent(m[1])); return true; }
       if ((m = h.match(/^#tag=(.{1,80})$/))) { openTag(decodeURIComponent(m[1])); return true; }
       return false;

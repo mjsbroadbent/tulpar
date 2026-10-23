@@ -530,3 +530,30 @@ a.pc-name:hover b { text-decoration: underline; }
 .acc-row .sub-btn { padding: 7px 13px; font-size: 13.5px; }
 .acc-t .pc-name b { white-space: nowrap; }
 .side .sub-btn { padding: 6px 12px; font-size: 13px; }
+
+/* subscribe sheet (#sub=<handle>) and "channel not found" */
+.subq { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; gap: 6px; justify-items: center; text-align: center; }
+.subq-av { justify-self: stretch; display: flex; justify-content: center; padding: 26px 0 0; margin: -18px -16px 4px; border-radius: 18px 18px 0 0;
+  background: linear-gradient(135deg, var(--bn, #00728c), #054a60) top / 100% 62px no-repeat; }
+.subq h3 { margin: 4px 0 0; }
+.subq-who { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px; margin: 0; }
+.subq-who b { font-weight: 700; }
+.subq-bio { margin: 2px 0; font-size: 14.5px; line-height: 1.4; color: var(--ink); max-width: 400px; }
+.subq-n { margin: 0 0 6px; color: var(--slate); font-size: 14px; display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; align-items: center; }
+.subq-n b { color: var(--ink); }
+.subq .btn.wide { margin-top: 0; }
+.subq.nf { justify-items: stretch; text-align: left; }
+.subq.nf h3, .subq.nf .nf-ico { justify-self: center; }
+.subq.nf > .small { text-align: center; margin: 0 0 6px; }
+.nf-ico { width: 56px; height: 56px; border-radius: 50%; background: var(--sky); display: grid; place-items: center; color: var(--lapis); }
+.nf-ico svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.nf-form { display: flex; gap: 8px; }
+.nf-form .side-search { flex: 1; min-width: 0; }
+.dlg-card .nf-form .btn { flex: none; padding: 10px 16px; border-radius: 999px; }
+.nf-h { margin: 10px 0 0; font-size: 14px; color: var(--slate); }
+.nf-list { border-radius: 12px; box-shadow: inset 0 0 0 1px var(--rule); overflow: hidden; }
+.nf-list .acc-row:last-child { border-bottom: 0; }
+.dlg-card .sub-btn { text-align: center; padding: 7px 13px; background: var(--ink); color: #fff; border-radius: 999px; }
+.dlg-card .sub-btn.on { background: #fff; color: var(--ink); }
+.g-sub { display: inline-flex; align-items: center; gap: 8px; margin: 10px 0 0; padding: 7px 14px 7px 8px; border-radius: 999px; background: rgba(255, 255, 255, .16); font-weight: 600; font-size: 14.5px; }
+.g-sub .fav.sm { width: 26px; height: 26px; }

@@ -463,7 +463,7 @@ $("#sheet").addEventListener("click", async e => {
 
 /* ---------- dialog (new chat, poll, QR, scanner) ---------- */
 let scanStop = null;
-function dialog(html) { $("#dlgCard").innerHTML = html + `<button type="button" class="dl-cancel" data-dclose>${esc(t("close"))}</button>`; $("#dlg").hidden = false; }
+function dialog(html, o = {}) { $("#dlgCard").innerHTML = html + (o.noClose ? "" : `<button type="button" class="dl-cancel" data-dclose>${esc(t("close"))}</button>`); $("#dlg").hidden = false; }
 function closeDialog() { $("#dlg").hidden = true; if (scanStop) { scanStop(); scanStop = null; } }
 $("#dlg").addEventListener("click", e => {
   if (e.target.closest("[data-dclose]")) { closeDialog(); return; }
@@ -577,6 +577,7 @@ function hideGate() {
   const was = !$("#gate").hidden;
   $("#gate").hidden = true; gateStep = null;
   if (was) { if (current === "chats") renderChats(); handleDeepLink(); }
+  if (feed) feed.gateClosed();          // a subscribe link (#sub=) waiting behind the start-up screen
 }
 function gateLangs() {
   return `<div class="g-lang" id="gLang">` + [["ir", "Iradcha"], ["ru", "Русский"], ["en", "English"]].map(([l, n]) =>
@@ -589,7 +590,7 @@ function showGate(step) {
     box.innerHTML = `<div class="g-center">${logo}<div class="g-word">tulpar</div><div class="g-spin" aria-label="${esc(t("loading"))}"></div></div>`;
   } else if (step === "signin") {
     box.innerHTML = gateLangs() + `<div class="g-center">${logo}<div class="g-word">tulpar</div>
-      <h1 class="g-h">${esc(t("gateHead"))}</h1><p class="g-p">${esc(t("gateSub"))}</p></div>
+      <h1 class="g-h">${esc(t("gateHead"))}</h1><p class="g-p">${esc(t("gateSub"))}</p>${feed ? feed.gateNote() : ""}</div>
       <div class="g-foot"><button class="btn wide g-google" type="button" id="gGoogle"><span class="g-gl" aria-hidden="true">G</span>${esc(t("google"))}</button>
       <button class="btn wide line" type="button" id="gSms">${esc(t("gateSms"))}</button>
       <p class="err" id="gErr" hidden></p>
@@ -620,7 +621,7 @@ function showGate(step) {
       <div class="g-center"><div class="g-phone"><img src="icon.svg" alt="" width="64" height="64"><span>Tulpar</span></div>
       <h1 class="g-h">${esc(t("installTitle"))}</h1><p class="g-p">${esc(t("gateInstallText"))}</p></div>
       <div class="g-foot">${how}<button class="btn wide line" type="button" id="gSkip">${esc(installEvt || isIOS() ? t("notNow") : t("continue"))}</button></div>`;
-    const done = () => { store("tp_install_asked", true); hideGate(); go("chats"); };
+    const done = () => { store("tp_install_asked", true); const sub = feed && feed.hasPending(); hideGate(); if (!sub) go("chats"); };
     $("#gSkip").onclick = done;
     const gi = $("#gInstall");
     if (gi) gi.onclick = async () => { installEvt.prompt(); const c = await installEvt.userChoice; installEvt = null; if (c.outcome === "accepted") toast(t("installed")); done(); };
@@ -634,7 +635,7 @@ document.addEventListener("click", e => {
 /* ---------- profile ---------- */
 let installEvt = null;
 window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; if (gateStep === "install") showGate("install"); else if (current === "profile") renderProfile(); });
-window.addEventListener("appinstalled", () => { store("tp_install_asked", true); if (gateStep === "install") { hideGate(); go("chats"); } });
+window.addEventListener("appinstalled", () => { store("tp_install_asked", true); if (gateStep === "install") { const sub = feed && feed.hasPending(); hideGate(); if (!sub) go("chats"); } });
 
 function renderProfile() {
   const box = $("#profileBody");
@@ -1099,7 +1100,7 @@ $("#claimBtn").addEventListener("click", () => toast(t("claimLocked")));
 applyStatic();
 readHash();
 feed = createFeed({ $, $$, t, esc, LANG, LOCALE, fmtD, hhmm, toast, store, go, FB, greeting, openArticle, openRoom, dialog, closeDialog,
-  current: () => current });
+  current: () => current, gateOpen: () => !$("#gate").hidden });
 const startHash = location.hash;
 const start = startHash.replace("#", "");
 const startTab = start === "bazar" ? "services" : start;

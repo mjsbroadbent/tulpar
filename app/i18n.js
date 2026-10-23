@@ -562,3 +562,19 @@ Object.assign(window.TP_STR.ru, {
   fDiscussIn: "Обсудить в комнате «{r}»", fPull: "Потяните, чтобы обновить", fRelease: "Отпустите, чтобы обновить", fRefreshing: "Обновляем…",
   fNow: "сейчас", fMins: "{n} мин", fHours: "{n} ч"
 });
+/* subscribe links from the sites (#sub=<handle>) */
+Object.assign(window.TP_STR.en, {
+  fSubAsk: "Subscribe to {n} on Tulpar?", fAlreadySub: "You're already subscribed to {n}.", fSignInToSub: "Sign in to subscribe to {n}.",
+  fNotFound: "Channel not found", fNotFoundText: "There's no channel called {h} on Tulpar. It may have changed its name. Try a search:",
+  fNotFoundBare: "This link doesn't name a channel. Try a search:", fSearchBtn: "Search", fDidYouMean: "Similar channels"
+});
+Object.assign(window.TP_STR.ir, {
+  fSubAsk: "Tulparda {n} kanalına jazılasızbı?", fAlreadySub: "Siz {n} kanalına jazılgansız.", fSignInToSub: "{n} kanalına jazıluu üchün kiriñiz.",
+  fNotFound: "Kanal tabılgan jok", fNotFoundText: "Tulparda {h} degen kanal jok. Balkim, al atın özgörtkön chıgar. Izdep köröñüz:",
+  fNotFoundBare: "Bul shiltemede kanal körsötülgön emes. Izdep köröñüz:", fSearchBtn: "Izdöö", fDidYouMean: "Okshosh kanaldar"
+});
+Object.assign(window.TP_STR.ru, {
+  fSubAsk: "Подписаться на канал {n} в Tulpar?", fAlreadySub: "Вы уже подписаны на канал {n}.", fSignInToSub: "Войдите, чтобы подписаться на канал {n}.",
+  fNotFound: "Канал не найден", fNotFoundText: "В Tulpar нет канала {h}. Возможно, он сменил адрес. Попробуйте найти его:",
+  fNotFoundBare: "В ссылке не указан канал. Найдите его поиском:", fSearchBtn: "Найти", fDidYouMean: "Похожие каналы"
+});
