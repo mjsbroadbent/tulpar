@@ -14,14 +14,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '20'
 
@@ -36,16 +36,17 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/gen" && cd "$RUNNER_TEMP/gen"
           npm init -y >/dev/null
-          npm install @bubblewrap/core@^1
-          cp "$GITHUB_WORKSPACE/android/build-twa.mjs" .
-          node build-twa.mjs "$RUNNER_TEMP/twa" "${{ github.run_number }}"
+          npm install @bubblewrap/core 2>&1 | tail -5 || { echo "::error title=npm install failed::see log"; exit 1; }
+          npm ls @bubblewrap/core
+          cp "$GITHUB_WORKSPACE/android/build-twa.cjs" .
+          node build-twa.cjs "$RUNNER_TEMP/twa" "${{ github.run_number }}"
 
       - name: Build the release APK
         working-directory: ${{ runner.temp }}/twa
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
-          ./gradlew --no-daemon assembleRelease
+          ./gradlew --no-daemon assembleRelease > "$RUNNER_TEMP/gradle.log" 2>&1 || { tail -c 1500 "$RUNNER_TEMP/gradle.log" | tr '\n' ' ' | sed 's/^/::error title=Gradle build failed::/'; echo; exit 1; }
           ls -la app/build/outputs/apk/release/
 
       - name: Align and sign

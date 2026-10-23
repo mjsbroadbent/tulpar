@@ -85,7 +85,7 @@ Setup steps are in [SETUP-FIREBASE.md](SETUP-FIREBASE.md). When you change `app/
 ## Android app (APK)
 
 `.github/workflows/android.yml` builds an Android app that opens the web app full screen (a Trusted Web Activity made
-with Bubblewrap's library, `android/build-twa.mjs`), signs it and commits it as `download/tulpar.apk`, which the home
+with Bubblewrap's library, `android/build-twa.cjs`), signs it and commits it as `download/tulpar.apk`, which the home
 page's APK button links to. Run it from the Actions tab (Android APK → Run workflow) after a change to the app's
 name, icon or colours; content changes reach the app through the site without a rebuild.
 
