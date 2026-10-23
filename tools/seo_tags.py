@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://tulparapp.com/"
-PAGES = ["index.html", "about.html", "careers.html", "coin.html", "help.html", "legal.html", "letter.html", "news.html"]
+PAGES = ["index.html", "about.html", "careers.html", "coin.html", "help.html", "legal.html", "letter.html", "news.html", "buttons.html"]
 LOCALE = {"": "en_GB", "ru/": "ru_RU", "ir/": "ky_KG"}
 
 def url(prefix, page):

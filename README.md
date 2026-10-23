@@ -10,6 +10,7 @@ Static site, no build step. Deploy on GitHub Pages from the `main` branch root.
 | `letter.html` | "Why we built Tulpar Pay", Jason Ilyasov's founder's letter |
 | `careers.html` | Open roles with a team filter |
 | `help.html` | Help centre with live search |
+| `buttons.html` | "Add Tulpar to your website": how businesses link to their channel (`https://tulparapp.com/app/#sub=<handle>`), with copyable button, icon and text-link code and icon rules |
 | `legal.html` | Privacy policy and terms of service |
 | `index.html` | Home: download links, phone mockup, countdown to 1 January 2027, features, numbers, coin teaser, latest news |
 | `coin.html` | Tulparcoin: live price chart (1D / 7D / All), claim 100 free TLPR, buy widget, how the supply is shared, roadmap, Tulpar points, FAQ |

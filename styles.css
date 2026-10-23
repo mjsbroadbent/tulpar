@@ -372,3 +372,18 @@ p { margin: 0; }
 .chan-h { margin: 10px 0 4px; }
 .feature .chans, .chans { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .92em; }
 .chans a { font-weight: 600; }
+
+/* buttons.html: Tulpar link buttons for other sites */
+.tb h2 { margin: 34px 0 10px; }
+.tb-code { background: #0d2a33; color: #e6f6f7; border-radius: 10px; padding: 14px 16px; font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; word-break: break-all; margin: 10px 0; }
+.tb-url b { color: #f5b018; }
+.tb-handle { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; margin: 8px 0 18px; }
+.tb-handle span { color: var(--lapis); }
+.tb-handle input { font: inherit; padding: 8px 10px; border: 1px solid #b9d6da; border-radius: 8px; width: 12em; }
+.tb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.tb-card { background: #fff; border: 1px solid #d7e8ea; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.tb-card h3 { margin: 0; font-size: 1rem; }
+.tb-prev { min-height: 56px; display: flex; align-items: center; padding: 10px; background: #f3f9fa; border-radius: 10px; }
+.tb-card .tb-code { flex: 1; font-size: 12px; }
+.tb-copy { align-self: flex-start; }
+.tb-rules li { margin: 6px 0; }

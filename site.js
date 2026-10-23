@@ -67,7 +67,7 @@
           '<div><a class="brand" href="index.html">' + LOGO + "tulpar</a>" +
             '<p style="margin-top:14px;max-width:22em">' + T("footTag") + "</p></div>" +
           "<div><h4>" + T("fProduct") + "</h4><ul>" + li("index.html#app", "fFeatures") + li("index.html#download", "fDownload") + li("coin.html", "fCoin") + li("coin.html#points", "fPoints") + "</ul></div>" +
-          "<div><h4>" + T("fCompany") + "</h4><ul>" + li("about.html", "fAbout") + li("letter.html", "fLetter") + li("careers.html", "fCareers") + li("news.html", "fNews") + li("news.html#press", "fPress") + "</ul></div>" +
+          "<div><h4>" + T("fCompany") + "</h4><ul>" + li("about.html", "fAbout") + li("letter.html", "fLetter") + li("careers.html", "fCareers") + li("news.html", "fNews") + li("news.html#press", "fPress") + li("buttons.html", "fButtons") + "</ul></div>" +
           "<div><h4>" + T("fHelp") + "</h4><ul>" + li("help.html", "fHelpCentre") + li("coin.html#faq", "fFaq") + li("legal.html#privacy", "fPrivacy") + li("legal.html#terms", "fTerms") + "</ul></div>" +
         "</div>" +
         '<div class="legal"><p>' + T("legal1") + "</p><p>" + T("legal2") + "</p>" + "</div>" +
