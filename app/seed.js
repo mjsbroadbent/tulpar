@@ -60,7 +60,7 @@ window.TP_SEED = {
     { u: "Kostya_N", at: "2026-10-08T15:16", t: "Мне миллион не светит 😂 А вот шурин машины возил, у него всё", re: 18, r: {"laugh": 4} },
     { u: "Aibek_Dastgoh", at: "2026-10-08T15:20", t: "Через Talasbank перевод 1,2–2,5% комиссии. Дорого, но спокойнее", re: 18 },
     { u: "nurzhan_neft", at: "2026-10-08T15:22", t: "Спокойнее, пока доллары выдают. 300 в месяц, ага", re: 20, r: {"like": 3} },
-    { u: "Aigerim_TLS", at: "2026-10-10T13:00", t: "Hi all, I'm moving to Nurzhan for a job at Refinery No. 1. Which district is OK for a family? My Russian is not great yet" },
+    { u: "Aigerim_TLS", at: "2026-10-10T13:00", t: "Hi all, I'm moving to Nurzhan for a job at the refinery. Which district is OK for a family? My Russian is not great yet" },
     { u: "Svetlana N.", at: "2026-10-10T13:08", t: "Добро пожаловать! Welcome 🙂 Navbahor is newer and quieter, Dastgoh is cheaper but close to the plant", re: 22, r: {"heart": 4} },
     { u: "Aibek_Dastgoh", at: "2026-10-10T13:10", t: "Dastgoh is fine! Just close the windows when the wind is from the east 😄", re: 23, r: {"laugh": 3} },
     { u: "Aigerim_TLS", at: "2026-10-10T13:15", t: "Rahmat! Spasibo 🙏 Is it easy to live without Russian?" },
